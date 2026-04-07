@@ -118,10 +118,16 @@
                     </svg>
                 </div>
 
-                <button id="btn-main-timer-minimal" onclick="toggleTimer()" class="relative z-10 w-60 h-60 lg:w-64 lg:h-64 bg-surface rounded-full shadow-soft flex flex-col items-center justify-center transition-all duration-300 active:scale-95 group border border-black/5 hover:shadow-xl">
-                    <span id="timer-display-minimal" class="text-5xl lg:text-6xl font-light tracking-tighter text-textMain mb-2 font-mono">00:00:00</span>
-                    <span id="timer-action-text-minimal" data-i18n="startPractice" class="uppercase tracking-[0.2em] text-xs font-bold text-primary transition-colors">Start</span>
-                </button>
+                <!-- Ny, oppdatert Timer-runding med Pause-logikk -->
+                <div id="btn-main-timer-minimal" onclick="toggleTimer(true)" role="button" tabindex="0" class="cursor-pointer relative z-10 w-60 h-60 lg:w-64 lg:h-64 bg-surface rounded-full shadow-soft flex flex-col items-center justify-center transition-all duration-300 active:scale-95 group border border-black/5 hover:shadow-xl">
+                    <span id="timer-display-minimal" class="text-5xl lg:text-6xl font-light tracking-tighter text-textMain mb-2 font-mono pointer-events-none">00:00:00</span>
+                    <span id="timer-action-text-minimal" data-i18n="startPractice" class="uppercase tracking-[0.2em] text-xs font-bold text-primary transition-colors pointer-events-none">Start</span>
+                    
+                    <!-- Avslutt økten-knappen (skjult til pause er aktiv) -->
+                    <button id="btn-end-session-minimal" onclick="event.stopPropagation(); stopAndSave();" class="absolute bottom-4 hidden z-20 px-5 py-2 bg-red-50 text-red-500 rounded-full font-bold text-[10px] uppercase tracking-wider shadow-sm border border-red-100 hover:bg-red-100 transition-colors">
+                        Avslutt økten?
+                    </button>
+                </div>
 
                 <div class="absolute bottom-4 bg-surface/50 backdrop-blur-md px-4 py-1.5 rounded-full flex gap-4 text-xs font-bold uppercase tracking-wider text-textMuted border border-black/5">
                     <button id="mode-stopwatch-minimal" onclick="setMode('stopwatch')" class="transition-colors text-primary">Stoppeklokke</button>
@@ -652,7 +658,9 @@
         safeStorage.set('piano_start_date', startDate);
         let goalHours = parseInt(safeStorage.get('piano_goal_hours')) || 100;
         
-        let timerActive = false, timerMode = 'stopwatch', startTime = null, elapsedAtPause = 0, timerInterval = null;
+        // Timer variabler som håndterer pause sømløst
+        let timerActive = false, timerPaused = false, timerMode = 'stopwatch';
+        let startTime = null, sessionElapsedSeconds = 0, timerInterval = null, countdownTotal = 0;
         let editingSessionId = null, isAlarmRinging = false, currentAudio = null, flashInterval = null;
 
         // MODALER
@@ -677,65 +685,126 @@
             if(D(`input-minutes-${currentLayout}`)) D(`input-minutes-${currentLayout}`).value = mins; 
         }
 
-        function toggleTimer() {
-            if (isAlarmRinging) return stopAlarmAndSave();
+        function getTimerSeconds() {
+            let sec = sessionElapsedSeconds;
+            if (timerActive && !timerPaused && startTime) {
+                sec += (Date.now() - startTime) / 1000;
+            }
+            return sec;
+        }
 
-            if (!timerActive) {
-                timerActive = true; 
-                
-                // Hent minutter fra aktiv layout
-                const inputMin = D(`input-minutes-${currentLayout}`);
-                if (timerMode === 'countdown') elapsedAtPause = (parseInt(inputMin ? inputMin.value : 20) || 20) * 60;
-                
-                syncTimerUI();
-                
-                startTime = Date.now(); 
-                timerInterval = setInterval(() => {
-                    const diff = (Date.now() - startTime) / 1000;
-                    let sec = timerMode === 'stopwatch' ? elapsedAtPause + diff : Math.max(0, elapsedAtPause - diff);
-                    
-                    if (timerMode === 'countdown' && sec <= 0) { 
+        function formatAndDisplayTime(sec) {
+            const timeStr = [Math.floor(sec/3600), Math.floor((sec%3600)/60), Math.floor(sec%60)].map(v=>v<10?"0"+v:v).join(":");
+            setText('timer-display-minimal', timeStr);
+            setText('timer-display-classic', timeStr);
+        }
+
+        function startTimerInterval() {
+            timerInterval = setInterval(() => {
+                let sec = getTimerSeconds();
+                if (timerMode === 'countdown') {
+                    let remaining = countdownTotal - sec;
+                    if (remaining <= 0) { 
                         clearInterval(timerInterval); 
                         setText('timer-display-minimal', "00:00:00");
                         setText('timer-display-classic', "00:00:00");
                         return startAlarm(); 
                     }
-                    
-                    const timeStr = [Math.floor(sec/3600), Math.floor((sec%3600)/60), Math.floor(sec%60)].map(v=>v<10?"0"+v:v).join(":");
-                    setText('timer-display-minimal', timeStr);
-                    setText('timer-display-classic', timeStr);
-                }, 100);
+                    formatAndDisplayTime(remaining);
+                } else {
+                    formatAndDisplayTime(sec);
+                }
+            }, 100);
+        }
+
+        function toggleTimer(isMinimalClick = false) {
+            if (isAlarmRinging) return stopAlarmAndSave();
+
+            if (!timerActive) {
+                // 1. START NY ØKT
+                timerActive = true; 
+                timerPaused = false;
+                sessionElapsedSeconds = 0;
+                
+                const inputMin = D(`input-minutes-${currentLayout}`);
+                countdownTotal = (parseInt(inputMin ? inputMin.value : 20) || 20) * 60;
+                
+                startTime = Date.now(); 
+                syncTimerUI();
+                startTimerInterval();
             } else { 
-                stopAndSave(); 
+                // 2. ØKTEN ER ALLEREDE I GANG
+                if (isMinimalClick) {
+                    if (!timerPaused) {
+                        // SETT PÅ PAUSE
+                        timerPaused = true;
+                        sessionElapsedSeconds += (Date.now() - startTime) / 1000;
+                        clearInterval(timerInterval);
+                        syncTimerUI();
+                    } else {
+                        // GJENOPPTA
+                        timerPaused = false;
+                        startTime = Date.now();
+                        syncTimerUI();
+                        startTimerInterval();
+                    }
+                } else {
+                    // Hvis man trykker på "Fullfør Økt" i det klassiske designet, stopper vi bare hele greia
+                    stopAndSave(); 
+                }
             }
         }
 
         function syncTimerUI() {
-            // Synkroniserer knapper og utseende på tvers av begge layoutene
             if (timerActive) {
-                // Minimal
-                setText('timer-action-text-minimal', isAlarmRinging ? "Stopp" : "Fullfør");
-                if(D('btn-main-timer-minimal')) D('btn-main-timer-minimal').classList.add('timer-running');
-                if(D('timer-svg-minimal')) D('timer-svg-minimal').classList.add('ring-pulsing');
-                
-                // Classic
-                setText('start-btn-text-classic', isAlarmRinging ? "Stopp Alarm & Lagre" : "Fullfør Økt");
-                if (isAlarmRinging && D('btn-start-classic')) {
-                    D('btn-start-classic').style.backgroundColor = "#facc15";
-                    D('btn-start-classic').style.color = "#0f172a";
-                    D('btn-start-classic').classList.add('animate-bounce');
-                } else if(D('btn-start-classic')) {
-                    D('btn-start-classic').style.backgroundColor = "#ef4444";
-                    D('btn-reset-classic').classList.remove('hidden');
-                    D('btn-record-classic').classList.remove('hidden');
+                if (timerPaused) {
+                    // --- MINIMALIST DESIGN: PAUSET TILSTAND ---
+                    setText('timer-action-text-minimal', "Pause");
+                    D('timer-action-text-minimal').classList.add('animate-pulse', 'text-amber-500');
+                    D('timer-action-text-minimal').classList.remove('text-primary');
+                    
+                    if(D('btn-main-timer-minimal')) D('btn-main-timer-minimal').classList.remove('timer-running');
+                    if(D('timer-svg-minimal')) D('timer-svg-minimal').classList.remove('ring-pulsing');
+                    
+                    // Vis Avslutt-knappen nederst i rundingen
+                    if(D('btn-end-session-minimal')) D('btn-end-session-minimal').classList.remove('hidden');
+
+                    // --- KLASSISK DESIGN: PAUSET ---
+                    setText('start-btn-text-classic', "Fullfør Økt");
+                } else {
+                    // --- MINIMALIST DESIGN: LØPENDE TILSTAND ---
+                    setText('timer-action-text-minimal', isAlarmRinging ? "Stopp" : "Pause");
+                    D('timer-action-text-minimal').classList.remove('animate-pulse', 'text-amber-500');
+                    D('timer-action-text-minimal').classList.add('text-primary');
+                    
+                    if(D('btn-main-timer-minimal')) D('btn-main-timer-minimal').classList.add('timer-running');
+                    if(D('timer-svg-minimal')) D('timer-svg-minimal').classList.add('ring-pulsing');
+                    
+                    // Skjul Avslutt-knappen mens klokka går
+                    if(D('btn-end-session-minimal')) D('btn-end-session-minimal').classList.add('hidden');
+
+                    // --- KLASSISK DESIGN: LØPENDE ---
+                    setText('start-btn-text-classic', isAlarmRinging ? "Stopp Alarm & Lagre" : "Fullfør Økt");
+                    if (isAlarmRinging && D('btn-start-classic')) {
+                        D('btn-start-classic').style.backgroundColor = "#facc15";
+                        D('btn-start-classic').style.color = "#0f172a";
+                        D('btn-start-classic').classList.add('animate-bounce');
+                    } else if(D('btn-start-classic')) {
+                        D('btn-start-classic').style.backgroundColor = "#ef4444";
+                        D('btn-reset-classic').classList.remove('hidden');
+                        D('btn-record-classic').classList.remove('hidden');
+                    }
                 }
             } else {
-                // Minimal
+                // --- BEGGE DESIGN: IDLE TILSTAND (Ikke startet) ---
                 setText('timer-action-text-minimal', "Start");
+                D('timer-action-text-minimal').classList.remove('animate-pulse', 'text-amber-500');
+                D('timer-action-text-minimal').classList.add('text-primary');
+                
                 if(D('btn-main-timer-minimal')) D('btn-main-timer-minimal').classList.remove('timer-running');
                 if(D('timer-svg-minimal')) D('timer-svg-minimal').classList.remove('ring-pulsing');
-                
-                // Classic
+                if(D('btn-end-session-minimal')) D('btn-end-session-minimal').classList.add('hidden');
+
                 setText('start-btn-text-classic', "Start Øving");
                 if(D('btn-start-classic')) {
                     D('btn-start-classic').style.backgroundColor = "var(--brand-600)";
@@ -746,7 +815,7 @@
                 if(D('btn-record-classic')) D('btn-record-classic').classList.add('hidden');
             }
 
-            // Synkroniser Modus-knapper
+            // Synkroniser Modus-faner (Stopwatch / Nedtelling)
             if (timerMode === 'stopwatch') {
                 if(D('mode-stopwatch-minimal')) { D('mode-stopwatch-minimal').classList.add('text-primary'); D('mode-stopwatch-minimal').classList.remove('hover:text-textMain'); }
                 if(D('mode-countdown-minimal')) { D('mode-countdown-minimal').classList.remove('text-primary'); D('mode-countdown-minimal').classList.add('hover:text-textMain'); }
@@ -808,9 +877,12 @@
         function stopAndSave() {
             clearInterval(timerInterval);
             
-            const inputMin = D(`input-minutes-${currentLayout}`);
-            const diff = Math.floor((Date.now() - startTime) / 1000);
-            let finalDur = timerMode === 'stopwatch' ? diff : Math.min((parseInt(inputMin ? inputMin.value : 20)||20)*60, diff);
+            // Hvis klokka gikk da vi trykket avslutt, legges den siste tiden til
+            if (timerActive && !timerPaused) {
+                sessionElapsedSeconds += (Date.now() - startTime) / 1000;
+            }
+            
+            let finalDur = Math.floor(sessionElapsedSeconds);
             
             if (timerMode === 'stopwatch' && finalDur > 5) {
                 const swSound = D(`stopwatch-sound-select-${currentLayout}`);
@@ -842,7 +914,10 @@
             clearInterval(flashInterval); 
             document.body.style.backgroundColor=''; 
             
-            timerActive = false; elapsedAtPause = 0; 
+            timerActive = false; 
+            timerPaused = false;
+            sessionElapsedSeconds = 0; 
+            
             setText('timer-display-minimal', "00:00:00");
             setText('timer-display-classic', "00:00:00");
             
