@@ -118,13 +118,21 @@
                     </svg>
                 </div>
 
-                <!-- Ny, oppdatert Timer-runding med Pause-logikk -->
+                <!-- TIMER-RUNDING MED INKLUDERTE FUNKSJONER -->
                 <div id="btn-main-timer-minimal" onclick="toggleTimer(true)" role="button" tabindex="0" class="cursor-pointer relative z-10 w-60 h-60 lg:w-64 lg:h-64 bg-surface rounded-full shadow-soft flex flex-col items-center justify-center transition-all duration-300 active:scale-95 group border border-black/5 hover:shadow-xl">
-                    <span id="timer-display-minimal" class="text-5xl lg:text-6xl font-light tracking-tighter text-textMain mb-2 font-mono pointer-events-none">00:00:00</span>
+                    
+                    <!-- Opptaksknapp inni sirkelen (øverst) -->
+                    <button id="btn-inline-record-minimal" onclick="event.stopPropagation(); toggleRecording()" class="absolute top-5 z-20 flex items-center gap-1.5 px-3 py-1.5 bg-base/50 rounded-full shadow-sm border border-black/5 hover:bg-black/5 transition-all">
+                        <span id="inline-record-dot" class="w-2.5 h-2.5 rounded-full bg-slate-300 transition-colors"></span>
+                        <span id="inline-record-text" class="text-[9px] font-bold uppercase tracking-wider text-textMuted">Opptak</span>
+                    </button>
+
+                    <!-- Tid og Start/Pause Status -->
+                    <span id="timer-display-minimal" class="text-5xl lg:text-6xl font-light tracking-tighter text-textMain mb-2 font-mono pointer-events-none mt-2">00:00:00</span>
                     <span id="timer-action-text-minimal" data-i18n="startPractice" class="uppercase tracking-[0.2em] text-xs font-bold text-primary transition-colors pointer-events-none">Start</span>
                     
-                    <!-- Avslutt økten-knappen (skjult til pause er aktiv) -->
-                    <button id="btn-end-session-minimal" onclick="event.stopPropagation(); stopAndSave();" class="absolute bottom-4 hidden z-20 px-5 py-2 bg-red-50 text-red-500 rounded-full font-bold text-[10px] uppercase tracking-wider shadow-sm border border-red-100 hover:bg-red-100 transition-colors">
+                    <!-- Avslutt økten-knappen (skjult til pause er aktiv, nederst) -->
+                    <button id="btn-end-session-minimal" onclick="event.stopPropagation(); stopAndSave();" class="absolute bottom-5 hidden z-20 px-5 py-2 bg-red-50 text-red-500 rounded-full font-bold text-[10px] uppercase tracking-wider shadow-sm border border-red-100 hover:bg-red-100 transition-colors">
                         Avslutt økten?
                     </button>
                 </div>
@@ -140,12 +148,6 @@
                 <button onclick="setQuickTime(30)" class="flex-1 py-2 bg-surface rounded-xl shadow-sm text-sm font-semibold text-textMain border border-black/5 active:scale-95">30m</button>
                 <button onclick="setQuickTime(45)" class="flex-1 py-2 bg-surface rounded-xl shadow-sm text-sm font-semibold text-textMain border border-black/5 active:scale-95">45m</button>
                 <input type="number" id="input-minutes-minimal" value="20" class="w-16 text-center bg-surface rounded-xl shadow-sm border border-black/5 text-sm font-bold text-primary outline-none" min="1">
-            </div>
-
-            <div id="recording-indicator-minimal" class="hidden w-full max-w-[280px] mb-6 flex justify-center">
-                 <button onclick="toggleRecording()" class="flex items-center gap-2 px-6 py-2 bg-rose-100 text-rose-600 rounded-full text-sm font-bold pulse-record">
-                    <span class="w-2 h-2 rounded-full bg-rose-600"></span> Tar opp
-                </button>
             </div>
 
             <div class="w-full bg-surface shadow-[0_-10px_40px_rgba(0,0,0,0.03)] rounded-3xl p-2 flex justify-between items-center z-20 shrink-0">
@@ -1137,6 +1139,7 @@
         }
 
         let mediaRecorder, audioChunks = [], isRecording = false, currentRecordingBase64 = null;
+        
         async function toggleRecording() {
             if (isRecording) { stopRecording(); } else {
                 try {
@@ -1151,23 +1154,47 @@
                     };
                     mediaRecorder.start(); isRecording = true;
                     
-                    if(D('recording-indicator-minimal')) D('recording-indicator-minimal').classList.remove('hidden');
+                    // Update Minimalist Inline Button
+                    if(D('inline-record-dot')) {
+                        D('inline-record-dot').classList.replace('bg-slate-300', 'bg-rose-500');
+                        D('inline-record-dot').classList.add('pulse-record');
+                    }
+                    if(D('inline-record-text')) {
+                        D('inline-record-text').classList.replace('text-textMuted', 'text-rose-600');
+                        D('inline-record-text').textContent = 'Tar opp';
+                    }
+                    
+                    // Update Menu Button
                     if(D('btn-record-menu-minimal')) D('btn-record-menu-minimal').innerHTML = '<span class="w-2 h-2 rounded-full bg-slate-400"></span> Stopp opptak';
                     
+                    // Update Classic UI
                     if(D('btn-record-classic')) {
                         D('btn-record-classic').classList.replace('bg-gray-200','bg-red-500');
                         D('btn-record-classic').classList.replace('text-gray-700','text-white');
+                        D('btn-record-classic').classList.add('pulse-record-classic');
                     }
                 } catch (err) { alert("Kunne ikke få tilgang til mikrofonen."); }
             }
         }
+        
         function stopRecording() {
             if (mediaRecorder && mediaRecorder.state !== 'inactive') {
                 mediaRecorder.stop(); isRecording = false;
                 
-                if(D('recording-indicator-minimal')) D('recording-indicator-minimal').classList.add('hidden');
+                // Reset Minimalist Inline Button
+                if(D('inline-record-dot')) {
+                    D('inline-record-dot').classList.replace('bg-rose-500', 'bg-slate-300');
+                    D('inline-record-dot').classList.remove('pulse-record');
+                }
+                if(D('inline-record-text')) {
+                    D('inline-record-text').classList.replace('text-rose-600', 'text-textMuted');
+                    D('inline-record-text').textContent = 'Opptak';
+                }
+
+                // Reset Menu Button
                 if(D('btn-record-menu-minimal')) D('btn-record-menu-minimal').innerHTML = '<span class="w-2 h-2 rounded-full bg-red-400"></span> Ta opp nå';
                 
+                // Reset Classic UI
                 if(D('btn-record-classic')) {
                     D('btn-record-classic').classList.replace('bg-red-500','bg-green-500');
                     D('btn-record-classic').classList.remove('pulse-record-classic');
@@ -1178,10 +1205,19 @@
                 }
             }
         }
+        
         function resetRecordingState() {
             isRecording = false; currentRecordingBase64 = null;
             if (mediaRecorder && mediaRecorder.state !== 'inactive') mediaRecorder.stop();
-            if(D('recording-indicator-minimal')) D('recording-indicator-minimal').classList.add('hidden');
+            
+            if(D('inline-record-dot')) {
+                D('inline-record-dot').classList.replace('bg-rose-500', 'bg-slate-300');
+                D('inline-record-dot').classList.remove('pulse-record');
+            }
+            if(D('inline-record-text')) {
+                D('inline-record-text').classList.replace('text-rose-600', 'text-textMuted');
+                D('inline-record-text').textContent = 'Opptak';
+            }
             if(D('btn-record-menu-minimal')) D('btn-record-menu-minimal').innerHTML = '<span class="w-2 h-2 rounded-full bg-red-400"></span> Ta opp nå';
             if(D('btn-record-classic')) {
                 D('btn-record-classic').classList.replace('bg-green-500','bg-gray-200');
