@@ -5,521 +5,1027 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Piano 100t">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="theme-color" content="#0f172a">
+    <meta name="theme-color" content="#f9f8f6" id="meta-theme-color">
     <title>Piano 100 timer challenge</title>
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
             theme: {
                 extend: {
+                    fontFamily: {
+                        sans: ['Nunito', 'sans-serif'],
+                        classic: ['Inter', 'sans-serif'],
+                    },
                     colors: {
+                        base: 'var(--color-base)',
+                        surface: 'var(--color-surface)',
+                        primary: 'var(--color-primary)',
+                        primaryLight: 'var(--color-primary-light)',
+                        textMain: 'var(--color-text-main)',
+                        textMuted: 'var(--color-text-muted)',
                         brand: { 50: 'var(--brand-50)', 100: 'var(--brand-100)', 200: 'var(--brand-200)', 300: 'var(--brand-300)', 400: 'var(--brand-400)', 500: 'var(--brand-500)', 600: 'var(--brand-600)', 700: 'var(--brand-700)' }
+                    },
+                    boxShadow: {
+                        'soft': '0 20px 40px -15px rgba(0,0,0,0.05)',
+                        'inner-soft': 'inset 0 2px 4px 0 rgba(0,0,0,0.02)',
                     }
                 }
             }
         }
     </script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Nunito:wght@300;400;600;700&display=swap');
+        
         :root {
+            /* Minimalist Design Variables (Muted Zen default) */
+            --color-base: #f9f8f6; --color-surface: #ffffff;
+            --color-primary: #8b9a8b; --color-primary-light: #d1d8d1;
+            --color-text-main: #4a4a4a; --color-text-muted: #9ca3af;
+            
+            /* Classic Design Variables (Blue default) */
             --brand-50: #eff6ff; --brand-100: #dbeafe; --brand-200: #bfdbfe; --brand-300: #93c5fd;
             --brand-400: #60a5fa; --brand-500: #3b82f6; --brand-600: #2563eb; --brand-700: #1d4ed8;
             --theme-grad-1: #1e293b; --theme-grad-2: #0f172a;
         }
-        [data-theme="purple"] { --brand-50: #faf5ff; --brand-100: #f3e8ff; --brand-200: #e9d5ff; --brand-300: #d8b4fe; --brand-400: #c084fc; --brand-500: #a855f7; --brand-600: #9333ea; --brand-700: #7e22ce; --theme-grad-1: #2e1065; --theme-grad-2: #0f172a; }
-        [data-theme="green"] { --brand-50: #f0fdf4; --brand-100: #dcfce7; --brand-200: #bbf7d0; --brand-300: #86efac; --brand-400: #4ade80; --brand-500: #22c55e; --brand-600: #16a34a; --brand-700: #15803d; --theme-grad-1: #14532d; --theme-grad-2: #022c22; }
-        [data-theme="rose"] { --brand-50: #fff1f2; --brand-100: #ffe4e6; --brand-200: #fecdd3; --brand-300: #fda4af; --brand-400: #fb7185; --brand-500: #f43f5e; --brand-600: #e11d48; --brand-700: #be123c; --theme-grad-1: #4c0519; --theme-grad-2: #1e050f; }
-        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; -webkit-tap-highlight-color: transparent; }
+
+        /* Minimal Themes */
+        [data-theme-minimal="dusty-blue"] { --color-base: #f4f6f8; --color-surface: #ffffff; --color-primary: #7c8ea3; --color-primary-light: #cdd4dc; --color-text-main: #334155; --color-text-muted: #94a3b8; }
+        [data-theme-minimal="soft-rose"] { --color-base: #fdfaf9; --color-surface: #ffffff; --color-primary: #bda2a2; --color-primary-light: #e6dbdb; --color-text-main: #544343; --color-text-muted: #a89f9f; }
+        [data-theme-minimal="warm-sand"] { --color-base: #fcfbf9; --color-surface: #ffffff; --color-primary: #c2a77d; --color-primary-light: #e8ddcc; --color-text-main: #5c4e3a; --color-text-muted: #b0a696; }
+
+        /* Classic Themes */
+        [data-theme-classic="purple"] { --brand-50: #faf5ff; --brand-100: #f3e8ff; --brand-200: #e9d5ff; --brand-300: #d8b4fe; --brand-400: #c084fc; --brand-500: #a855f7; --brand-600: #9333ea; --brand-700: #7e22ce; --theme-grad-1: #2e1065; --theme-grad-2: #0f172a; }
+        [data-theme-classic="green"] { --brand-50: #f0fdf4; --brand-100: #dcfce7; --brand-200: #bbf7d0; --brand-300: #86efac; --brand-400: #4ade80; --brand-500: #22c55e; --brand-600: #16a34a; --brand-700: #15803d; --theme-grad-1: #14532d; --theme-grad-2: #022c22; }
+        [data-theme-classic="rose"] { --brand-50: #fff1f2; --brand-100: #ffe4e6; --brand-200: #fecdd3; --brand-300: #fda4af; --brand-400: #fb7185; --brand-500: #f43f5e; --brand-600: #e11d48; --brand-700: #be123c; --theme-grad-1: #4c0519; --theme-grad-2: #1e050f; }
+
+        body { -webkit-tap-highlight-color: transparent; transition: background-color 0.5s ease; }
+        
+        /* Shared & Minimal Elements */
+        .progress-ring { transition: stroke-dashoffset 0.5s ease-in-out; transform: rotate(-90deg); transform-origin: 50% 50%; }
+        .modal-overlay { opacity: 0; pointer-events: none; transition: opacity 0.3s ease; backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); }
+        .modal-overlay.active { opacity: 1; pointer-events: auto; z-index: 100;}
+        .modal-content { transform: translateY(100%); transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+        .modal-overlay.active .modal-content { transform: translateY(0); }
+        @media (min-width: 768px) { .modal-content { transform: scale(0.95); opacity: 0; transition: all 0.3s ease; } .modal-overlay.active .modal-content { transform: scale(1); opacity: 1; } }
+        
+        /* Classic Elements */
         .piano-gradient { background: linear-gradient(135deg, var(--theme-grad-1) 0%, var(--theme-grad-2) 100%); transition: background 0.5s ease; }
-        .progress-ring { transition: stroke-dashoffset 0.35s; transform: rotate(-90deg); transform-origin: 50% 50%; }
         .scrollbar-hide::-webkit-scrollbar { display: none; }
         .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
-        #session-list::-webkit-scrollbar { width: 4px; }
-        #session-list::-webkit-scrollbar-thumb { background-color: #e2e8f0; border-radius: 10px; }
-        .modal-open { overflow: hidden; }
+        .session-list-classic::-webkit-scrollbar { width: 4px; }
+        .session-list-classic::-webkit-scrollbar-thumb { background-color: #e2e8f0; border-radius: 10px; }
+
+        /* Animations */
+        .timer-running { animation: softPulse 2s infinite; }
+        @keyframes softPulse { 0% { box-shadow: 0 0 0 0 rgba(var(--color-primary-rgb), 0.2); } 70% { box-shadow: 0 0 0 20px rgba(var(--color-primary-rgb), 0); } 100% { box-shadow: 0 0 0 0 rgba(var(--color-primary-rgb), 0); } }
+        @keyframes ringBreathing { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.03); opacity: 0.85; } }
+        .ring-pulsing { animation: ringBreathing 1s infinite ease-in-out; transform-origin: center; }
         .pulse-record { animation: pulseRecord 1.5s infinite; }
         @keyframes pulseRecord { 0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); } 70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); } 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); } }
+
+        /* Custom Range */
+        input[type=range] { -webkit-appearance: none; background: transparent; }
+        input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; height: 20px; width: 20px; border-radius: 50%; background: var(--color-primary); cursor: pointer; margin-top: -8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        input[type=range]::-webkit-slider-runnable-track { width: 100%; height: 4px; cursor: pointer; background: var(--color-primary-light); border-radius: 2px; }
+        
+        .classic-range::-webkit-slider-thumb { background: #f59e0b; }
+        .classic-range::-webkit-slider-runnable-track { background: #e5e7eb; }
     </style>
 </head>
-<body class="p-0 md:p-8 transition-colors duration-300 min-h-screen flex items-center justify-center">
-    
-    <div id="app" class="w-full max-w-md lg:max-w-5xl xl:max-w-6xl mx-auto bg-white lg:rounded-3xl shadow-2xl overflow-hidden border-0 lg:border border-gray-100 min-h-screen lg:min-h-0 lg:h-[800px] flex flex-col lg:flex-row transition-all duration-300">
+<body id="main-body" class="transition-colors duration-300">
+
+    <!-- ========================================== -->
+    <!-- DESIGN 1: MINIMALIST (STRØMLINJEFORMET)    -->
+    <!-- ========================================== -->
+    <div id="layout-minimal" class="h-screen w-full flex flex-col items-center font-sans bg-base text-textMain hidden overflow-hidden">
         
-        <!-- VENSTRE PANEL -->
-        <div class="piano-gradient p-8 text-white text-center shrink-0 relative lg:w-[360px] xl:w-[400px] flex flex-col lg:justify-center overflow-y-auto scrollbar-hide">
-            <div class="absolute top-4 right-4 flex gap-1">
-                <button onclick="toggleLanguage()" id="lang-btn" class="p-2 text-white/50 hover:text-white transition-colors text-xl leading-none" title="Bytt språk">🇳🇴</button>
-                <button onclick="openThemeModal()" class="p-2 text-white/50 hover:text-white transition-colors" title="Endre tema">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd" d="M4 2a2 2 0 00-2 2v11a3 3 0 106 0V4a2 2 0 00-2-2H4zm1 14a1 1 0 100-2 1 1 0 000 2zm5-1.757l4.9-4.9a2 2 0 000-2.828L13.485 5.1a2 2 0 00-2.828 0L10 10.001v4.242zM16.243 9.1l-4.9-4.9m4.9 4.9l4.242 4.243a2 2 0 010 2.828l-1.414 1.414a2 2 0 01-2.828 0L12 13.344" clip-rule="evenodd" />
+        <div class="flex-1 w-full max-w-md mx-auto flex flex-col items-center justify-between p-6 relative">
+            <div class="w-full pt-8 pb-4 flex flex-col items-center text-center">
+                <h1 class="text-xl font-semibold tracking-wide text-textMain mb-1" data-i18n="appTitle">Piano Challenge</h1>
+                <p class="text-sm text-textMuted font-medium flex items-center gap-2">
+                    <span id="header-total-hours-minimal" class="text-primary font-bold">0.0t</span> 
+                    <span class="opacity-50">/</span> 
+                    <span id="header-goal-hours-minimal">100t</span>
+                </p>
+            </div>
+
+            <div class="relative flex-1 flex flex-col items-center justify-center w-full max-h-[500px]">
+                <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+                    <svg id="timer-svg-minimal" class="w-72 h-72 lg:w-80 lg:h-80 transition-transform" viewBox="0 0 200 200">
+                        <circle cx="100" cy="100" r="90" fill="none" stroke="var(--color-primary-light)" stroke-width="3" opacity="0.4" />
+                        <circle id="main-progress-ring-minimal" cx="100" cy="100" r="90" fill="none" stroke="var(--color-primary)" stroke-width="4" stroke-linecap="round" class="progress-ring" stroke-dasharray="565.48" stroke-dashoffset="565.48" />
                     </svg>
+                </div>
+
+                <button id="btn-main-timer-minimal" onclick="toggleTimer()" class="relative z-10 w-60 h-60 lg:w-64 lg:h-64 bg-surface rounded-full shadow-soft flex flex-col items-center justify-center transition-all duration-300 active:scale-95 group border border-black/5 hover:shadow-xl">
+                    <span id="timer-display-minimal" class="text-5xl lg:text-6xl font-light tracking-tighter text-textMain mb-2 font-mono">00:00:00</span>
+                    <span id="timer-action-text-minimal" data-i18n="startPractice" class="uppercase tracking-[0.2em] text-xs font-bold text-primary transition-colors">Start</span>
+                </button>
+
+                <div class="absolute bottom-4 bg-surface/50 backdrop-blur-md px-4 py-1.5 rounded-full flex gap-4 text-xs font-bold uppercase tracking-wider text-textMuted border border-black/5">
+                    <button id="mode-stopwatch-minimal" onclick="setMode('stopwatch')" class="transition-colors text-primary">Stoppeklokke</button>
+                    <button id="mode-countdown-minimal" onclick="setMode('countdown')" class="transition-colors hover:text-textMain">Nedtelling</button>
+                </div>
+            </div>
+
+            <div id="quick-time-panel-minimal" class="hidden w-full max-w-[280px] flex gap-2 mb-6">
+                <button onclick="setQuickTime(15)" class="flex-1 py-2 bg-surface rounded-xl shadow-sm text-sm font-semibold text-textMain border border-black/5 active:scale-95">15m</button>
+                <button onclick="setQuickTime(30)" class="flex-1 py-2 bg-surface rounded-xl shadow-sm text-sm font-semibold text-textMain border border-black/5 active:scale-95">30m</button>
+                <button onclick="setQuickTime(45)" class="flex-1 py-2 bg-surface rounded-xl shadow-sm text-sm font-semibold text-textMain border border-black/5 active:scale-95">45m</button>
+                <input type="number" id="input-minutes-minimal" value="20" class="w-16 text-center bg-surface rounded-xl shadow-sm border border-black/5 text-sm font-bold text-primary outline-none" min="1">
+            </div>
+
+            <div id="recording-indicator-minimal" class="hidden w-full max-w-[280px] mb-6 flex justify-center">
+                 <button onclick="toggleRecording()" class="flex items-center gap-2 px-6 py-2 bg-rose-100 text-rose-600 rounded-full text-sm font-bold pulse-record">
+                    <span class="w-2 h-2 rounded-full bg-rose-600"></span> Tar opp
                 </button>
             </div>
 
-            <h1 id="app-main-title" class="text-2xl lg:text-3xl font-bold mb-1 mt-6 lg:mt-0">Piano 100 timer challenge</h1>
-            <p id="app-subtitle" class="text-slate-400 text-xs lg:text-sm mb-8">Mål: 100 timer øving</p>
+            <div class="w-full bg-surface shadow-[0_-10px_40px_rgba(0,0,0,0.03)] rounded-3xl p-2 flex justify-between items-center z-20 shrink-0">
+                <button onclick="openModal('history-modal-minimal')" class="flex-1 flex flex-col items-center py-3 text-textMuted hover:text-primary transition-colors">
+                    <svg class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+                    <span class="text-[10px] font-bold uppercase tracking-wider">Logg</span>
+                </button>
+                <button onclick="openModal('metronome-modal-minimal')" class="flex-1 flex flex-col items-center py-3 text-textMuted hover:text-primary transition-colors">
+                    <svg class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"></path></svg>
+                    <span class="text-[10px] font-bold uppercase tracking-wider">Takt</span>
+                </button>
+                <button onclick="openModal('ai-modal-minimal')" class="flex-1 flex flex-col items-center py-3 text-textMuted hover:text-primary transition-colors">
+                    <svg class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                    <span class="text-[10px] font-bold uppercase tracking-wider">Lærer</span>
+                </button>
+                <button onclick="openModal('settings-modal-minimal')" class="flex-1 flex flex-col items-center py-3 text-textMuted hover:text-primary transition-colors">
+                    <svg class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                    <span class="text-[10px] font-bold uppercase tracking-wider">Meny</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Modaler for Minimalist -->
+        <div id="history-modal-minimal" class="modal-overlay fixed inset-0 flex flex-col justify-end md:justify-center md:items-center bg-textMain/20">
+            <div class="modal-content w-full md:max-w-md bg-base rounded-t-3xl md:rounded-3xl h-[85vh] md:h-[600px] shadow-2xl flex flex-col overflow-hidden">
+                <div class="p-6 bg-surface shadow-sm z-10 flex justify-between items-center shrink-0">
+                    <h2 class="text-xl font-bold text-textMain" data-i18n="recentSessions">Øvingslogg</h2>
+                    <button onclick="closeModal('history-modal-minimal')" class="p-2 bg-base rounded-full text-textMuted hover:text-textMain"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button>
+                </div>
+                <div class="flex-1 overflow-y-auto p-6 space-y-6">
+                    <div class="grid grid-cols-2 gap-3">
+                        <div class="bg-surface p-4 rounded-2xl shadow-soft text-center border border-black/5">
+                            <p class="text-[10px] uppercase font-bold text-textMuted mb-1">Dager på rad 🔥</p>
+                            <p id="streak-display-minimal" class="text-2xl font-bold text-primary">0</p>
+                        </div>
+                        <div class="bg-surface p-4 rounded-2xl shadow-soft text-center border border-black/5">
+                            <p class="text-[10px] uppercase font-bold text-textMuted mb-1">Gjennomført</p>
+                            <p id="percent-display-minimal" class="text-2xl font-bold text-primary">0%</p>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 data-i18n="activity" class="text-xs font-bold text-textMuted uppercase tracking-widest mb-3">Aktivitet siste 28 dager</h3>
+                        <div class="grid grid-cols-7 gap-2" id="heatmap-grid-minimal"></div>
+                    </div>
+                    <div>
+                        <div class="flex justify-between items-end mb-3">
+                            <h3 class="text-xs font-bold text-textMuted uppercase tracking-widest">Siste økter</h3>
+                            <div class="flex gap-3">
+                                <button onclick="openModal('manual-modal-minimal'); closeModal('history-modal-minimal');" class="text-[11px] font-bold text-primary uppercase">+ Manuelt</button>
+                                <button onclick="clearLogs()" class="text-[11px] font-bold text-textMuted uppercase hover:text-red-400">Slett alle</button>
+                            </div>
+                        </div>
+                        <div id="session-list-minimal" class="space-y-3"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="metronome-modal-minimal" class="modal-overlay fixed inset-0 flex flex-col justify-end md:justify-center md:items-center bg-textMain/20">
+            <div class="modal-content w-full md:max-w-md bg-surface rounded-t-3xl md:rounded-3xl p-8 shadow-2xl flex flex-col items-center">
+                <div class="w-full flex justify-end mb-2">
+                    <button onclick="closeModal('metronome-modal-minimal')" class="p-2 bg-base rounded-full text-textMuted hover:text-textMain"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button>
+                </div>
+                <h2 class="text-2xl font-bold text-textMain mb-1">Metronom</h2>
+                <p class="text-xs text-textMuted uppercase font-bold tracking-widest mb-8">Finn rytmen</p>
+                <div class="text-6xl font-light text-primary mb-2 font-mono" id="bpm-display-minimal">100</div>
+                <p class="text-xs font-bold text-textMuted uppercase mb-8">BPM</p>
+                <input type="range" id="bpm-slider-minimal" min="30" max="240" value="100" class="w-full mb-8">
+                <div class="flex w-full gap-4 mb-8">
+                    <button onclick="changeBpm(-5)" class="flex-1 py-3 bg-base rounded-2xl font-bold text-textMain hover:bg-black/5 transition-colors">-5</button>
+                    <button onclick="changeBpm(5)" class="flex-1 py-3 bg-base rounded-2xl font-bold text-textMain hover:bg-black/5 transition-colors">+5</button>
+                </div>
+                <p class="text-xs font-bold text-textMuted uppercase mb-4">Taktart</p>
+                <div class="flex justify-center gap-2 mb-8">
+                    <button onclick="setTimeSignature(2)" id="ts-btn-2-minimal" class="w-12 h-12 rounded-full font-bold text-sm bg-base text-textMuted transition-colors">2</button>
+                    <button onclick="setTimeSignature(3)" id="ts-btn-3-minimal" class="w-12 h-12 rounded-full font-bold text-sm bg-base text-textMuted transition-colors">3</button>
+                    <button onclick="setTimeSignature(4)" id="ts-btn-4-minimal" class="w-12 h-12 rounded-full font-bold text-sm bg-primary text-white transition-colors shadow-soft">4</button>
+                    <button onclick="setTimeSignature(5)" id="ts-btn-5-minimal" class="w-12 h-12 rounded-full font-bold text-sm bg-base text-textMuted transition-colors">5</button>
+                    <button onclick="setTimeSignature(6)" id="ts-btn-6-minimal" class="w-12 h-12 rounded-full font-bold text-sm bg-base text-textMuted transition-colors">6</button>
+                </div>
+                <div id="beat-indicators-minimal" class="flex justify-center gap-3 mb-8 h-4 items-center"></div>
+                <button id="btn-metronome-toggle-minimal" onclick="toggleMetronome()" class="w-full py-4 bg-primary text-white font-bold rounded-2xl text-lg shadow-soft active:scale-95 transition-transform">Start</button>
+            </div>
+        </div>
+
+        <div id="ai-modal-minimal" class="modal-overlay fixed inset-0 flex flex-col justify-end md:justify-center md:items-center bg-textMain/20">
+            <div class="modal-content w-full md:max-w-md bg-base rounded-t-3xl md:rounded-3xl h-[85vh] md:h-[600px] shadow-2xl flex flex-col overflow-hidden">
+                <div class="p-6 bg-surface shadow-sm z-10 flex justify-between items-center shrink-0">
+                    <h2 class="text-xl font-bold text-textMain flex items-center gap-2">✨ AI Lærer</h2>
+                    <button onclick="closeModal('ai-modal-minimal')" class="p-2 bg-base rounded-full text-textMuted hover:text-textMain"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button>
+                </div>
+                <div class="flex-1 overflow-y-auto p-6 space-y-4" id="ai-chat-history-minimal">
+                    <div class="bg-surface p-4 rounded-2xl rounded-tl-sm text-sm text-textMain shadow-soft border border-black/5">Hei! Jeg er din personlige pianolærer. Hva vil du fokusere på i dag?</div>
+                </div>
+                <div class="p-4 bg-surface border-t border-black/5 shrink-0">
+                    <div class="flex gap-2 overflow-x-auto pb-3 scrollbar-hide">
+                        <button onclick="askAIPrompt('Oppvarming')" class="whitespace-nowrap px-4 py-2 bg-base border border-black/5 text-textMain text-xs font-bold rounded-full hover:bg-black/5">🎵 Oppvarming</button>
+                        <button onclick="askAIPrompt('Motivasjon')" class="whitespace-nowrap px-4 py-2 bg-base border border-black/5 text-textMain text-xs font-bold rounded-full hover:bg-black/5">🔥 Motiver meg</button>
+                        <button onclick="askAIPrompt('Teknikk')" class="whitespace-nowrap px-4 py-2 bg-base border border-black/5 text-textMain text-xs font-bold rounded-full hover:bg-black/5">🎹 Teknikk</button>
+                    </div>
+                    <div class="flex gap-2">
+                        <input type="text" id="ai-input-minimal" class="flex-1 p-3 bg-base rounded-xl focus:ring-2 focus:ring-primary outline-none text-sm font-medium" placeholder="Spør læreren...">
+                        <button onclick="sendAIQuery()" id="btn-send-ai-minimal" class="px-5 bg-primary text-white rounded-xl shadow-soft active:scale-95 transition-transform"><svg class="w-5 h-5 transform rotate-90" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="settings-modal-minimal" class="modal-overlay fixed inset-0 flex flex-col justify-end md:justify-center md:items-center bg-textMain/20">
+            <div class="modal-content w-full md:max-w-md bg-base rounded-t-3xl md:rounded-3xl h-[85vh] md:h-[600px] shadow-2xl flex flex-col overflow-hidden">
+                <div class="p-6 bg-surface shadow-sm z-10 flex justify-between items-center shrink-0">
+                    <h2 class="text-xl font-bold text-textMain">Meny & Innstillinger</h2>
+                    <button onclick="closeModal('settings-modal-minimal')" class="p-2 bg-base rounded-full text-textMuted hover:text-textMain"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button>
+                </div>
+                <div class="flex-1 overflow-y-auto p-6 space-y-8">
+                    <!-- Bytt Design Veksleknapp -->
+                    <div class="p-4 bg-primary/10 rounded-2xl shadow-inner-soft border border-primary/20 flex justify-between items-center">
+                        <div>
+                            <p class="font-bold text-primary text-sm">Prøv det Klassiske Designet</p>
+                            <p class="text-xs text-textMuted">Mer detaljert oversikt.</p>
+                        </div>
+                        <button onclick="switchDesign('classic')" class="px-4 py-2 bg-primary text-white rounded-xl text-xs font-bold shadow-soft">Bytt Design</button>
+                    </div>
+
+                    <section>
+                        <h3 class="text-xs font-bold text-textMuted uppercase tracking-widest mb-4">Utseende</h3>
+                        <div class="grid grid-cols-2 gap-3">
+                            <button onclick="changeTheme('zen')" class="p-4 bg-surface rounded-2xl shadow-soft text-sm font-bold text-[#8b9a8b] border border-[#8b9a8b]/20">Muted Zen</button>
+                            <button onclick="changeTheme('dusty-blue')" class="p-4 bg-surface rounded-2xl shadow-soft text-sm font-bold text-[#7c8ea3] border border-[#7c8ea3]/20">Støvblå</button>
+                            <button onclick="changeTheme('soft-rose')" class="p-4 bg-surface rounded-2xl shadow-soft text-sm font-bold text-[#bda2a2] border border-[#bda2a2]/20">Myk Rose</button>
+                            <button onclick="changeTheme('warm-sand')" class="p-4 bg-surface rounded-2xl shadow-soft text-sm font-bold text-[#c2a77d] border border-[#c2a77d]/20">Varm Sand</button>
+                        </div>
+                    </section>
+                    <section>
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-xs font-bold text-textMuted uppercase tracking-widest">Lydopptak</h3>
+                            <button onclick="toggleRecording()" id="btn-record-menu-minimal" class="text-[11px] font-bold text-primary uppercase flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-red-400"></span> Ta opp nå</button>
+                        </div>
+                        <div id="audio-list-minimal" class="space-y-3 bg-surface p-4 rounded-2xl shadow-soft border border-black/5 min-h-[100px] flex flex-col justify-center"></div>
+                    </section>
+                    <section class="space-y-3">
+                        <h3 class="text-xs font-bold text-textMuted uppercase tracking-widest mb-4">Innstillinger</h3>
+                        <button onclick="openModal('goal-modal-minimal'); closeModal('settings-modal-minimal');" class="w-full flex justify-between items-center p-4 bg-surface rounded-2xl shadow-soft border border-black/5">
+                            <span class="font-bold text-textMain text-sm">Endre Mål (Timer)</span>
+                            <span class="text-textMuted"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg></span>
+                        </button>
+                        <div class="p-4 bg-surface rounded-2xl shadow-soft border border-black/5">
+                            <label class="block font-bold text-textMain text-sm mb-2">Lyd ved ferdig økt (Stoppeklokke)</label>
+                            <select id="stopwatch-sound-select-minimal" class="w-full bg-base p-3 rounded-xl text-sm font-semibold text-textMain outline-none border border-black/5">
+                                <option value="none">Ingen sluttlyd</option>
+                                <option value="magicChime">Trylleklang</option>
+                                <option value="xylophone">Xylofon</option>
+                                <option value="glassClink">Glassklirr</option>
+                            </select>
+                        </div>
+                        <div class="p-4 bg-surface rounded-2xl shadow-soft border border-black/5">
+                            <label class="block font-bold text-textMain text-sm mb-2">Alarm (Nedtelling)</label>
+                            <select id="alarm-sound-select-minimal" class="w-full bg-base p-3 rounded-xl text-sm font-semibold text-textMain outline-none border border-black/5">
+                                <option value="https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg">Klassisk Vekkerklokke</option>
+                                <option value="https://actions.google.com/sounds/v1/alarms/digital_watch_alarm_long.ogg">Digital Alarm</option>
+                                <option value="https://actions.google.com/sounds/v1/alarms/bugle_tune.ogg">Trompet</option>
+                                <option value="https://actions.google.com/sounds/v1/alarms/medium_bell_ringing_near.ogg">Bjelle</option>
+                            </select>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+
+        <div id="rename-modal-minimal" class="modal-overlay fixed inset-0 z-[60] flex items-center justify-center p-6 bg-textMain/40">
+            <div class="modal-content w-full max-w-xs bg-surface p-6 rounded-3xl shadow-2xl">
+                <h3 class="font-bold text-xl mb-4 text-textMain">Endre navn</h3>
+                <input type="text" id="rename-input-minimal" class="w-full p-4 bg-base rounded-2xl mb-6 outline-none font-medium text-sm" placeholder="f.eks. Skalaer...">
+                <div class="flex gap-3">
+                    <button onclick="closeModal('rename-modal-minimal')" class="flex-1 py-3 text-textMuted font-bold bg-base rounded-xl">Avbryt</button>
+                    <button onclick="saveNewName()" class="flex-1 py-3 bg-primary text-white font-bold rounded-xl shadow-soft">Lagre</button>
+                </div>
+            </div>
+        </div>
+        <div id="goal-modal-minimal" class="modal-overlay fixed inset-0 z-[60] flex items-center justify-center p-6 bg-textMain/40">
+            <div class="modal-content w-full max-w-xs bg-surface p-6 rounded-3xl shadow-2xl">
+                <h3 class="font-bold text-xl mb-4 text-textMain">Nytt Mål</h3>
+                <input type="number" id="goal-input-minimal" class="w-full p-4 bg-base rounded-2xl mb-6 outline-none font-bold text-2xl text-center text-primary" placeholder="100">
+                <div class="flex gap-3">
+                    <button onclick="closeModal('goal-modal-minimal')" class="flex-1 py-3 text-textMuted font-bold bg-base rounded-xl">Avbryt</button>
+                    <button onclick="saveNewGoal()" class="flex-1 py-3 bg-primary text-white font-bold rounded-xl shadow-soft">Lagre</button>
+                </div>
+            </div>
+        </div>
+        <div id="manual-modal-minimal" class="modal-overlay fixed inset-0 z-[60] flex items-center justify-center p-6 bg-textMain/40">
+            <div class="modal-content w-full max-w-xs bg-surface p-6 rounded-3xl shadow-2xl">
+                <h3 class="font-bold text-xl mb-4 text-textMain">Logg Manuelt</h3>
+                <div class="flex items-center gap-2 mb-6">
+                    <input type="number" id="manual-input-minimal" class="w-full p-4 bg-base rounded-2xl outline-none font-bold text-2xl text-center text-primary" placeholder="30">
+                    <span class="text-textMuted font-bold">Min</span>
+                </div>
+                <div class="flex gap-3">
+                    <button onclick="closeModal('manual-modal-minimal')" class="flex-1 py-3 text-textMuted font-bold bg-base rounded-xl">Avbryt</button>
+                    <button onclick="saveManualEntry()" class="flex-1 py-3 bg-primary text-white font-bold rounded-xl shadow-soft">Lagre</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ========================================== -->
+    <!-- DESIGN 2: KLASSISK (DETALJERT OPPDELING)   -->
+    <!-- ========================================== -->
+    <div id="layout-classic" class="w-full max-w-md lg:max-w-5xl xl:max-w-6xl mx-auto bg-white lg:rounded-3xl shadow-2xl overflow-hidden border-0 lg:border border-gray-100 min-h-screen lg:min-h-0 lg:h-[800px] flex flex-col lg:flex-row font-classic text-slate-800 hidden">
+        
+        <div class="piano-gradient p-8 text-white text-center shrink-0 relative lg:w-[360px] xl:w-[400px] flex flex-col lg:justify-center overflow-y-auto scrollbar-hide">
+            <div class="absolute top-4 right-4 flex gap-1">
+                <button onclick="switchDesign('minimal')" class="p-2 text-white/50 hover:text-white transition-colors text-sm font-bold bg-white/10 rounded-lg px-3 mr-2">✨ Design</button>
+                <button onclick="toggleLanguage()" class="p-2 text-white/50 hover:text-white transition-colors text-xl leading-none">🇳🇴</button>
+                <button onclick="openModal('theme-modal-classic')" class="p-2 text-white/50 hover:text-white transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4 2a2 2 0 00-2 2v11a3 3 0 106 0V4a2 2 0 00-2-2H4zm1 14a1 1 0 100-2 1 1 0 000 2zm5-1.757l4.9-4.9a2 2 0 000-2.828L13.485 5.1a2 2 0 00-2.828 0L10 10.001v4.242zM16.243 9.1l-4.9-4.9m4.9 4.9l4.242 4.243a2 2 0 010 2.828l-1.414 1.414a2 2 0 01-2.828 0L12 13.344" clip-rule="evenodd" /></svg>
+                </button>
+            </div>
+
+            <h1 class="text-2xl lg:text-3xl font-bold mb-1 mt-6 lg:mt-0">Piano Challenge</h1>
+            <p class="text-slate-400 text-xs lg:text-sm mb-8">Mål: <span id="header-goal-hours-classic">100</span> timer øving</p>
             
             <div class="relative inline-flex items-center justify-center">
                 <svg class="w-48 h-48">
                     <circle class="text-slate-700/50" stroke-width="8" stroke="currentColor" fill="transparent" r="85" cx="96" cy="96" />
-                    <circle id="progress-circle" class="text-brand-500 progress-ring" stroke-width="8" stroke-dasharray="534" stroke-dashoffset="534" stroke-linecap="round" stroke="currentColor" fill="transparent" r="85" cx="96" cy="96" />
+                    <circle id="progress-circle-classic" class="text-brand-500 progress-ring" stroke-width="8" stroke-dasharray="534" stroke-dashoffset="534" stroke-linecap="round" stroke="currentColor" fill="transparent" r="85" cx="96" cy="96" />
                 </svg>
                 <div class="absolute text-center">
-                    <span id="total-hours-display" class="block text-4xl font-bold">0.0</span>
-                    <span data-i18n="hours" class="text-[10px] uppercase tracking-widest text-slate-400">Timer</span>
+                    <span id="total-hours-display-classic" class="block text-4xl font-bold">0.0</span>
+                    <span class="text-[10px] uppercase tracking-widest text-slate-400">Timer</span>
                 </div>
             </div>
 
-            <!-- Header Stats -->
-            <div class="mt-8 grid grid-cols-2 lg:grid-cols-2 gap-3 text-sm text-center">
-                <div class="bg-slate-800/50 p-3 rounded-xl border border-white/5 cursor-pointer hover:bg-slate-700/50 transition-colors" onclick="openGoalModal()" title="Endre mål">
-                    <p data-i18n="remaining" class="text-slate-400 text-[10px] uppercase tracking-wider mb-1">Gjenstår</p>
-                    <p id="remaining-time" class="font-semibold text-brand-300 text-sm">100t 0m</p>
+            <div class="mt-8 grid grid-cols-2 gap-3 text-sm text-center">
+                <div class="bg-slate-800/50 p-3 rounded-xl border border-white/5 cursor-pointer hover:bg-slate-700/50" onclick="openModal('goal-modal-classic')">
+                    <p class="text-slate-400 text-[10px] uppercase tracking-wider mb-1">Gjenstår</p>
+                    <p id="remaining-time-classic" class="font-semibold text-brand-300 text-sm">100t 0m</p>
                 </div>
                 <div class="bg-slate-800/50 p-3 rounded-xl border border-white/5">
-                    <p data-i18n="progress" class="text-slate-400 text-[10px] uppercase tracking-wider mb-1">Fremgang</p>
-                    <p id="percent-display" class="font-semibold text-green-400 text-sm">0%</p>
+                    <p class="text-slate-400 text-[10px] uppercase tracking-wider mb-1">Fremgang</p>
+                    <p id="percent-display-classic" class="font-semibold text-green-400 text-sm">0%</p>
                 </div>
                 <div class="bg-slate-800/50 p-3 rounded-xl border border-white/5 ring-1 ring-orange-500/30">
-                    <p data-i18n="streak" class="text-slate-400 text-[10px] uppercase tracking-wider mb-1">Streak 🔥</p>
-                    <p id="streak-display" class="font-semibold text-orange-400 text-sm">0</p>
+                    <p class="text-slate-400 text-[10px] uppercase tracking-wider mb-1">Streak 🔥</p>
+                    <p id="streak-display-classic" class="font-semibold text-orange-400 text-sm">0</p>
                 </div>
                 <div class="bg-slate-800/50 p-3 rounded-xl border border-white/5">
-                    <p data-i18n="days" class="text-slate-400 text-[10px] uppercase tracking-wider mb-1">Dager</p>
-                    <p id="days-display" class="font-semibold text-purple-400 text-sm">0</p>
+                    <p class="text-slate-400 text-[10px] uppercase tracking-wider mb-1">Dager</p>
+                    <p id="days-display-classic" class="font-semibold text-purple-400 text-sm">0</p>
                 </div>
             </div>
 
-            <!-- Milepæler -->
             <div class="mt-6 bg-slate-800/30 rounded-xl p-3 border border-white/5">
-                <p data-i18n="milestones" class="text-slate-400 text-[10px] uppercase tracking-wider mb-2 text-left">Milepæler</p>
-                <div id="badges-container" class="flex gap-3 overflow-x-auto pb-2 scrollbar-hide"></div>
+                <p class="text-slate-400 text-[10px] uppercase tracking-wider mb-2 text-left">Milepæler (Hver 10. time)</p>
+                <div id="badges-container-classic" class="flex gap-3 overflow-x-auto pb-2 scrollbar-hide"></div>
             </div>
         </div>
 
-        <!-- HØYRE DEL: Timer og Historikk -->
         <div class="flex-1 flex flex-col lg:flex-row p-6 lg:p-8 gap-6 lg:gap-10 overflow-hidden bg-white">
-            
-            <!-- MIDT-KOLONNE: Timer og Actions -->
             <div class="flex-1 flex flex-col w-full max-w-md mx-auto lg:max-w-none overflow-y-auto scrollbar-hide">
                 <div class="bg-gray-50 rounded-3xl p-6 border border-gray-200 mb-6 shrink-0 relative shadow-sm">
                     <div class="flex justify-between items-center mb-6">
-                        <h2 id="timer-mode-label" data-i18n="stopwatch" class="font-bold text-gray-800 text-base">Stoppeklokke</h2>
+                        <h2 id="timer-mode-label-classic" class="font-bold text-gray-800 text-base">Stoppeklokke</h2>
                         <div class="flex gap-1 bg-gray-200 p-1.5 rounded-xl">
-                            <button onclick="setMode('stopwatch')" id="btn-mode-stopwatch" data-i18n="free" class="px-4 py-1.5 rounded-lg text-xs font-bold uppercase transition-all bg-white text-brand-600 shadow-sm">Fri</button>
-                            <button onclick="setMode('countdown')" id="btn-mode-countdown" data-i18n="goal" class="px-4 py-1.5 rounded-lg text-xs font-bold uppercase transition-all text-gray-500 hover:text-gray-700">Mål</button>
+                            <button onclick="setMode('stopwatch')" id="btn-mode-stopwatch-classic" class="px-4 py-1.5 rounded-lg text-xs font-bold uppercase transition-all bg-white text-brand-600 shadow-sm">Fri</button>
+                            <button onclick="setMode('countdown')" id="btn-mode-countdown-classic" class="px-4 py-1.5 rounded-lg text-xs font-bold uppercase transition-all text-gray-500 hover:text-gray-700">Mål</button>
                         </div>
                     </div>
 
-                    <!-- Stopwatch Settings -->
-                    <div id="stopwatch-settings" class="mb-6">
+                    <div id="stopwatch-settings-classic" class="mb-6">
                         <div class="flex items-center gap-3 bg-white border border-gray-200 rounded-2xl p-3">
                             <span class="text-xl">🎵</span>
-                            <select id="stopwatch-sound-select" class="w-full bg-transparent text-sm font-semibold text-gray-700 outline-none">
-                                <option data-i18n="noEndSound" value="none">Ingen sluttlyd</option>
-                                <option data-i18n="magicChime" value="magicChime">Trylleklang</option>
-                                <option data-i18n="xylophone" value="xylophone">Xylofon</option>
-                                <option data-i18n="glassClink" value="glassClink">Glassklirr</option>
-                                <option data-i18n="bell" value="bell">Bjelle</option>
+                            <select id="stopwatch-sound-select-classic" class="w-full bg-transparent text-sm font-semibold text-gray-700 outline-none">
+                                <option value="none">Ingen sluttlyd</option>
+                                <option value="magicChime">Trylleklang</option>
+                                <option value="xylophone">Xylofon</option>
+                                <option value="glassClink">Glassklirr</option>
+                                <option value="bell">Bjelle</option>
                             </select>
-                            <button onclick="testStopwatchSound()" class="p-2 text-brand-500 hover:bg-brand-50 rounded-full" title="Test lyd">▶️</button>
+                            <button onclick="playSynthSound(D('stopwatch-sound-select-classic').value)" class="p-2 text-brand-500 hover:bg-brand-50 rounded-full">▶️</button>
                         </div>
                     </div>
 
-                    <!-- Countdown Settings -->
-                    <div id="countdown-settings" class="hidden mb-6">
+                    <div id="countdown-settings-classic" class="hidden mb-6">
                         <div class="flex items-center gap-3 mb-4">
-                            <input type="number" id="input-minutes" value="20" min="1" max="300" class="w-full p-3 bg-white border border-brand-200 rounded-2xl text-center font-bold text-2xl text-brand-600 focus:ring-2 focus:ring-brand-400 outline-none shadow-inner">
-                            <span data-i18n="min" class="text-sm font-bold text-gray-400 uppercase">Min</span>
+                            <input type="number" id="input-minutes-classic" value="20" min="1" max="300" class="w-full p-3 bg-white border border-brand-200 rounded-2xl text-center font-bold text-2xl text-brand-600 focus:ring-2 focus:ring-brand-400 outline-none shadow-inner">
+                            <span class="text-sm font-bold text-gray-400 uppercase">Min</span>
                         </div>
                         <div class="flex gap-2 mb-4">
-                            <button onclick="setQuickTime(10)" class="flex-1 bg-brand-50 text-brand-600 font-bold py-2.5 rounded-xl text-sm border border-brand-100 hover:bg-brand-100">10 min</button>
-                            <button onclick="setQuickTime(20)" class="flex-1 bg-brand-50 text-brand-600 font-bold py-2.5 rounded-xl text-sm border border-brand-100 hover:bg-brand-100">20 min</button>
-                            <button onclick="setQuickTime(30)" class="flex-1 bg-brand-50 text-brand-600 font-bold py-2.5 rounded-xl text-sm border border-brand-100 hover:bg-brand-100">30 min</button>
+                            <button onclick="setQuickTime(10)" class="flex-1 bg-brand-50 text-brand-600 font-bold py-2.5 rounded-xl text-sm border border-brand-100">10 min</button>
+                            <button onclick="setQuickTime(20)" class="flex-1 bg-brand-50 text-brand-600 font-bold py-2.5 rounded-xl text-sm border border-brand-100">20 min</button>
+                            <button onclick="setQuickTime(30)" class="flex-1 bg-brand-50 text-brand-600 font-bold py-2.5 rounded-xl text-sm border border-brand-100">30 min</button>
                         </div>
                         <div class="flex items-center gap-3 bg-white border border-gray-200 rounded-2xl p-3">
                             <span class="text-xl">⏰</span>
-                            <select id="alarm-sound-select" class="w-full bg-transparent text-sm font-semibold text-gray-700 outline-none">
-                                <option data-i18n="classicAlarm" value="https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg">Klassisk Vekkerklokke</option>
-                                <option data-i18n="digitalAlarm" value="https://actions.google.com/sounds/v1/alarms/digital_watch_alarm_long.ogg">Digital Alarm</option>
-                                <option data-i18n="trumpet" value="https://actions.google.com/sounds/v1/alarms/bugle_tune.ogg">Trompet</option>
-                                <option data-i18n="chime" value="https://actions.google.com/sounds/v1/alarms/medium_bell_ringing_near.ogg">Bjelle / Klokke</option>
-                                <option data-i18n="customAudio" value="custom">🎵 Velg egen lydfil...</option>
+                            <select id="alarm-sound-select-classic" class="w-full bg-transparent text-sm font-semibold text-gray-700 outline-none">
+                                <option value="https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg">Klassisk Vekkerklokke</option>
+                                <option value="https://actions.google.com/sounds/v1/alarms/digital_watch_alarm_long.ogg">Digital Alarm</option>
+                                <option value="https://actions.google.com/sounds/v1/alarms/bugle_tune.ogg">Trompet</option>
+                                <option value="https://actions.google.com/sounds/v1/alarms/medium_bell_ringing_near.ogg">Bjelle</option>
                             </select>
-                            <input type="file" id="custom-audio-upload" class="hidden" accept="audio/*">
                             <button onclick="testAlarmSound()" class="p-2 text-brand-500 hover:bg-brand-50 rounded-full">▶️</button>
                         </div>
                     </div>
 
-                    <div id="timer-display" class="text-6xl font-mono font-bold text-center py-4 text-slate-800 tracking-tighter">00:00:00</div>
+                    <div id="timer-display-classic" class="text-6xl font-mono font-bold text-center py-4 text-slate-800 tracking-tighter">00:00:00</div>
 
                     <div class="flex gap-3 mt-4">
-                        <button id="btn-start" onclick="toggleTimer()" class="flex-[3] bg-brand-600 hover:bg-brand-700 text-white font-bold py-5 rounded-2xl shadow-lg transition-all active:scale-95 flex items-center justify-center text-lg">
-                            <span id="start-btn-text" data-i18n="startPractice">Start Øving</span>
+                        <button id="btn-start-classic" onclick="toggleTimer()" class="flex-[3] bg-brand-600 hover:bg-brand-700 text-white font-bold py-5 rounded-2xl shadow-lg transition-all active:scale-95 text-lg">
+                            <span id="start-btn-text-classic">Start Øving</span>
                         </button>
-                        <button id="btn-record" onclick="toggleRecording()" class="hidden flex-1 bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold py-5 rounded-2xl transition-all text-xl" title="Spill inn">🎙️</button>
-                        <button id="btn-reset" onclick="resetTimer()" data-i18n="reset" class="hidden flex-1 bg-gray-200 hover:bg-gray-300 text-gray-600 font-bold py-5 rounded-2xl transition-all">Nullstill</button>
+                        <button id="btn-record-classic" onclick="toggleRecording()" class="hidden flex-1 bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold py-5 rounded-2xl text-xl pulse-record-classic">🎙️</button>
+                        <button id="btn-reset-classic" onclick="resetTimer()" class="hidden flex-1 bg-gray-200 hover:bg-gray-300 text-gray-600 font-bold py-5 rounded-2xl transition-all">Nullstill</button>
                     </div>
                 </div>
 
-                <!-- Quick Action Buttons -->
                 <div class="flex flex-col sm:flex-row gap-2 mb-6 lg:mb-0 shrink-0">
-                    <button onclick="openMetronomeModal()" class="flex-1 bg-amber-100 hover:bg-amber-200 text-amber-800 font-bold py-4 px-2 rounded-2xl transition-all active:scale-95 flex justify-center gap-2 text-sm">
-                        <span data-i18n="metronome">🎵 Metronom</span>
-                    </button>
-                    <button onclick="openAudioModal()" class="flex-1 bg-green-100 hover:bg-green-200 text-green-800 font-bold py-4 px-2 rounded-2xl transition-all active:scale-95 flex justify-center gap-2 text-sm">
-                        <span data-i18n="recordings">🎙️ Lydopptak</span>
-                    </button>
-                    <button onclick="openAIModal()" class="flex-1 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 text-white font-bold py-4 px-2 rounded-2xl transition-all active:scale-95 flex justify-center gap-2 text-sm">
-                        <span data-i18n="aiTeacher">✨ AI-Lærer</span>
-                    </button>
+                    <button onclick="openModal('metronome-modal-classic')" class="flex-1 bg-amber-100 text-amber-800 font-bold py-4 px-2 rounded-2xl">🎵 Metronom</button>
+                    <button onclick="openModal('audio-modal-classic')" class="flex-1 bg-green-100 text-green-800 font-bold py-4 px-2 rounded-2xl">🎙️ Lydopptak</button>
+                    <button onclick="openModal('ai-modal-classic')" class="flex-1 bg-purple-100 text-purple-800 font-bold py-4 px-2 rounded-2xl">✨ AI-Lærer</button>
                 </div>
             </div>
 
-            <!-- HØYRE KOLONNE: Historikk & Varmekart -->
             <div class="flex-1 flex flex-col w-full max-w-md mx-auto lg:max-w-none lg:border-l lg:border-gray-100 lg:pl-10 overflow-hidden">
                 <div class="mb-8 shrink-0">
-                    <h3 data-i18n="activity" class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Aktivitet siste 28 dager</h3>
-                    <div class="grid grid-cols-7 gap-2" id="heatmap-grid"></div>
+                    <h3 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Aktivitet siste 28 dager</h3>
+                    <div class="grid grid-cols-7 gap-2" id="heatmap-grid-classic"></div>
                 </div>
-
                 <div class="flex-1 flex flex-col overflow-hidden">
                     <h3 class="font-bold text-gray-800 text-lg mb-4 flex justify-between items-center shrink-0">
-                        <span data-i18n="recentSessions">Siste økter</span>
+                        <span>Siste økter</span>
                         <div class="flex gap-4">
-                            <button onclick="openManualModal()" data-i18n="addManual" class="text-[11px] font-bold text-brand-600 uppercase hover:text-brand-800">+ Manuelt</button>
-                            <button onclick="clearLogs()" data-i18n="deleteAll" class="text-[11px] font-bold text-gray-400 uppercase hover:text-red-500">Slett alle</button>
+                            <button onclick="openModal('manual-modal-classic')" class="text-[11px] font-bold text-brand-600 uppercase">+ Manuelt</button>
+                            <button onclick="clearLogs()" class="text-[11px] font-bold text-gray-400 uppercase">Slett alle</button>
                         </div>
                     </h3>
-                    <div id="session-list" class="space-y-3 overflow-y-auto pr-2 pb-6"></div>
+                    <div id="session-list-classic" class="space-y-3 overflow-y-auto pr-2 pb-6 session-list-classic"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modaler for Classic -->
+        <div id="theme-modal-classic" class="modal-overlay fixed inset-0 z-50 flex items-center justify-center p-6 bg-black/60">
+            <div class="modal-content bg-white rounded-3xl w-full max-w-xs p-6 shadow-2xl text-center">
+                <h3 class="font-bold text-xl mb-4 text-gray-800">Velg Tema 🎨</h3>
+                <div class="grid grid-cols-2 gap-3 mb-6">
+                    <button onclick="changeTheme('blue')" class="p-4 bg-blue-50 text-blue-600 font-bold rounded-2xl border-2 border-blue-200">Blå</button>
+                    <button onclick="changeTheme('purple')" class="p-4 bg-purple-50 text-purple-600 font-bold rounded-2xl border-2 border-purple-200">Lilla</button>
+                    <button onclick="changeTheme('green')" class="p-4 bg-green-50 text-green-600 font-bold rounded-2xl border-2 border-green-200">Grønn</button>
+                    <button onclick="changeTheme('rose')" class="p-4 bg-rose-50 text-rose-600 font-bold rounded-2xl border-2 border-rose-200">Rød</button>
+                </div>
+                <button onclick="closeModal('theme-modal-classic')" class="w-full py-3 bg-gray-100 text-gray-600 font-bold rounded-xl">Lukk</button>
+            </div>
+        </div>
+        <div id="metronome-modal-classic" class="modal-overlay fixed inset-0 z-50 flex items-center justify-center p-6 bg-black/60">
+            <div class="modal-content bg-white rounded-3xl w-full max-w-xs p-6 shadow-2xl text-center">
+                <h3 class="font-bold text-xl mb-1 text-gray-800">🎵 Metronom</h3>
+                <div class="text-5xl font-black text-gray-800 mb-4 mt-6" id="bpm-display-classic">100</div>
+                <input type="range" id="bpm-slider-classic" min="30" max="240" value="100" class="w-full h-2 rounded-lg appearance-none cursor-pointer mb-6 classic-range">
+                <div class="flex gap-3 mb-6">
+                    <button onclick="changeBpm(-5)" class="flex-1 bg-gray-100 py-2 rounded-xl font-bold text-gray-600">-5</button>
+                    <button onclick="changeBpm(5)" class="flex-1 bg-gray-100 py-2 rounded-xl font-bold text-gray-600">+5</button>
+                </div>
+                <div class="flex justify-center gap-1.5 mb-2">
+                    <button onclick="setTimeSignature(2)" id="ts-btn-2-classic" class="w-10 h-10 rounded-full font-bold text-sm bg-gray-100">2</button>
+                    <button onclick="setTimeSignature(3)" id="ts-btn-3-classic" class="w-10 h-10 rounded-full font-bold text-sm bg-gray-100">3</button>
+                    <button onclick="setTimeSignature(4)" id="ts-btn-4-classic" class="w-10 h-10 rounded-full font-bold text-sm bg-amber-500 text-white">4</button>
+                    <button onclick="setTimeSignature(5)" id="ts-btn-5-classic" class="w-10 h-10 rounded-full font-bold text-sm bg-gray-100">5</button>
+                    <button onclick="setTimeSignature(6)" id="ts-btn-6-classic" class="w-10 h-10 rounded-full font-bold text-sm bg-gray-100">6</button>
+                </div>
+                <div id="beat-indicators-classic" class="flex justify-center gap-2 mb-6 h-3 mt-4"></div>
+                <div class="flex gap-3">
+                    <button onclick="closeModal('metronome-modal-classic')" class="flex-1 py-3 text-gray-400 font-bold bg-gray-50 rounded-xl">Lukk</button>
+                    <button id="btn-metronome-toggle-classic" onclick="toggleMetronome()" class="flex-1 py-3 bg-amber-500 text-white font-bold rounded-xl">Start</button>
+                </div>
+            </div>
+        </div>
+        <div id="ai-modal-classic" class="modal-overlay fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60">
+            <div class="modal-content bg-white rounded-3xl w-full max-w-md p-6 shadow-2xl flex flex-col max-h-[90vh]">
+                <div class="flex justify-between items-center mb-4 shrink-0">
+                    <h3 class="font-bold text-xl text-gray-800">✨ AI-Pianolærer</h3>
+                    <button onclick="closeModal('ai-modal-classic')" class="p-2 bg-gray-100 rounded-full text-gray-500">❌</button>
+                </div>
+                <div class="overflow-y-auto flex-1 mb-4 pr-2 space-y-4" id="ai-chat-history-classic">
+                    <div class="bg-indigo-50 p-4 rounded-2xl text-sm text-indigo-900">Hei! Jeg er din personlige AI-pianolærer. Spør meg om oppvarming, teknikk eller motivasjon!</div>
+                </div>
+                <div class="shrink-0 space-y-3">
+                    <div class="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
+                        <button onclick="askAIPrompt('Oppvarming')" class="whitespace-nowrap px-3 py-1.5 bg-purple-100 text-purple-700 text-xs font-bold rounded-full">Oppvarming</button>
+                        <button onclick="askAIPrompt('Motivasjon')" class="whitespace-nowrap px-3 py-1.5 bg-blue-100 text-blue-700 text-xs font-bold rounded-full">Motiver meg</button>
+                        <button onclick="askAIPrompt('Teknikk')" class="whitespace-nowrap px-3 py-1.5 bg-green-100 text-green-700 text-xs font-bold rounded-full">Vanskelige passasjer</button>
+                    </div>
+                    <div class="flex gap-2">
+                        <input type="text" id="ai-input-classic" class="flex-1 p-3 bg-gray-50 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none text-sm" placeholder="Spør læreren...">
+                        <button onclick="sendAIQuery()" id="btn-send-ai-classic" class="p-3 bg-indigo-600 text-white rounded-xl">💬</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="audio-modal-classic" class="modal-overlay fixed inset-0 z-50 flex items-center justify-center p-6 bg-black/60">
+            <div class="modal-content bg-white rounded-3xl w-full max-w-md p-6 shadow-2xl flex flex-col max-h-[90vh]">
+                <div class="flex justify-between items-center mb-4 shrink-0">
+                    <h3 class="font-bold text-xl text-gray-800">🎙️ Dine Lydopptak</h3>
+                    <button onclick="closeModal('audio-modal-classic')" class="p-2 bg-gray-100 rounded-full">❌</button>
+                </div>
+                <div class="overflow-y-auto flex-1 pr-2 space-y-3 scrollbar-hide" id="audio-list-classic"></div>
+            </div>
+        </div>
+        <div id="rename-modal-classic" class="modal-overlay fixed inset-0 z-[60] flex items-center justify-center p-6 bg-black/60">
+            <div class="modal-content w-full max-w-xs bg-white p-6 rounded-3xl shadow-2xl">
+                <h3 class="font-bold text-xl mb-4 text-gray-800">Endre navn</h3>
+                <input type="text" id="rename-input-classic" class="w-full p-4 bg-gray-50 rounded-2xl mb-6 outline-none font-medium text-sm">
+                <div class="flex gap-3">
+                    <button onclick="closeModal('rename-modal-classic')" class="flex-1 py-3 text-gray-400 font-bold bg-gray-50 rounded-xl">Avbryt</button>
+                    <button onclick="saveNewName()" class="flex-1 py-3 bg-brand-600 text-white font-bold rounded-xl">Lagre</button>
+                </div>
+            </div>
+        </div>
+        <div id="goal-modal-classic" class="modal-overlay fixed inset-0 z-[60] flex items-center justify-center p-6 bg-black/60">
+            <div class="modal-content w-full max-w-xs bg-white p-6 rounded-3xl shadow-2xl">
+                <h3 class="font-bold text-xl mb-4 text-gray-800">Nytt Mål</h3>
+                <input type="number" id="goal-input-classic" class="w-full p-4 bg-gray-50 rounded-2xl mb-6 outline-none font-bold text-2xl text-center text-brand-600">
+                <div class="flex gap-3">
+                    <button onclick="closeModal('goal-modal-classic')" class="flex-1 py-3 text-gray-400 font-bold bg-gray-50 rounded-xl">Avbryt</button>
+                    <button onclick="saveNewGoal()" class="flex-1 py-3 bg-brand-600 text-white font-bold rounded-xl">Lagre</button>
+                </div>
+            </div>
+        </div>
+        <div id="manual-modal-classic" class="modal-overlay fixed inset-0 z-[60] flex items-center justify-center p-6 bg-black/60">
+            <div class="modal-content w-full max-w-xs bg-white p-6 rounded-3xl shadow-2xl">
+                <h3 class="font-bold text-xl mb-4 text-gray-800">Logg Manuelt</h3>
+                <div class="flex items-center gap-2 mb-6">
+                    <input type="number" id="manual-input-classic" class="w-full p-4 bg-gray-50 rounded-2xl outline-none font-bold text-2xl text-center text-brand-600">
+                    <span class="text-gray-400 font-bold">Min</span>
+                </div>
+                <div class="flex gap-3">
+                    <button onclick="closeModal('manual-modal-classic')" class="flex-1 py-3 text-gray-400 font-bold bg-gray-50 rounded-xl">Avbryt</button>
+                    <button onclick="saveManualEntry()" class="flex-1 py-3 bg-brand-600 text-white font-bold rounded-xl">Lagre</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- MODALER -->
-    
-    <!-- Theme Modal -->
-    <div id="theme-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-6 z-50 hidden">
-        <div class="bg-white rounded-3xl w-full max-w-xs p-6 shadow-2xl text-center">
-            <h3 data-i18n="themeTitle" class="font-bold text-xl mb-4">Velg Tema 🎨</h3>
-            <div class="grid grid-cols-2 gap-3 mb-6">
-                <button onclick="changeTheme('blue')" data-i18n="classicBlue" class="p-4 bg-blue-50 text-blue-600 font-bold rounded-2xl border-2 border-blue-200">Klassisk Blå</button>
-                <button onclick="changeTheme('purple')" data-i18n="purple" class="p-4 bg-purple-50 text-purple-600 font-bold rounded-2xl border-2 border-purple-200">Lilla</button>
-                <button onclick="changeTheme('green')" data-i18n="green" class="p-4 bg-green-50 text-green-600 font-bold rounded-2xl border-2 border-green-200">Grønn</button>
-                <button onclick="changeTheme('rose')" data-i18n="red" class="p-4 bg-rose-50 text-rose-600 font-bold rounded-2xl border-2 border-rose-200">Rød</button>
-            </div>
-            <button onclick="closeThemeModal()" data-i18n="close" class="w-full py-3 bg-gray-100 text-gray-600 font-bold rounded-xl">Lukk</button>
-        </div>
-    </div>
-
-    <!-- Metronome Modal -->
-    <div id="metronome-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-6 z-50 hidden">
-        <div class="bg-white rounded-3xl w-full max-w-xs p-6 shadow-2xl text-center">
-            <h3 class="font-bold text-xl mb-1 flex justify-center gap-2 items-center" data-i18n="metronome">🎵 Metronom</h3>
-            <p data-i18n="keepBeat" class="text-xs text-gray-400 mb-6 uppercase font-semibold">Hold takten</p>
-            <div class="text-5xl font-black text-gray-800 mb-4" id="bpm-display">100</div>
-            <p class="text-xs font-bold text-gray-400 uppercase mb-4">BPM</p>
-            <input type="range" id="bpm-slider" min="30" max="240" value="100" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer mb-6 accent-amber-500">
-            <div class="flex gap-3 mb-6">
-                <button onclick="changeBpm(-5)" class="flex-1 bg-gray-100 py-2 rounded-xl font-bold">-5</button>
-                <button onclick="changeBpm(5)" class="flex-1 bg-gray-100 py-2 rounded-xl font-bold">+5</button>
-            </div>
-            <p data-i18n="timeSignature" class="text-xs font-bold text-gray-400 uppercase mb-3">Taktart</p>
-            <div class="flex justify-center gap-1.5 mb-2">
-                <button onclick="setTimeSignature(1)" id="ts-btn-1" class="w-10 h-10 rounded-full font-bold text-sm bg-gray-100">1</button>
-                <button onclick="setTimeSignature(2)" id="ts-btn-2" class="w-10 h-10 rounded-full font-bold text-sm bg-gray-100">2</button>
-                <button onclick="setTimeSignature(3)" id="ts-btn-3" class="w-10 h-10 rounded-full font-bold text-sm bg-gray-100">3</button>
-                <button onclick="setTimeSignature(4)" id="ts-btn-4" class="w-10 h-10 rounded-full font-bold text-sm bg-amber-500 text-white">4</button>
-                <button onclick="setTimeSignature(5)" id="ts-btn-5" class="w-10 h-10 rounded-full font-bold text-sm bg-gray-100">5</button>
-                <button onclick="setTimeSignature(6)" id="ts-btn-6" class="w-10 h-10 rounded-full font-bold text-sm bg-gray-100">6</button>
-            </div>
-            <div id="beat-indicators" class="flex justify-center gap-2 mb-6 h-3"></div>
-            <div class="flex gap-3">
-                <button onclick="closeMetronomeModal()" data-i18n="close" class="flex-1 py-3 text-gray-400 font-bold hover:bg-gray-50 rounded-xl">Lukk</button>
-                <button id="btn-metronome-toggle" onclick="toggleMetronome()" data-i18n="start" class="flex-1 py-3 bg-amber-500 text-white font-bold rounded-xl hover:bg-amber-600">Start</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Audio Gallery Modal -->
-    <div id="audio-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-6 z-50 hidden">
-        <div class="bg-white rounded-3xl w-full max-w-md p-6 shadow-2xl flex flex-col max-h-[90vh]">
-            <div class="flex justify-between items-center mb-4 shrink-0">
-                <h3 data-i18n="audioGallery" class="font-bold text-xl flex items-center gap-2">🎙️ Dine Lydopptak</h3>
-                <button onclick="closeAudioModal()" class="p-2 bg-gray-100 rounded-full text-gray-500 hover:bg-gray-200">❌</button>
-            </div>
-            <div class="overflow-y-auto flex-1 pr-2 space-y-3 scrollbar-hide" id="audio-list"></div>
-        </div>
-    </div>
-
-    <!-- Rename, Goal & Manual Modals -->
-    <div id="rename-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-6 z-50 hidden">
-        <div class="bg-white rounded-3xl w-full max-w-xs p-6 shadow-2xl">
-            <h3 data-i18n="renameTitle" class="font-bold text-xl mb-1">Endre navn</h3>
-            <input type="text" id="rename-input" class="w-full p-4 bg-gray-50 border border-gray-100 rounded-2xl mb-6 mt-4 outline-none font-medium" data-i18n-placeholder="describeSession" placeholder="Beskriv...">
-            <div class="flex gap-3">
-                <button onclick="closeModal()" data-i18n="cancel" class="flex-1 py-3 text-gray-400 font-bold rounded-xl">Avbryt</button>
-                <button onclick="saveNewName()" data-i18n="save" class="flex-1 py-3 bg-brand-600 text-white font-bold rounded-xl">Lagre</button>
-            </div>
-        </div>
-    </div>
-
-    <div id="goal-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-6 z-50 hidden">
-        <div class="bg-white rounded-3xl w-full max-w-xs p-6 shadow-2xl">
-            <h3 data-i18n="changeGoalTitle" class="font-bold text-xl mb-4">Endre mål</h3>
-            <div class="flex items-center gap-3 mb-6">
-                <input type="number" id="goal-input" class="w-full p-4 bg-gray-50 border border-gray-100 rounded-2xl outline-none font-bold text-xl text-center">
-                <span data-i18n="hours" class="text-xs font-bold text-gray-400 uppercase">Timer</span>
-            </div>
-            <div class="flex gap-3">
-                <button onclick="closeGoalModal()" data-i18n="cancel" class="flex-1 py-3 text-gray-400 font-bold rounded-xl">Avbryt</button>
-                <button onclick="saveNewGoal()" data-i18n="save" class="flex-1 py-3 bg-brand-600 text-white font-bold rounded-xl">Lagre</button>
-            </div>
-        </div>
-    </div>
-
-    <div id="manual-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-6 z-50 hidden">
-        <div class="bg-white rounded-3xl w-full max-w-xs p-6 shadow-2xl">
-            <h3 data-i18n="manualTitle" class="font-bold text-xl mb-4">Legg til manuelt</h3>
-            <div class="flex items-center gap-3 mb-6">
-                <input type="number" id="manual-input" class="w-full p-4 bg-gray-50 border border-gray-100 rounded-2xl outline-none font-bold text-xl text-center">
-                <span data-i18n="min" class="text-xs font-bold text-gray-400 uppercase">Min</span>
-            </div>
-            <div class="flex gap-3">
-                <button onclick="closeManualModal()" data-i18n="cancel" class="flex-1 py-3 text-gray-400 font-bold rounded-xl">Avbryt</button>
-                <button onclick="saveManualEntry()" data-i18n="save" class="flex-1 py-3 bg-brand-600 text-white font-bold rounded-xl">Lagre</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- AI Teacher Modal -->
-    <div id="ai-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 z-50 hidden">
-        <div class="bg-white rounded-3xl w-full max-w-md p-6 shadow-2xl flex flex-col max-h-[90vh]">
-            <div class="flex justify-between items-center mb-4 shrink-0">
-                <h3 data-i18n="aiTeacher" class="font-bold text-xl flex items-center gap-2">✨ AI-Pianolærer</h3>
-                <button onclick="closeAIModal()" class="p-2 bg-gray-100 rounded-full text-gray-500">❌</button>
-            </div>
-            <div class="overflow-y-auto flex-1 mb-4 pr-2 space-y-4" id="ai-chat-history">
-                <div data-i18n="aiGreeting" class="bg-indigo-50 border border-indigo-100 p-4 rounded-2xl text-sm text-indigo-900">Hei! Jeg er din AI-pianolærer...</div>
-            </div>
-            <div class="shrink-0 space-y-3">
-                <div class="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
-                    <button onclick="askAIPrompt('aiWarmup')" data-i18n="aiBtnWarmup" class="whitespace-nowrap px-3 py-1.5 bg-purple-100 text-purple-700 text-xs font-bold rounded-full">Oppvarming</button>
-                    <button onclick="askAIPrompt('aiMotivate')" data-i18n="aiBtnMotivate" class="whitespace-nowrap px-3 py-1.5 bg-blue-100 text-blue-700 text-xs font-bold rounded-full">Motiver meg</button>
-                    <button onclick="askAIPrompt('aiDifficult')" data-i18n="aiBtnDifficult" class="whitespace-nowrap px-3 py-1.5 bg-green-100 text-green-700 text-xs font-bold rounded-full">Vanskelige passasjer</button>
-                </div>
-                <div class="flex gap-2">
-                    <input type="text" id="ai-input" class="flex-1 p-3 bg-gray-50 border border-gray-200 rounded-xl outline-none text-sm" data-i18n-placeholder="askTeacher">
-                    <button onclick="sendAIQuery()" id="btn-send-ai" class="p-3 bg-indigo-600 text-white rounded-xl">💬</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- OPPDATERT JAVASCRIPT MED SAFE-STORAGE -->
+    <!-- SCRIPT FOR BEGGE DESIGNENE -->
     <script>
-        // SIKKER LAGRING: Forhindrer at siden krasjer hvis localStorage feiler (f.eks. pga personvern-innstillinger)
+        const D = id => document.getElementById(id);
+        const setText = (id, text) => { if(D(id)) D(id).textContent = text; };
+        const setHTML = (id, html) => { if(D(id)) D(id).innerHTML = html; };
+
+        // SIKKER LAGRING
         const memoryStore = {};
         const safeStorage = {
-            get: function(key) {
-                try { return window.localStorage.getItem(key); }
-                catch(e) { return memoryStore[key] || null; }
-            },
-            set: function(key, value) {
-                try { window.localStorage.setItem(key, value); }
-                catch(e) { memoryStore[key] = value; }
-            },
-            remove: function(key) {
-                try { window.localStorage.removeItem(key); }
-                catch(e) { delete memoryStore[key]; }
-            }
+            get: function(key) { try { return window.localStorage.getItem(key); } catch(e) { return memoryStore[key] || null; } },
+            set: function(key, value) { try { window.localStorage.setItem(key, value); } catch(e) { memoryStore[key] = value; } },
+            remove: function(key) { try { window.localStorage.removeItem(key); } catch(e) { delete memoryStore[key]; } }
         };
 
-        const translations = {
-            no: {
-                appTitle: "Piano 100 timer", goalSubtitle: "Mål: {x} timer øving", hours: "Timer", remaining: "Gjenstår", progress: "Fremgang", streak: "Streak 🔥", days: "Dager",
-                milestones: "Milepæler", stopwatch: "Stoppeklokke", countdown: "Nedtelling", free: "Fri", goal: "Mål", noEndSound: "Ingen sluttlyd",
-                magicChime: "Trylleklang", xylophone: "Xylofon", glassClink: "Glassklirr", bell: "Bjelle", min: "Min", classicAlarm: "Klassisk Vekkerklokke",
-                digitalAlarm: "Digital Alarm", trumpet: "Trompet", chime: "Bjelle / Klokke", customAudio: "🎵 Velg egen lydfil...", startPractice: "Start Øving",
-                finishSession: "Fullfør Økt", stopAlarmSave: "Stopp Alarm & Lagre", reset: "Nullstill", metronome: "🎵 Metronom", aiTeacher: "✨ AI-Lærer",
-                recordings: "🎙️ Lydopptak", audioGallery: "Dine Lydopptak", noRecordings: "Ingen opptak ennå.", deleteAudio: "Slett lyd", activity: "Aktivitet siste 28 dager",
-                recentSessions: "Siste økter", addManual: "+ Manuelt", deleteAll: "Slett alle", noSessions: "Ingen økter ennå", themeTitle: "Velg Tema",
-                classicBlue: "Klassisk Blå", purple: "Lilla", green: "Grønn", red: "Rød", close: "Lukk", keepBeat: "Hold takten", start: "Start", stop: "Stopp",
-                renameTitle: "Endre navn", describeSession: "Beskriv økten din...", cancel: "Avbryt", save: "Lagre", changeGoalTitle: "Endre mål",
-                howManyHours: "Hvor mange timer totalt?", manualTitle: "Legg til manuelt", howManyMins: "Hvor mange minutter øvde du?",
-                aiGreeting: "Hei! Jeg er din personlige AI-pianolærer! Spør meg om oppvarmingsøvelser, teknikktips eller motivasjon! 🎹",
-                timeSignature: "Taktart", aiBtnWarmup: "Oppvarming", aiBtnMotivate: "Motivasjon", aiBtnDifficult: "Vanskelige passasjer",
-                aiWarmup: "✨ Gi meg et 10-minutters oppvarmingsprogram", aiMotivate: "✨ Analyser loggen min og gi meg motivasjon!",
-                aiDifficult: "✨ Hvordan bør jeg øve inn en vanskelig passasje?", askTeacher: "Spør læreren...", thinking: "Tenker...",
-                aiError: "Beklager, mistet forbindelsen. Prøv igjen! 🔌", sessionName: "Økt", manualSessionName: "Manuell økt", manual: "Manuell",
-                confirmDelete: "Vil du slette all historikk?", deleteSessionConfirm: "Vil du slette denne økten?", saveShortSession: "Økten var under 1 min. Vil du lagre?",
-                fileTooLarge: "Lydfil for stor (maks 2MB).", fileSaveError: "Kunne ikke lagre lydfil lokalt.", micError: "Fikk ikke tilgang til mikrofon.",
-                today: "I dag", daysAgo: "dager siden", hoursAbbr: "t", aiSystemPrompt: "Du er en ekspert pianolærer. Svar kort, motiverende og på norsk under 150 ord."
-            },
-            en: {
-                appTitle: "Piano 100 Hours", goalSubtitle: "Goal: {x} hours", hours: "Hours", remaining: "Remaining", progress: "Progress", streak: "Streak 🔥", days: "Days",
-                milestones: "Milestones", stopwatch: "Stopwatch", countdown: "Countdown", free: "Free", goal: "Goal", noEndSound: "No end sound",
-                magicChime: "Magic Chime", xylophone: "Xylophone", glassClink: "Glass clink", bell: "Bell", min: "Min", classicAlarm: "Classic Alarm",
-                digitalAlarm: "Digital Alarm", trumpet: "Trumpet", chime: "Chime", customAudio: "🎵 Choose custom audio...", startPractice: "Start Practice",
-                finishSession: "Finish Session", stopAlarmSave: "Stop Alarm & Save", reset: "Reset", metronome: "🎵 Metronome", aiTeacher: "✨ AI Teacher",
-                recordings: "🎙️ Recordings", audioGallery: "Your Recordings", noRecordings: "No recordings yet.", deleteAudio: "Delete audio", activity: "Activity (28 days)",
-                recentSessions: "Recent Sessions", addManual: "+ Manual", deleteAll: "Delete all", noSessions: "No sessions", themeTitle: "Choose Theme",
-                classicBlue: "Classic Blue", purple: "Purple", green: "Green", red: "Red", close: "Close", keepBeat: "Keep the beat", start: "Start", stop: "Stop",
-                renameTitle: "Rename", describeSession: "Describe session...", cancel: "Cancel", save: "Save", changeGoalTitle: "Change Goal",
-                howManyHours: "Total hours?", manualTitle: "Add manually", howManyMins: "Minutes practiced?",
-                aiGreeting: "Hi! I am your AI piano teacher! Ask me about warm-ups, technique or motivation! 🎹",
-                timeSignature: "Time Signature", aiBtnWarmup: "Warm-up", aiBtnMotivate: "Motivate", aiBtnDifficult: "Difficulties",
-                aiWarmup: "✨ Give me a 10-min warm-up", aiMotivate: "✨ Give me motivation!", aiDifficult: "✨ How to practice a hard passage?",
-                askTeacher: "Ask teacher...", thinking: "Thinking...", aiError: "Connection lost. Try again! 🔌", sessionName: "Session", manualSessionName: "Manual session",
-                manual: "Manual", confirmDelete: "Delete all history?", deleteSessionConfirm: "Delete this session?", saveShortSession: "Session < 1 min. Save it?",
-                fileTooLarge: "File too large (max 2MB).", fileSaveError: "Could not save file.", micError: "Microphone access denied.",
-                today: "Today", daysAgo: "days ago", hoursAbbr: "h", aiSystemPrompt: "You are an expert piano teacher. Answer shortly in English under 150 words."
+        // DESIGN SWITCHER (Minimalist / Classic)
+        let currentLayout = safeStorage.get('piano_layout') || 'minimal';
+        
+        function switchDesign(newDesign) {
+            currentLayout = newDesign;
+            safeStorage.set('piano_layout', currentLayout);
+            
+            if (currentLayout === 'minimal') {
+                D('layout-minimal').classList.remove('hidden');
+                D('layout-classic').classList.add('hidden');
+                document.body.className = "h-screen w-full overflow-hidden flex flex-col items-center bg-base transition-colors duration-300";
+                D('meta-theme-color').content = "#f9f8f6";
+            } else {
+                D('layout-minimal').classList.add('hidden');
+                D('layout-classic').classList.remove('hidden');
+                document.body.className = "p-0 md:p-8 bg-slate-50 transition-colors duration-300 min-h-screen flex items-center justify-center";
+                D('meta-theme-color').content = "#0f172a";
             }
-        };
-
-        let currentLang = safeStorage.get('piano_lang') || 'no';
-        const t = key => translations[currentLang][key] || key;
-        const D = id => document.getElementById(id);
-
-        function applyTranslations() {
-            D('lang-btn').textContent = currentLang === 'no' ? '🇳🇴' : '🇬🇧';
-            document.documentElement.lang = currentLang;
-            document.querySelectorAll('[data-i18n]').forEach(el => { if (translations[currentLang][el.dataset.i18n]) el.textContent = translations[currentLang][el.dataset.i18n]; });
-            document.querySelectorAll('[data-i18n-placeholder]').forEach(el => { if (translations[currentLang][el.dataset.i18nPlaceholder]) el.placeholder = translations[currentLang][el.dataset.i18nPlaceholder]; });
-            D('app-main-title').textContent = t('appTitle');
-            D('app-subtitle').textContent = t('goalSubtitle').replace('{x}', goalHours);
-            if(timerActive) D('start-btn-text').textContent = isAlarmRinging ? t('stopAlarmSave') : t('finishSession');
-            else D('start-btn-text').textContent = t('startPractice');
-            D('btn-metronome-toggle').textContent = isMetronomePlaying ? t('stop') : t('start');
-            D('timer-mode-label').textContent = timerMode === 'stopwatch' ? t('stopwatch') : t('countdown');
-            if(sessions) updateStats();
+            
+            // Lukk alle modaler hvis åpne under skiftet
+            document.querySelectorAll('.modal-overlay').forEach(el => el.classList.remove('active'));
+            
+            updateStats();
+            syncTimerUI();
+            changeTheme(safeStorage.get('piano_theme') || 'zen');
         }
 
-        function toggleLanguage() { currentLang = currentLang === 'no' ? 'en' : 'no'; safeStorage.set('piano_lang', currentLang); applyTranslations(); }
+        // TEMA HÅNDTERING
+        function changeTheme(themeName) { 
+            safeStorage.set('piano_theme', themeName);
+            // Sett for gjeldende layout
+            if(currentLayout === 'minimal') {
+                document.body.setAttribute('data-theme-minimal', themeName);
+                document.body.removeAttribute('data-theme-classic');
+            } else {
+                document.body.setAttribute('data-theme-classic', themeName);
+                document.body.removeAttribute('data-theme-minimal');
+            }
+            if(D('theme-modal-classic')) D('theme-modal-classic').classList.remove('active');
+            updateStats();
+        }
 
+        // DATA STATE
         let sessions = [];
         try {
             const rawSessions = safeStorage.get('piano_sessions');
             if (rawSessions) sessions = JSON.parse(rawSessions);
-        } catch (e) {
-            sessions = [];
-        }
+        } catch (e) { sessions = []; }
         if (!Array.isArray(sessions)) sessions = [];
-
         sessions.forEach(s => { if (!s.isoDate) s.isoDate = new Date(s.id).toISOString(); });
+        
         let startDate = safeStorage.get('piano_start_date') || new Date().toISOString();
         safeStorage.set('piano_start_date', startDate);
-
+        let goalHours = parseInt(safeStorage.get('piano_goal_hours')) || 100;
+        
         let timerActive = false, timerMode = 'stopwatch', startTime = null, elapsedAtPause = 0, timerInterval = null;
         let editingSessionId = null, isAlarmRinging = false, currentAudio = null, flashInterval = null;
-        let goalHours = parseInt(safeStorage.get('piano_goal_hours')) || 100;
 
-        const savedTheme = safeStorage.get('piano_theme') || 'blue';
-        document.body.setAttribute('data-theme', savedTheme);
-        function openThemeModal() { D('theme-modal').classList.remove('hidden'); document.body.classList.add('modal-open'); }
-        function closeThemeModal() { D('theme-modal').classList.add('hidden'); document.body.classList.remove('modal-open'); }
-        function changeTheme(themeName) { document.body.setAttribute('data-theme', themeName); safeStorage.set('piano_theme', themeName); closeThemeModal(); }
-
-        let mediaRecorder, audioChunks = [], isRecording = false, currentRecordingBase64 = null, recordingTimeout;
-        async function toggleRecording() {
-            if (isRecording) { stopRecording(); } else {
-                try {
-                    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-                    mediaRecorder = new MediaRecorder(stream); audioChunks = []; currentRecordingBase64 = null;
-                    mediaRecorder.ondataavailable = e => { if (e.data.size > 0) audioChunks.push(e.data); };
-                    mediaRecorder.onstop = () => {
-                        const reader = new FileReader();
-                        reader.readAsDataURL(new Blob(audioChunks, { type: 'audio/webm' }));
-                        reader.onloadend = () => { currentRecordingBase64 = reader.result; };
-                        stream.getTracks().forEach(tr => tr.stop());
-                    };
-                    mediaRecorder.start(); isRecording = true;
-                    D('btn-record').className = "flex-1 pulse-record bg-red-500 text-white font-bold py-5 rounded-2xl text-xl transition-all";
-                    D('btn-record').innerHTML = '⏹️';
-                    recordingTimeout = setTimeout(() => { if(isRecording) stopRecording(); }, 60000);
-                } catch (err) { alert(t('micError')); }
-            }
+        // MODALER
+        function openModal(id) { 
+            D(id).classList.add('active'); 
+            if(id.includes('audio-modal') || id.includes('settings-modal')) renderAudioGallery();
         }
-        function stopRecording() {
-            if (mediaRecorder && mediaRecorder.state !== 'inactive') {
-                mediaRecorder.stop(); isRecording = false; clearTimeout(recordingTimeout);
-                D('btn-record').className = "flex-1 bg-green-500 text-white font-bold py-5 rounded-2xl text-xl transition-all";
-                D('btn-record').innerHTML = '✅'; D('btn-record').disabled = true;
-            }
-        }
-        function resetRecordingState() {
-            isRecording = false; currentRecordingBase64 = null;
-            if (mediaRecorder && mediaRecorder.state !== 'inactive') mediaRecorder.stop();
-            clearTimeout(recordingTimeout);
-            D('btn-record').className = "hidden flex-1 bg-gray-200 text-gray-700 font-bold py-5 rounded-2xl text-xl transition-all";
-            D('btn-record').innerHTML = '🎙️'; D('btn-record').disabled = false;
+        function closeModal(id) { 
+            D(id).classList.remove('active'); 
+            if(id.includes('metronome-modal') && isMetronomePlaying) toggleMetronome();
         }
 
-        let metroAudioCtx = null, metronomeIntervalId = null, isMetronomePlaying = false, bpm = 100, beatsPerMeasure = 4, currentBeat = 0;
-        function openMetronomeModal() { D('metronome-modal').classList.remove('hidden'); document.body.classList.add('modal-open'); renderBeatIndicators(); }
-        function closeMetronomeModal() { D('metronome-modal').classList.add('hidden'); document.body.classList.remove('modal-open'); if (isMetronomePlaying) toggleMetronome(); }
-        function setTimeSignature(beats) {
-            beatsPerMeasure = beats; currentBeat = 0;
-            for(let i=1; i<=6; i++) {
-                const btn = D(`ts-btn-${i}`);
-                if(btn) btn.className = `w-10 h-10 rounded-full font-bold text-sm transition-colors ${i === beats ? 'bg-amber-500 text-white' : 'bg-gray-100'}`;
+        // TIMER LOGIKK
+        function setMode(mode) {
+            if (timerActive) return; 
+            timerMode = mode;
+            syncTimerUI();
+            resetTimer();
+        }
+
+        function setQuickTime(mins) { 
+            if(D(`input-minutes-${currentLayout}`)) D(`input-minutes-${currentLayout}`).value = mins; 
+        }
+
+        function toggleTimer() {
+            if (isAlarmRinging) return stopAlarmAndSave();
+
+            if (!timerActive) {
+                timerActive = true; 
+                
+                // Hent minutter fra aktiv layout
+                const inputMin = D(`input-minutes-${currentLayout}`);
+                if (timerMode === 'countdown') elapsedAtPause = (parseInt(inputMin ? inputMin.value : 20) || 20) * 60;
+                
+                syncTimerUI();
+                
+                startTime = Date.now(); 
+                timerInterval = setInterval(() => {
+                    const diff = (Date.now() - startTime) / 1000;
+                    let sec = timerMode === 'stopwatch' ? elapsedAtPause + diff : Math.max(0, elapsedAtPause - diff);
+                    
+                    if (timerMode === 'countdown' && sec <= 0) { 
+                        clearInterval(timerInterval); 
+                        setText('timer-display-minimal', "00:00:00");
+                        setText('timer-display-classic', "00:00:00");
+                        return startAlarm(); 
+                    }
+                    
+                    const timeStr = [Math.floor(sec/3600), Math.floor((sec%3600)/60), Math.floor(sec%60)].map(v=>v<10?"0"+v:v).join(":");
+                    setText('timer-display-minimal', timeStr);
+                    setText('timer-display-classic', timeStr);
+                }, 100);
+            } else { 
+                stopAndSave(); 
             }
-            renderBeatIndicators();
         }
-        function renderBeatIndicators() {
-            const cont = D('beat-indicators'); if(!cont) return; cont.innerHTML = '';
-            if(beatsPerMeasure === 1) return;
-            for(let i=0; i<beatsPerMeasure; i++) {
-                const dot = document.createElement('div'); dot.id = `beat-dot-${i}`;
-                dot.className = `w-2 h-2 rounded-full transition-all duration-75 ${i === 0 ? 'bg-amber-500/40' : 'bg-gray-200'}`;
-                cont.appendChild(dot);
-            }
-        }
-        D('bpm-slider').addEventListener('input', (e) => {
-            bpm = parseInt(e.target.value); D('bpm-display').textContent = bpm;
-            if (isMetronomePlaying) { clearInterval(metronomeIntervalId); metronomeIntervalId = setInterval(playMetronomeClick, 60000 / bpm); }
-        });
-        function changeBpm(amount) {
-            bpm = Math.max(30, Math.min(240, bpm + amount)); D('bpm-slider').value = bpm; D('bpm-display').textContent = bpm;
-            if (isMetronomePlaying) { clearInterval(metronomeIntervalId); currentBeat = 0; renderBeatIndicators(); metronomeIntervalId = setInterval(playMetronomeClick, 60000 / bpm); }
-        }
-        function playMetronomeClick() {
-            if (!metroAudioCtx) return;
-            const osc = metroAudioCtx.createOscillator(), gain = metroAudioCtx.createGain();
-            osc.connect(gain); gain.connect(metroAudioCtx.destination);
-            osc.frequency.value = (beatsPerMeasure > 1 && currentBeat === 0) ? 1200 : 800;
-            gain.gain.setValueAtTime(1, metroAudioCtx.currentTime); gain.gain.exponentialRampToValueAtTime(0.001, metroAudioCtx.currentTime + 0.05);
-            osc.start(metroAudioCtx.currentTime); osc.stop(metroAudioCtx.currentTime + 0.05);
-            if (beatsPerMeasure > 1) {
-                for(let i=0; i<beatsPerMeasure; i++) { const dot = D(`beat-dot-${i}`); if(dot) dot.className = `w-2 h-2 rounded-full transition-all duration-75 ${i===0 ? 'bg-amber-500/40' : 'bg-gray-200'}`; }
-                const cur = D(`beat-dot-${currentBeat}`); if(cur) cur.className = `w-2 h-2 rounded-full transition-all duration-75 scale-150 ${currentBeat===0 ? 'bg-amber-500' : 'bg-gray-500'}`;
-            }
-            currentBeat = (currentBeat + 1) % beatsPerMeasure;
-        }
-        function toggleMetronome() {
-            if (isMetronomePlaying) {
-                clearInterval(metronomeIntervalId); isMetronomePlaying = false; currentBeat = 0; renderBeatIndicators();
-                D('btn-metronome-toggle').textContent = t('start'); D('btn-metronome-toggle').classList.replace('bg-red-500', 'bg-amber-500');
+
+        function syncTimerUI() {
+            // Synkroniserer knapper og utseende på tvers av begge layoutene
+            if (timerActive) {
+                // Minimal
+                setText('timer-action-text-minimal', isAlarmRinging ? "Stopp" : "Fullfør");
+                if(D('btn-main-timer-minimal')) D('btn-main-timer-minimal').classList.add('timer-running');
+                if(D('timer-svg-minimal')) D('timer-svg-minimal').classList.add('ring-pulsing');
+                
+                // Classic
+                setText('start-btn-text-classic', isAlarmRinging ? "Stopp Alarm & Lagre" : "Fullfør Økt");
+                if (isAlarmRinging && D('btn-start-classic')) {
+                    D('btn-start-classic').style.backgroundColor = "#facc15";
+                    D('btn-start-classic').style.color = "#0f172a";
+                    D('btn-start-classic').classList.add('animate-bounce');
+                } else if(D('btn-start-classic')) {
+                    D('btn-start-classic').style.backgroundColor = "#ef4444";
+                    D('btn-reset-classic').classList.remove('hidden');
+                    D('btn-record-classic').classList.remove('hidden');
+                }
             } else {
-                if (!metroAudioCtx) metroAudioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                if (metroAudioCtx.state === 'suspended') metroAudioCtx.resume();
-                currentBeat = 0; playMetronomeClick(); metronomeIntervalId = setInterval(playMetronomeClick, 60000 / bpm); isMetronomePlaying = true;
-                D('btn-metronome-toggle').textContent = t('stop'); D('btn-metronome-toggle').classList.replace('bg-amber-500', 'bg-red-500');
+                // Minimal
+                setText('timer-action-text-minimal', "Start");
+                if(D('btn-main-timer-minimal')) D('btn-main-timer-minimal').classList.remove('timer-running');
+                if(D('timer-svg-minimal')) D('timer-svg-minimal').classList.remove('ring-pulsing');
+                
+                // Classic
+                setText('start-btn-text-classic', "Start Øving");
+                if(D('btn-start-classic')) {
+                    D('btn-start-classic').style.backgroundColor = "var(--brand-600)";
+                    D('btn-start-classic').style.color = "#ffffff";
+                    D('btn-start-classic').classList.remove('animate-bounce');
+                }
+                if(D('btn-reset-classic')) D('btn-reset-classic').classList.add('hidden');
+                if(D('btn-record-classic')) D('btn-record-classic').classList.add('hidden');
+            }
+
+            // Synkroniser Modus-knapper
+            if (timerMode === 'stopwatch') {
+                if(D('mode-stopwatch-minimal')) { D('mode-stopwatch-minimal').classList.add('text-primary'); D('mode-stopwatch-minimal').classList.remove('hover:text-textMain'); }
+                if(D('mode-countdown-minimal')) { D('mode-countdown-minimal').classList.remove('text-primary'); D('mode-countdown-minimal').classList.add('hover:text-textMain'); }
+                if(D('quick-time-panel-minimal')) D('quick-time-panel-minimal').classList.add('hidden');
+                
+                if(D('btn-mode-stopwatch-classic')) D('btn-mode-stopwatch-classic').className = 'px-4 py-1.5 rounded-lg text-xs font-bold uppercase bg-white text-brand-600 shadow-sm';
+                if(D('btn-mode-countdown-classic')) D('btn-mode-countdown-classic').className = 'px-4 py-1.5 rounded-lg text-xs font-bold uppercase text-gray-500';
+                if(D('stopwatch-settings-classic')) D('stopwatch-settings-classic').classList.remove('hidden');
+                if(D('countdown-settings-classic')) D('countdown-settings-classic').classList.add('hidden');
+                setText('timer-mode-label-classic', 'Stoppeklokke');
+            } else {
+                if(D('mode-countdown-minimal')) { D('mode-countdown-minimal').classList.add('text-primary'); D('mode-countdown-minimal').classList.remove('hover:text-textMain'); }
+                if(D('mode-stopwatch-minimal')) { D('mode-stopwatch-minimal').classList.remove('text-primary'); D('mode-stopwatch-minimal').classList.add('hover:text-textMain'); }
+                if(D('quick-time-panel-minimal')) D('quick-time-panel-minimal').classList.remove('hidden');
+                
+                if(D('btn-mode-countdown-classic')) D('btn-mode-countdown-classic').className = 'px-4 py-1.5 rounded-lg text-xs font-bold uppercase bg-white text-brand-600 shadow-sm';
+                if(D('btn-mode-stopwatch-classic')) D('btn-mode-stopwatch-classic').className = 'px-4 py-1.5 rounded-lg text-xs font-bold uppercase text-gray-500';
+                if(D('countdown-settings-classic')) D('countdown-settings-classic').classList.remove('hidden');
+                if(D('stopwatch-settings-classic')) D('stopwatch-settings-classic').classList.add('hidden');
+                setText('timer-mode-label-classic', 'Nedtelling');
             }
         }
 
-        function setQuickTime(mins) { D('input-minutes').value = mins; }
-        function getActualSoundUrl() { return D('alarm-sound-select').value === 'custom' ? (safeStorage.get('piano_custom_audio') || "https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg") : D('alarm-sound-select').value; }
-        
-        let savedSwSound = safeStorage.get('piano_stopwatch_sound');
-        if (savedSwSound) D('stopwatch-sound-select').value = savedSwSound;
-        
-        D('stopwatch-sound-select').addEventListener('change', (e) => { safeStorage.set('piano_stopwatch_sound', e.target.value); testStopwatchSound(); });
+        function startAlarm() {
+            isAlarmRinging = true; 
+            if(currentAudio) currentAudio.pause();
+            
+            const soundSelect = D(`alarm-sound-select-${currentLayout}`);
+            let soundUrl = soundSelect ? soundSelect.value : "https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg";
+            if(soundUrl === 'custom') soundUrl = safeStorage.get('piano_custom_audio') || "https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg";
 
-        function testStopwatchSound() { playSynthSound(D('stopwatch-sound-select').value); }
+            currentAudio = new Audio(soundUrl); 
+            currentAudio.loop = true; 
+            currentAudio.play().catch(e=>e);
+            
+            syncTimerUI();
+            
+            let isFlash = false; 
+            if(navigator.vibrate) navigator.vibrate([500,200,500,200]);
+            flashInterval = setInterval(() => { 
+                if(currentLayout === 'minimal') {
+                    document.body.style.backgroundColor = isFlash ? 'var(--color-base)' : '#ef4444'; 
+                } else {
+                    document.body.style.backgroundColor = isFlash ? '#f8fafc' : '#ef4444'; 
+                }
+                isFlash = !isFlash; 
+            }, 500);
+        }
+
+        function stopAlarmAndSave() {
+            if(currentAudio){currentAudio.pause(); currentAudio.currentTime=0;} 
+            isAlarmRinging=false; 
+            clearInterval(flashInterval); 
+            document.body.style.backgroundColor=''; 
+            if(isRecording) stopRecording(); 
+            stopAndSave();
+        }
+
+        function stopAndSave() {
+            clearInterval(timerInterval);
+            
+            const inputMin = D(`input-minutes-${currentLayout}`);
+            const diff = Math.floor((Date.now() - startTime) / 1000);
+            let finalDur = timerMode === 'stopwatch' ? diff : Math.min((parseInt(inputMin ? inputMin.value : 20)||20)*60, diff);
+            
+            if (timerMode === 'stopwatch' && finalDur > 5) {
+                const swSound = D(`stopwatch-sound-select-${currentLayout}`);
+                if(swSound) playSynthSound(swSound.value);
+            }
+
+            if (finalDur > 0) {
+                if (finalDur < 60) {
+                    if(!confirm("Økten var under 1 minutt. Vil du lagre den?")) return resetTimer();
+                }
+                const d = new Date();
+                sessions.unshift({ 
+                    id: Date.now(), isoDate: d.toISOString(), 
+                    date: d.toLocaleDateString('no-NO', {day:'2-digit',month:'2-digit',year:'2-digit'}), 
+                    time: d.toLocaleTimeString('no-NO', {hour:'2-digit',minute:'2-digit'}), 
+                    name: `Økt ${d.toLocaleDateString('no-NO')}`, 
+                    duration: finalDur, mode: timerMode, audio: currentRecordingBase64||undefined 
+                });
+                updateStats();
+            }
+            if(isRecording) stopRecording();
+            resetTimer();
+        }
+
+        function resetTimer() {
+            clearInterval(timerInterval); 
+            if(currentAudio){currentAudio.pause(); currentAudio.currentTime=0;} 
+            isAlarmRinging=false; 
+            clearInterval(flashInterval); 
+            document.body.style.backgroundColor=''; 
+            
+            timerActive = false; elapsedAtPause = 0; 
+            setText('timer-display-minimal', "00:00:00");
+            setText('timer-display-classic', "00:00:00");
+            
+            syncTimerUI();
+            resetRecordingState();
+        }
+
+        // --- STATISTIKK OG OPPDATERING (Begge design) ---
+        function updateStats() {
+            const totalSecs = sessions.reduce((a, s) => a + s.duration, 0);
+            const totalHoursStr = (totalSecs / 3600).toFixed(1);
+            const progress = Math.min(100, (totalSecs / (goalHours*3600)) * 100);
+            
+            // Text updates
+            setText('header-total-hours-minimal', totalHoursStr + "t");
+            setText('total-hours-display-classic', totalHoursStr);
+            setText('header-goal-hours-minimal', goalHours + "t");
+            setText('header-goal-hours-classic', goalHours);
+            
+            const remSecs = Math.max(0, goalHours*3600 - totalSecs);
+            setText('remaining-time-classic', `${Math.floor(remSecs / 3600)}t ${Math.floor((remSecs % 3600) / 60)}m`);
+            
+            setText('percent-display-minimal', `${Math.round(progress)}%`);
+            setText('percent-display-classic', `${Math.round(progress)}%`);
+            
+            // Rings
+            const ringOffset = 565.48 - (565.48 * (progress / 100)); // Minimal SVG is bigger
+            if(D('main-progress-ring-minimal')) D('main-progress-ring-minimal').style.strokeDashoffset = ringOffset;
+            
+            const classicOffset = 534 - (534 * (progress / 100)); // Classic SVG is smaller
+            if(D('progress-circle-classic')) D('progress-circle-classic').style.strokeDashoffset = classicOffset;
+
+            // Days & Streaks
+            const todayStart = new Date(); todayStart.setHours(0,0,0,0);
+            const startD = new Date(startDate); startD.setHours(0,0,0,0);
+            const daysCount = Math.round((todayStart - startD) / 86400000);
+            setText('days-display-classic', daysCount);
+            
+            let daysPracticed = new Set();
+            sessions.forEach(s => {
+                const sDate = new Date(s.isoDate || s.id); sDate.setHours(0,0,0,0);
+                daysPracticed.add(Math.floor((todayStart - sDate) / 86400000));
+            });
+            
+            let streak = 0, i = daysPracticed.has(0) ? 0 : 1;
+            if (daysPracticed.has(0) || daysPracticed.has(1)) {
+                while (daysPracticed.has(i)) { streak++; i++; }
+            }
+            setText('streak-display-minimal', streak);
+            setText('streak-display-classic', streak);
+
+            // Session Lists
+            const emptyStr = `<p class="text-center text-xs font-bold uppercase py-10 opacity-30">Ingen økter</p>`;
+            if (sessions.length === 0) {
+                setHTML('session-list-minimal', emptyStr);
+                setHTML('session-list-classic', emptyStr);
+            } else {
+                // Minimalist List
+                setHTML('session-list-minimal', sessions.map(s => `
+                    <div class="bg-surface p-4 rounded-2xl border border-black/5 flex justify-between items-center shadow-sm">
+                        <div class="flex-1 pr-4 min-w-0">
+                            <div class="flex items-center gap-2 mb-1">
+                                <span class="font-bold text-textMain truncate text-sm">${s.name}</span>
+                                ${s.audio ? '<span class="text-xs">🎙️</span>' : ''}
+                                <button onclick="openRenameModal(${s.id})" class="text-textMuted hover:text-primary"><svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg></button>
+                            </div>
+                            <p class="text-[10px] text-textMuted font-bold uppercase">${s.date} • ${s.mode==='manual'?'Manuell':'App'}</p>
+                        </div>
+                        <div class="flex flex-col items-end gap-2">
+                            <div class="text-right text-primary font-bold text-sm">${Math.floor(s.duration/60)}m ${s.duration%60}s</div>
+                            <button onclick="deleteSession(${s.id})" class="text-textMuted hover:text-red-400"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg></button>
+                        </div>
+                    </div>`).join(''));
+                
+                // Classic List
+                setHTML('session-list-classic', sessions.map(s => `
+                    <div class="bg-gray-50/50 p-4 rounded-2xl border border-gray-100">
+                        <div class="flex justify-between items-center">
+                            <div class="flex-1 pr-4 min-w-0">
+                                <div class="flex items-center gap-1 mb-0.5">
+                                    <span class="font-bold text-gray-800 truncate mr-1">${s.name}</span>
+                                    ${s.audio ? '<span class="mr-1">🎙️</span>' : ''}
+                                    <button onclick="openRenameModal(${s.id})" class="p-1 text-gray-300 hover:text-brand-500">✏️</button>
+                                    <button onclick="deleteSession(${s.id})" class="p-1 text-gray-300 hover:text-red-500">🗑️</button>
+                                </div>
+                                <p class="text-[10px] text-gray-400 font-bold uppercase">${s.date} kl. ${s.time||'--'} • ${s.mode==='manual'?'Manuell':'App'}</p>
+                            </div>
+                            <div class="text-right font-black text-sm text-brand-600">${Math.floor(s.duration/60)}m ${s.duration%60}s</div>
+                        </div>
+                        ${s.audio ? `<audio controls src="${s.audio}" class="w-full h-8 mt-3 opacity-80"></audio>` : ''}
+                    </div>`).join(''));
+            }
+
+            // Heatmaps
+            const dayTotals = {}; 
+            sessions.forEach(s => { 
+                const sDate = new Date(s.isoDate || s.id); sDate.setHours(0,0,0,0);
+                const diff = Math.floor((todayStart - sDate) / 86400000); 
+                if (diff >= 0 && diff < 28) dayTotals[diff] = (dayTotals[diff] || 0) + s.duration; 
+            });
+            
+            let hHTMLMin = '', hHTMLCls = '';
+            for (let j = 27; j >= 0; j--) {
+                const dur = dayTotals[j] || 0;
+                
+                // Minimal colors
+                let cMin = 'bg-primaryLight/30'; 
+                if(dur > 0 && dur < 900) cMin = 'bg-primaryLight'; else if(dur >= 900 && dur < 2700) cMin = 'bg-primary/80'; else if(dur >= 2700) cMin = 'bg-primary';
+                hHTMLMin += `<div class="w-full aspect-square rounded-md ${cMin}"></div>`;
+                
+                // Classic colors
+                let cCls = 'bg-gray-200/50'; 
+                if(dur > 0 && dur < 900) cCls = 'bg-green-200'; else if(dur >= 900 && dur < 2700) cCls = 'bg-green-400'; else if(dur >= 2700) cCls = 'bg-green-600';
+                hHTMLCls += `<div class="w-full aspect-square rounded-[3px] ${cCls}"></div>`;
+            }
+            setHTML('heatmap-grid-minimal', hHTMLMin);
+            setHTML('heatmap-grid-classic', hHTMLCls);
+
+            // Badges (Classic only)
+            let bHTML = '';
+            for (let t_hrs = 10; t_hrs <= 100; t_hrs += 10) {
+                const e = (totalSecs/3600) >= t_hrs;
+                bHTML += `<div class="flex-shrink-0 w-11 h-11 rounded-full flex items-center justify-center font-bold text-xs ${e?'bg-gradient-to-br from-yellow-300 to-amber-500 text-yellow-900 border-yellow-200':'bg-slate-800 text-slate-500 opacity-40 border-white/5'}">${t_hrs}t<br><span class="text-[8px] -mt-1 block">${e?'🏆':''}</span></div>`;
+            }
+            setHTML('badges-container-classic', bHTML);
+
+            safeStorage.set('piano_sessions', JSON.stringify(sessions));
+        }
+
+        // --- MANUELLE HANDLINGER ---
+        function deleteSession(id) { if (confirm("Slette denne økten?")) { sessions = sessions.filter(s => s.id !== id); updateStats(); } }
+        function clearLogs() { if (confirm("Slette all historikk?")) { sessions = []; safeStorage.set('piano_start_date', new Date().toISOString()); updateStats(); closeModal(`history-modal-${currentLayout}`); } }
+        
+        function openRenameModal(id) { 
+            editingSessionId = id; 
+            const inp = D(`rename-input-${currentLayout}`);
+            if(inp) inp.value = sessions.find(s=>s.id===id).name; 
+            openModal(`rename-modal-${currentLayout}`); 
+        }
+        function saveNewName() { 
+            const inp = D(`rename-input-${currentLayout}`);
+            if(inp && inp.value.trim() && editingSessionId) { 
+                sessions.find(s=>s.id===editingSessionId).name = inp.value.trim(); 
+                updateStats(); 
+            } 
+            closeModal(`rename-modal-${currentLayout}`); 
+            editingSessionId = null; 
+        }
+        
+        function saveNewGoal() { 
+            const inp = D(`goal-input-${currentLayout}`);
+            if(inp && parseInt(inp.value) > 0) { 
+                goalHours = parseInt(inp.value); 
+                safeStorage.set('piano_goal_hours', goalHours); 
+                updateStats(); 
+            } 
+            closeModal(`goal-modal-${currentLayout}`); 
+        }
+        
+        function saveManualEntry() {
+            const inp = D(`manual-input-${currentLayout}`);
+            const m = parseInt(inp ? inp.value : 0);
+            if(m > 0) { 
+                const d = new Date(); 
+                sessions.unshift({ 
+                    id: Date.now(), isoDate: d.toISOString(), 
+                    date: d.toLocaleDateString('no-NO'), time: d.toLocaleTimeString('no-NO',{hour:'2-digit',minute:'2-digit'}), 
+                    name: `Manuell økt`, duration: m*60, mode: 'manual' 
+                }); 
+                updateStats(); 
+                closeModal(`manual-modal-${currentLayout}`); 
+            }
+        }
+
+        // --- LYD OG OPPTAK ---
+        let savedSwSound = safeStorage.get('piano_stopwatch_sound') || 'magicChime';
+        if(D('stopwatch-sound-select-minimal')) D('stopwatch-sound-select-minimal').value = savedSwSound;
+        if(D('stopwatch-sound-select-classic')) D('stopwatch-sound-select-classic').value = savedSwSound;
+        
+        const saveSound = (e) => { safeStorage.set('piano_stopwatch_sound', e.target.value); playSynthSound(e.target.value); };
+        if(D('stopwatch-sound-select-minimal')) D('stopwatch-sound-select-minimal').addEventListener('change', saveSound);
+        if(D('stopwatch-sound-select-classic')) D('stopwatch-sound-select-classic').addEventListener('change', saveSound);
+
         function playSynthSound(type) {
             if (type === 'none') return;
             const AudioCtx = window.AudioContext || window.webkitAudioContext;
@@ -539,178 +1045,205 @@
                 } else if (type === 'glassClink') {
                     const o = ctx.createOscillator(), g = ctx.createGain(); o.type = 'triangle'; o.frequency.value = 2000; o.connect(g); g.connect(ctx.destination);
                     g.gain.setValueAtTime(0.5, now); g.gain.exponentialRampToValueAtTime(0.01, now + 0.15); o.start(now); o.stop(now + 0.15);
-                } else if (type === 'bell') {
-                    const playB = (f, d, v) => { const o = ctx.createOscillator(), g = ctx.createGain(); o.type = 'sine'; o.frequency.value = f; o.connect(g); g.connect(ctx.destination); g.gain.setValueAtTime(v, now); g.gain.exponentialRampToValueAtTime(0.01, now + d); o.start(now); o.stop(now + d); };
-                    playB(1046, 2.0, 0.6); playB(2093, 1.0, 0.3);
                 }
-            } catch(e) { console.error(e); }
+            } catch(e) {}
         }
 
-        const savedSound = safeStorage.get('piano_alarm_sound');
-        if(savedSound) {
-            if (Array.from(D('alarm-sound-select').options).some(o => o.value === savedSound) || savedSound === 'custom') D('alarm-sound-select').value = savedSound;
-            else safeStorage.remove('piano_alarm_sound');
-        }
-        D('alarm-sound-select').addEventListener('change', (e) => { if (e.target.value === 'custom') D('custom-audio-upload').click(); else { safeStorage.set('piano_alarm_sound', e.target.value); testAlarmSound(1500); } });
-        D('custom-audio-upload').addEventListener('change', (e) => {
-            const file = e.target.files[0];
-            if (file) {
-                if (file.size > 2 * 1024 * 1024) return alert(t('fileTooLarge'));
-                const reader = new FileReader();
-                reader.onload = function(event) {
-                    try { safeStorage.set('piano_custom_audio', event.target.result); safeStorage.set('piano_alarm_sound', 'custom'); testAlarmSound(1500); }
-                    catch (err) { alert(t('fileSaveError')); D('alarm-sound-select').value = "https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg"; }
-                }; reader.readAsDataURL(file);
-            }
-        });
-        function testAlarmSound(duration = 3000) {
+        function testAlarmSound() {
+            const sel = D(`alarm-sound-select-${currentLayout}`);
+            if(!sel) return;
+            let url = sel.value;
+            if (url === 'custom') url = safeStorage.get('piano_custom_audio') || "https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg";
+            
             if (currentAudio) { currentAudio.pause(); currentAudio.currentTime = 0; }
-            currentAudio = new Audio(getActualSoundUrl()); currentAudio.play().catch(e=>console.log(e));
-            setTimeout(() => { if (currentAudio && !isAlarmRinging) currentAudio.pause(); }, duration);
+            currentAudio = new Audio(url); 
+            currentAudio.play().catch(e=>e);
+            setTimeout(() => { if (currentAudio && !isAlarmRinging) currentAudio.pause(); }, 3000);
         }
 
-        function updateStats() {
-            const totalSecs = sessions.reduce((a, s) => a + s.duration, 0), progress = Math.min(100, (totalSecs / (goalHours*3600)) * 100);
-            D('total-hours-display').textContent = (totalSecs / 3600).toFixed(1);
-            D('remaining-time').textContent = `${Math.floor(Math.max(0, goalHours*3600 - totalSecs) / 3600)}${t('hoursAbbr')} ${Math.floor((Math.max(0, goalHours*3600 - totalSecs) % 3600) / 60)}m`;
-            D('percent-display').textContent = `${Math.round(progress)}%`;
-            D('progress-circle').style.strokeDashoffset = 534 - (534 * (progress / 100));
-            D('days-display').textContent = Math.round((new Date().setHours(0,0,0,0) - new Date(startDate).setHours(0,0,0,0)) / 86400000);
-            
-            let daysPracticed = new Set(), today = new Date().setHours(0,0,0,0);
-            sessions.forEach(s => daysPracticed.add(Math.floor((today - new Date(s.isoDate||s.id).setHours(0,0,0,0)) / 86400000)));
-            let streak = 0, i = daysPracticed.has(0) ? 0 : 1;
-            if (daysPracticed.has(0) || daysPracticed.has(1)) while (daysPracticed.has(i)) { streak++; i++; }
-            D('streak-display').textContent = streak;
-
-            if (sessions.length === 0) D('session-list').innerHTML = `<p class="text-center text-xs font-bold uppercase py-10 opacity-30">${t('noSessions')}</p>`;
-            else D('session-list').innerHTML = sessions.map(s => {
-                let d = s.date; try { d = new Date(s.isoDate).toLocaleDateString(currentLang==='no'?'no-NO':'en-US', {day:'2-digit',month:'2-digit',year:'2-digit'}); } catch(e){}
-                return `<div class="bg-gray-50/50 p-4 rounded-2xl border border-gray-100"><div class="flex justify-between items-center"><div class="flex-1 pr-4 min-w-0"><div class="flex items-center gap-1 mb-0.5"><span class="font-bold text-gray-800 truncate mr-1">${s.name}</span>${s.audio ? '<span class="mr-1">🎙️</span>' : ''}<button onclick="openRenameModal(${s.id})" class="p-1 text-gray-300 hover:text-brand-500">✏️</button><button onclick="deleteSession(${s.id})" class="p-1 text-gray-300 hover:text-red-500">🗑️</button></div><p class="text-[10px] text-gray-400 font-bold uppercase">${d} kl. ${s.time||'--'} • ${s.mode==='stopwatch'?t('free'):(s.mode==='manual'?t('manual'):t('goal'))}</p></div><div class="text-right text-brand-600 font-black text-sm">${Math.floor(s.duration/60)}m ${s.duration%60}s</div></div>${s.audio ? `<audio controls src="${s.audio}" class="w-full h-8 mt-3 opacity-80"></audio>` : ''}</div>`;
-            }).join('');
-
-            const hGrid = D('heatmap-grid'), dayTotals = {}; hGrid.innerHTML = '';
-            sessions.forEach(s => { const diff = Math.floor((today - new Date(s.isoDate||s.id).setHours(0,0,0,0)) / 86400000); if (diff >= 0 && diff < 28) dayTotals[diff] = (dayTotals[diff] || 0) + s.duration; });
-            for (let i = 27; i >= 0; i--) {
-                const dur = dayTotals[i] || 0;
-                let c = 'bg-gray-200/50'; if(dur>0&&dur<900) c='bg-green-200'; else if(dur>=900&&dur<2700) c='bg-green-400'; else if(dur>=2700) c='bg-green-600';
-                hGrid.innerHTML += `<div class="w-full aspect-square rounded-[3px] ${c}" title="${i===0?t('today'):i+' '+t('daysAgo')}: ${Math.floor(dur/60)}m"></div>`;
+        let mediaRecorder, audioChunks = [], isRecording = false, currentRecordingBase64 = null;
+        async function toggleRecording() {
+            if (isRecording) { stopRecording(); } else {
+                try {
+                    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                    mediaRecorder = new MediaRecorder(stream); audioChunks = []; currentRecordingBase64 = null;
+                    mediaRecorder.ondataavailable = e => { if (e.data.size > 0) audioChunks.push(e.data); };
+                    mediaRecorder.onstop = () => {
+                        const reader = new FileReader();
+                        reader.readAsDataURL(new Blob(audioChunks, { type: 'audio/webm' }));
+                        reader.onloadend = () => { currentRecordingBase64 = reader.result; };
+                        stream.getTracks().forEach(tr => tr.stop());
+                    };
+                    mediaRecorder.start(); isRecording = true;
+                    
+                    if(D('recording-indicator-minimal')) D('recording-indicator-minimal').classList.remove('hidden');
+                    if(D('btn-record-menu-minimal')) D('btn-record-menu-minimal').innerHTML = '<span class="w-2 h-2 rounded-full bg-slate-400"></span> Stopp opptak';
+                    
+                    if(D('btn-record-classic')) {
+                        D('btn-record-classic').classList.replace('bg-gray-200','bg-red-500');
+                        D('btn-record-classic').classList.replace('text-gray-700','text-white');
+                    }
+                } catch (err) { alert("Kunne ikke få tilgang til mikrofonen."); }
             }
+        }
+        function stopRecording() {
+            if (mediaRecorder && mediaRecorder.state !== 'inactive') {
+                mediaRecorder.stop(); isRecording = false;
+                
+                if(D('recording-indicator-minimal')) D('recording-indicator-minimal').classList.add('hidden');
+                if(D('btn-record-menu-minimal')) D('btn-record-menu-minimal').innerHTML = '<span class="w-2 h-2 rounded-full bg-red-400"></span> Ta opp nå';
+                
+                if(D('btn-record-classic')) {
+                    D('btn-record-classic').classList.replace('bg-red-500','bg-green-500');
+                    D('btn-record-classic').classList.remove('pulse-record-classic');
+                }
 
-            const bCont = D('badges-container'); bCont.innerHTML = '';
-            for (let t_hrs = 10; t_hrs <= 100; t_hrs += 10) {
-                const e = (totalSecs/3600) >= t_hrs;
-                bCont.innerHTML += `<div class="flex-shrink-0 w-11 h-11 rounded-full flex items-center justify-center font-bold text-xs ${e?'bg-gradient-to-br from-yellow-300 to-amber-500 text-yellow-900 border-yellow-200':'bg-slate-800 text-slate-500 opacity-40 border-white/5'}">${t_hrs}t<br><span class="text-[8px] -mt-1 block">${e?'🏆':''}</span></div>`;
+                if(!timerActive) {
+                    setTimeout(() => { if(confirm("Lagre dette korte lydopptaket som en egen økt?")) stopAndSave(); }, 500);
+                }
             }
-            safeStorage.set('piano_sessions', JSON.stringify(sessions));
         }
-
-        function deleteSession(id) { if (confirm(t('deleteSessionConfirm'))) { sessions = sessions.filter(s => s.id !== id); updateStats(); } }
-
-        function setMode(mode) {
-            if (timerActive) return; timerMode = mode;
-            D('btn-mode-stopwatch').className = mode === 'stopwatch' ? 'px-4 py-1.5 rounded-lg text-xs font-bold uppercase bg-white text-brand-600 shadow-sm' : 'px-4 py-1.5 rounded-lg text-xs font-bold uppercase text-gray-500';
-            D('btn-mode-countdown').className = mode === 'countdown' ? 'px-4 py-1.5 rounded-lg text-xs font-bold uppercase bg-white text-brand-600 shadow-sm' : 'px-4 py-1.5 rounded-lg text-xs font-bold uppercase text-gray-500';
-            D('countdown-settings').classList.toggle('hidden', mode === 'stopwatch'); D('stopwatch-settings').classList.toggle('hidden', mode === 'countdown');
-            D('timer-mode-label').textContent = mode === 'stopwatch' ? t('stopwatch') : t('countdown');
-            resetTimer();
-        }
-
-        function toggleTimer() {
-            if (isAlarmRinging) return stopAlarmAndSave();
-            if (!timerActive) {
-                timerActive = true; D('start-btn-text').textContent = t('finishSession');
-                D('btn-start').className = "flex-[3] bg-red-500 hover:bg-red-600 text-white font-bold py-5 rounded-2xl shadow-lg flex justify-center text-lg";
-                D('btn-reset').classList.remove('hidden'); D('btn-record').classList.remove('hidden');
-                if (timerMode === 'countdown') elapsedAtPause = (parseInt(D('input-minutes').value) || 20) * 60;
-                startTime = Date.now(); timerInterval = setInterval(() => {
-                    const diff = (Date.now() - startTime) / 1000;
-                    let sec = timerMode === 'stopwatch' ? elapsedAtPause + diff : Math.max(0, elapsedAtPause - diff);
-                    if (timerMode === 'countdown' && sec <= 0) { clearInterval(timerInterval); D('timer-display').textContent = "00:00:00"; return startAlarm(); }
-                    D('timer-display').textContent = [Math.floor(sec/3600), Math.floor((sec%3600)/60), Math.floor(sec%60)].map(v=>v<10?"0"+v:v).join(":");
-                }, 100);
-            } else { if(isRecording) stopRecording(); stopAndSave(); }
-        }
-
-        function startAlarm() {
-            isAlarmRinging = true; if(currentAudio) currentAudio.pause();
-            currentAudio = new Audio(getActualSoundUrl()); currentAudio.loop = true; currentAudio.play().catch(e=>e);
-            D('start-btn-text').textContent = t('stopAlarmSave'); D('btn-start').className = "flex-[3] bg-yellow-400 text-slate-900 font-bold py-5 rounded-2xl shadow-lg flex justify-center text-lg animate-bounce";
-            let isFlash = false; if(navigator.vibrate) navigator.vibrate([500,200,500,200]);
-            flashInterval = setInterval(() => { document.body.style.backgroundColor = isFlash ? '#f8fafc' : '#ef4444'; isFlash = !isFlash; }, 500);
-        }
-        function stopAlarmAndSave() {
-            if(currentAudio){currentAudio.pause();currentAudio.currentTime=0;} isAlarmRinging=false; clearInterval(flashInterval); document.body.style.backgroundColor='';
-            if(isRecording) stopRecording(); stopAndSave();
-        }
-        function stopAndSave() {
-            clearInterval(timerInterval);
-            const diff = Math.floor((Date.now() - startTime) / 1000);
-            let finalDur = timerMode === 'stopwatch' ? diff : Math.min((parseInt(D('input-minutes').value)||20)*60, diff);
-            
-            if (timerMode === 'stopwatch') playSynthSound(D('stopwatch-sound-select').value);
-
-            if (finalDur > 0) {
-                if (finalDur < 60 && !confirm(t('saveShortSession'))) return resetTimer();
-                const d = new Date();
-                sessions.unshift({ id: Date.now(), isoDate: d.toISOString(), date: d.toLocaleDateString(currentLang==='no'?'no-NO':'en-US', {day:'2-digit',month:'2-digit',year:'2-digit'}), time: d.toLocaleTimeString(currentLang==='no'?'no-NO':'en-US', {hour:'2-digit',minute:'2-digit'}), name: `${t('sessionName')} ${d.toLocaleDateString()}`, duration: finalDur, mode: timerMode, audio: currentRecordingBase64||undefined });
-                updateStats();
+        function resetRecordingState() {
+            isRecording = false; currentRecordingBase64 = null;
+            if (mediaRecorder && mediaRecorder.state !== 'inactive') mediaRecorder.stop();
+            if(D('recording-indicator-minimal')) D('recording-indicator-minimal').classList.add('hidden');
+            if(D('btn-record-menu-minimal')) D('btn-record-menu-minimal').innerHTML = '<span class="w-2 h-2 rounded-full bg-red-400"></span> Ta opp nå';
+            if(D('btn-record-classic')) {
+                D('btn-record-classic').classList.replace('bg-green-500','bg-gray-200');
+                D('btn-record-classic').classList.replace('text-white','text-gray-700');
             }
-            resetTimer();
-        }
-        function resetTimer() {
-            clearInterval(timerInterval); if(currentAudio){currentAudio.pause();currentAudio.currentTime=0;} isAlarmRinging=false; clearInterval(flashInterval); document.body.style.backgroundColor='';
-            timerActive = false; elapsedAtPause = 0; D('timer-display').textContent = "00:00:00";
-            D('start-btn-text').textContent = t('startPractice'); D('btn-start').className = "flex-[3] bg-brand-600 hover:bg-brand-700 text-white font-bold py-5 rounded-2xl flex justify-center text-lg";
-            D('btn-reset').classList.add('hidden'); resetRecordingState();
         }
 
-        function openRenameModal(id) { editingSessionId = id; D('rename-input').value = sessions.find(s=>s.id===id).name; D('rename-modal').classList.remove('hidden'); }
-        function closeModal() { D('rename-modal').classList.add('hidden'); editingSessionId = null; }
-        function saveNewName() { if(D('rename-input').value.trim() && editingSessionId) { sessions.find(s=>s.id===editingSessionId).name = D('rename-input').value.trim(); updateStats(); } closeModal(); }
-        function clearLogs() { if (confirm(t('confirmDelete'))) { sessions = []; safeStorage.set('piano_start_date', new Date().toISOString()); updateStats(); } }
-        D('rename-input').addEventListener('keypress', (e) => { if (e.key === 'Enter') saveNewName(); });
-
-        function openAudioModal() { D('audio-modal').classList.remove('hidden'); renderAudioGallery(); }
-        function closeAudioModal() { D('audio-modal').classList.add('hidden'); }
         function renderAudioGallery() {
             const recs = sessions.filter(s => s.audio);
-            D('audio-list').innerHTML = recs.length === 0 ? `<p class="text-center text-gray-400 py-10">${t('noRecordings')}</p>` : recs.map(s => `<div class="bg-gray-50 border border-gray-200 rounded-xl p-4"><div class="flex justify-between items-center mb-3"><div><p class="font-bold text-sm">${s.name}</p></div><button onclick="deleteAudio(${s.id})" class="text-red-400 p-2 bg-red-50 rounded-full">🗑️</button></div><audio controls src="${s.audio}" class="w-full h-8"></audio></div>`).join('');
+            const html = recs.length === 0 ? `<p class="text-center text-sm text-gray-400 py-6">Ingen opptak ennå.</p>` : 
+                recs.map(s => `
+                    <div class="border-b border-black/5 pb-3 last:border-0 last:pb-0 mb-3">
+                        <div class="flex justify-between items-center mb-2">
+                            <p class="font-bold text-sm text-gray-800">${s.name}</p>
+                            <button onclick="deleteAudio(${s.id})" class="text-gray-400 hover:text-red-400"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg></button>
+                        </div>
+                        <audio controls src="${s.audio}" class="w-full h-8 outline-none"></audio>
+                    </div>`).join('');
+                    
+            setHTML('audio-list-minimal', html);
+            setHTML('audio-list-classic', html);
         }
-        function deleteAudio(id) { if(confirm("Vil du fjerne lydopptaket?")) { delete sessions.find(s=>s.id===id).audio; updateStats(); renderAudioGallery(); } }
+        function deleteAudio(id) { if(confirm("Fjerne lydopptak?")) { delete sessions.find(s=>s.id===id).audio; updateStats(); renderAudioGallery(); } }
 
-        function openGoalModal() { D('goal-input').value = goalHours; D('goal-modal').classList.remove('hidden'); }
-        function closeGoalModal() { D('goal-modal').classList.add('hidden'); }
-        function saveNewGoal() { if(parseInt(D('goal-input').value)>0) { goalHours = parseInt(D('goal-input').value); safeStorage.set('piano_goal_hours', goalHours); applyTranslations(); } closeGoalModal(); }
+        // --- METRONOM (Oppdaterer begge UI) ---
+        let metroAudioCtx = null, metronomeIntervalId = null, isMetronomePlaying = false, bpm = 100, beatsPerMeasure = 4, currentBeat = 0;
         
-        function openManualModal() { D('manual-input').value = ''; D('manual-modal').classList.remove('hidden'); }
-        function closeManualModal() { D('manual-modal').classList.add('hidden'); }
-        function saveManualEntry() {
-            const m = parseInt(D('manual-input').value);
-            if(m>0) { const d = new Date(); sessions.unshift({ id: Date.now(), isoDate: d.toISOString(), date: d.toLocaleDateString(), time: d.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}), name: `${t('manualSessionName')} ${d.toLocaleDateString()}`, duration: m*60, mode: 'manual' }); updateStats(); closeManualModal(); }
+        function setTimeSignature(beats) {
+            beatsPerMeasure = beats; currentBeat = 0;
+            for(let i=2; i<=6; i++) {
+                const bMin = D(`ts-btn-${i}-minimal`);
+                if(bMin) bMin.className = `w-12 h-12 rounded-full font-bold text-sm transition-colors ${i === beats ? 'bg-primary text-white shadow-soft' : 'bg-base text-textMuted'}`;
+                
+                const bCls = D(`ts-btn-${i}-classic`);
+                if(bCls) bCls.className = `w-10 h-10 rounded-full font-bold text-sm transition-colors ${i === beats ? 'bg-amber-500 text-white' : 'bg-gray-100 text-gray-600'}`;
+            }
+            renderBeatIndicators();
+        }
+        
+        function renderBeatIndicators() {
+            let htmlMin = '', htmlCls = '';
+            for(let i=0; i<beatsPerMeasure; i++) {
+                htmlMin += `<div id="beat-dot-${i}-minimal" class="w-2 h-2 rounded-full transition-all duration-75 ${i === 0 ? 'bg-primary/40' : 'bg-primaryLight/50'}"></div>`;
+                htmlCls += `<div id="beat-dot-${i}-classic" class="w-2 h-2 rounded-full transition-all duration-75 ${i === 0 ? 'bg-amber-500/40' : 'bg-gray-200'}"></div>`;
+            }
+            setHTML('beat-indicators-minimal', htmlMin);
+            setHTML('beat-indicators-classic', htmlCls);
         }
 
+        const handleBpmSlide = (val) => {
+            bpm = parseInt(val); 
+            setText('bpm-display-minimal', bpm); setText('bpm-display-classic', bpm);
+            if(D('bpm-slider-minimal')) D('bpm-slider-minimal').value = bpm;
+            if(D('bpm-slider-classic')) D('bpm-slider-classic').value = bpm;
+            if (isMetronomePlaying) { clearInterval(metronomeIntervalId); metronomeIntervalId = setInterval(playMetronomeClick, 60000 / bpm); }
+        };
+        if(D('bpm-slider-minimal')) D('bpm-slider-minimal').addEventListener('input', (e) => handleBpmSlide(e.target.value));
+        if(D('bpm-slider-classic')) D('bpm-slider-classic').addEventListener('input', (e) => handleBpmSlide(e.target.value));
+
+        function changeBpm(amount) { handleBpmSlide(Math.max(30, Math.min(240, bpm + amount))); }
+
+        function playMetronomeClick() {
+            if (!metroAudioCtx) return;
+            const osc = metroAudioCtx.createOscillator(), gain = metroAudioCtx.createGain();
+            osc.connect(gain); gain.connect(metroAudioCtx.destination);
+            osc.frequency.value = (currentBeat === 0) ? 1200 : 800;
+            gain.gain.setValueAtTime(1, metroAudioCtx.currentTime); gain.gain.exponentialRampToValueAtTime(0.001, metroAudioCtx.currentTime + 0.05);
+            osc.start(metroAudioCtx.currentTime); osc.stop(metroAudioCtx.currentTime + 0.05);
+            
+            for(let i=0; i<beatsPerMeasure; i++) { 
+                const dM = D(`beat-dot-${i}-minimal`); if(dM) dM.className = `w-2 h-2 rounded-full transition-all duration-75 ${i===0 ? 'bg-primary/40' : 'bg-primaryLight/50'}`; 
+                const dC = D(`beat-dot-${i}-classic`); if(dC) dC.className = `w-2 h-2 rounded-full transition-all duration-75 ${i===0 ? 'bg-amber-500/40' : 'bg-gray-200'}`;
+            }
+            
+            const cM = D(`beat-dot-${currentBeat}-minimal`); if(cM) cM.className = `w-2 h-2 rounded-full transition-all duration-75 scale-150 bg-primary`;
+            const cC = D(`beat-dot-${currentBeat}-classic`); if(cC) cC.className = `w-2 h-2 rounded-full transition-all duration-75 scale-150 bg-amber-500`;
+            
+            currentBeat = (currentBeat + 1) % beatsPerMeasure;
+        }
+
+        function toggleMetronome() {
+            if (isMetronomePlaying) {
+                clearInterval(metronomeIntervalId); isMetronomePlaying = false; currentBeat = 0; renderBeatIndicators();
+                setText('btn-metronome-toggle-minimal', 'Start'); if(D('btn-metronome-toggle-minimal')) D('btn-metronome-toggle-minimal').classList.replace('bg-red-400', 'bg-primary');
+                setText('btn-metronome-toggle-classic', 'Start'); if(D('btn-metronome-toggle-classic')) D('btn-metronome-toggle-classic').classList.replace('bg-red-500', 'bg-amber-500');
+            } else {
+                if (!metroAudioCtx) metroAudioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                if (metroAudioCtx.state === 'suspended') metroAudioCtx.resume();
+                currentBeat = 0; playMetronomeClick(); metronomeIntervalId = setInterval(playMetronomeClick, 60000 / bpm); isMetronomePlaying = true;
+                setText('btn-metronome-toggle-minimal', 'Stopp'); if(D('btn-metronome-toggle-minimal')) D('btn-metronome-toggle-minimal').classList.replace('bg-primary', 'bg-red-400');
+                setText('btn-metronome-toggle-classic', 'Stopp'); if(D('btn-metronome-toggle-classic')) D('btn-metronome-toggle-classic').classList.replace('bg-amber-500', 'bg-red-500');
+            }
+        }
+
+        // --- AI LÆRER ---
         const apiKey = ""; 
-        function openAIModal() { D('ai-modal').classList.remove('hidden'); }
-        function closeAIModal() { D('ai-modal').classList.add('hidden'); }
-        function askAIPrompt(key) { askAI(t(key)); }
+        function askAIPrompt(key) { askAI(key); }
         async function askAI(prompt) {
-            D('ai-chat-history').innerHTML += `<div class="bg-gray-100 p-3 rounded-2xl text-sm ml-auto max-w-[85%] mb-2">${prompt.replace('✨ ','')}</div><div id="ai-load" class="bg-indigo-50 p-3 rounded-2xl text-sm w-24 text-center font-bold mb-2 animate-pulse">${t('thinking')}</div>`;
-            D('ai-chat-history').scrollTop = D('ai-chat-history').scrollHeight; D('btn-send-ai').disabled = D('ai-input').disabled = true;
+            const histMin = D('ai-chat-history-minimal'), histCls = D('ai-chat-history-classic');
+            const msgMin = `<div class="bg-primaryLight/20 p-3 rounded-2xl rounded-tr-sm text-sm ml-auto max-w-[85%] mb-2 text-textMain">${prompt}</div><div id="ai-load-minimal" class="bg-surface p-3 rounded-2xl text-sm w-24 text-center font-bold mb-2 animate-pulse text-textMuted border border-black/5">Tenker...</div>`;
+            const msgCls = `<div class="bg-gray-100 p-3 rounded-2xl text-sm ml-auto max-w-[85%] mb-2">${prompt}</div><div id="ai-load-classic" class="bg-indigo-50 p-3 rounded-2xl text-sm w-24 text-center font-bold mb-2 animate-pulse text-indigo-900">Tenker...</div>`;
+            
+            if(histMin) { histMin.innerHTML += msgMin; histMin.scrollTop = histMin.scrollHeight; }
+            if(histCls) { histCls.innerHTML += msgCls; histCls.scrollTop = histCls.scrollHeight; }
+            
+            if(D('btn-send-ai-minimal')) D('btn-send-ai-minimal').disabled = true; if(D('ai-input-minimal')) D('ai-input-minimal').disabled = true;
+            if(D('btn-send-ai-classic')) D('btn-send-ai-classic').disabled = true; if(D('ai-input-classic')) D('ai-input-classic').disabled = true;
+            
             try {
-                const sys = t('aiSystemPrompt') + `\nGoal:${goalHours}h, Done:${(sessions.reduce((a,s)=>a+s.duration,0)/3600).toFixed(1)}h.`;
+                const sys = `Du er en ekspert pianolærer. Svar kort, motiverende og på norsk under 100 ord.\nMål:${goalHours}t, Gjort:${(sessions.reduce((a,s)=>a+s.duration,0)/3600).toFixed(1)}t.`;
                 const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`, { method:'POST', body:JSON.stringify({contents:[{parts:[{text:prompt}]}], systemInstruction:{parts:[{text:sys}]}}) });
                 const json = await res.json();
-                const text = json.candidates?.[0]?.content?.parts?.[0]?.text || t('aiError');
-                D('ai-load').remove();
-                D('ai-chat-history').innerHTML += `<div class="bg-indigo-50 p-4 rounded-2xl text-sm max-w-[95%] mb-2 leading-relaxed">${text.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\n/g,'<br>')}</div>`;
-            } catch(e) { D('ai-load').remove(); D('ai-chat-history').innerHTML += `<div class="bg-indigo-50 p-4 rounded-2xl text-sm text-red-500 mb-2">${t('aiError')}</div>`; }
-            D('btn-send-ai').disabled = D('ai-input').disabled = false; D('ai-chat-history').scrollTop = D('ai-chat-history').scrollHeight;
+                const text = json.candidates?.[0]?.content?.parts?.[0]?.text || "Beklager, mistet forbindelsen.";
+                
+                if(D('ai-load-minimal')) D('ai-load-minimal').remove();
+                if(D('ai-load-classic')) D('ai-load-classic').remove();
+                
+                if(histMin) { histMin.innerHTML += `<div class="bg-surface p-4 rounded-2xl rounded-tl-sm text-sm max-w-[95%] mb-2 leading-relaxed text-textMain shadow-soft border border-black/5">${text.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\n/g,'<br>')}</div>`; histMin.scrollTop = histMin.scrollHeight; }
+                if(histCls) { histCls.innerHTML += `<div class="bg-indigo-50 p-4 rounded-2xl text-sm max-w-[95%] mb-2 leading-relaxed text-indigo-900 shadow-sm">${text.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\n/g,'<br>')}</div>`; histCls.scrollTop = histCls.scrollHeight; }
+            } catch(e) { 
+                if(D('ai-load-minimal')) D('ai-load-minimal').remove();
+                if(D('ai-load-classic')) D('ai-load-classic').remove();
+            }
+            
+            if(D('btn-send-ai-minimal')) D('btn-send-ai-minimal').disabled = false; if(D('ai-input-minimal')) D('ai-input-minimal').disabled = false;
+            if(D('btn-send-ai-classic')) D('btn-send-ai-classic').disabled = false; if(D('ai-input-classic')) D('ai-input-classic').disabled = false;
         }
-        function sendAIQuery() { if(D('ai-input').value.trim()) { askAI(D('ai-input').value.trim()); D('ai-input').value = ''; } }
-        D('ai-input').addEventListener('keypress', (e) => { if(e.key === 'Enter') sendAIQuery(); });
+        function sendAIQuery() { 
+            const inp = D(`ai-input-${currentLayout}`);
+            if(inp && inp.value.trim()) { askAI(inp.value.trim()); inp.value = ''; } 
+        }
+        if(D('ai-input-minimal')) D('ai-input-minimal').addEventListener('keypress', (e) => { if(e.key === 'Enter') sendAIQuery(); });
+        if(D('ai-input-classic')) D('ai-input-classic').addEventListener('keypress', (e) => { if(e.key === 'Enter') sendAIQuery(); });
 
-        applyTranslations();
+        // INITIALISERING
+        switchDesign(currentLayout); // Dette setter opp alt riktig ved første last
+        setTimeSignature(4);
     </script>
 </body>
 </html>
