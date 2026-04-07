@@ -597,7 +597,7 @@
         const setText = (id, text) => { if(D(id)) D(id).textContent = text; };
         const setHTML = (id, html) => { if(D(id)) D(id).innerHTML = html; };
 
-        // SIKKER LAGRING
+        // SIKKER LAGRING FOR INNSTILLINGER
         const memoryStore = {};
         const safeStorage = {
             get: function(key) { try { return window.localStorage.getItem(key); } catch(e) { return memoryStore[key] || null; } },
@@ -624,9 +624,7 @@
                 D('meta-theme-color').content = "#0f172a";
             }
             
-            // Lukk alle modaler hvis åpne under skiftet
             document.querySelectorAll('.modal-overlay').forEach(el => el.classList.remove('active'));
-            
             updateStats();
             syncTimerUI();
             changeTheme(safeStorage.get('piano_theme') || 'zen');
@@ -635,7 +633,6 @@
         // TEMA HÅNDTERING
         function changeTheme(themeName) { 
             safeStorage.set('piano_theme', themeName);
-            // Sett for gjeldende layout
             if(currentLayout === 'minimal') {
                 document.body.setAttribute('data-theme-minimal', themeName);
                 document.body.removeAttribute('data-theme-classic');
@@ -647,25 +644,103 @@
             updateStats();
         }
 
-        // DATA STATE
+        // ==========================================
+        // DATABASE FOR ØKTER OG LYDFILER (IndexedDB)
+        // ==========================================
         let sessions = [];
-        try {
-            const rawSessions = safeStorage.get('piano_sessions');
-            if (rawSessions) sessions = JSON.parse(rawSessions);
-        } catch (e) { sessions = []; }
-        if (!Array.isArray(sessions)) sessions = [];
-        sessions.forEach(s => { if (!s.isoDate) s.isoDate = new Date(s.id).toISOString(); });
         
+        function initIndexedDB() {
+            return new Promise((resolve, reject) => {
+                const request = indexedDB.open('PianoChallengeDB', 1);
+                request.onupgradeneeded = e => {
+                    const db = e.target.result;
+                    if (!db.objectStoreNames.contains('sessions')) {
+                        db.createObjectStore('sessions', { keyPath: 'id' });
+                    }
+                };
+                request.onsuccess = e => resolve(e.target.result);
+                request.onerror = e => reject(e.target.error);
+            });
+        }
+
+        async function loadSessions() {
+            try {
+                const db = await initIndexedDB();
+                let loaded = await new Promise((resolve) => {
+                    const tx = db.transaction('sessions', 'readonly');
+                    const req = tx.objectStore('sessions').getAll();
+                    req.onsuccess = () => resolve(req.result || []);
+                    req.onerror = () => resolve([]);
+                });
+
+                // Migrering fra gammel LocalStorage (hvis eksisterer)
+                if (loaded.length === 0) {
+                    const raw = safeStorage.get('piano_sessions');
+                    if (raw) {
+                        try {
+                            const parsed = JSON.parse(raw);
+                            if (Array.isArray(parsed) && parsed.length > 0) {
+                                for (let s of parsed) {
+                                    if (!s.isoDate) s.isoDate = new Date(s.id).toISOString();
+                                    await saveSessionToDB(s);
+                                    loaded.push(s);
+                                }
+                                safeStorage.remove('piano_sessions');
+                            }
+                        } catch(e) {}
+                    }
+                }
+                return loaded.sort((a,b) => b.id - a.id);
+            } catch (e) {
+                console.error("Kunne ikke laste database", e);
+                return [];
+            }
+        }
+
+        async function saveSessionToDB(session) {
+            try {
+                const db = await initIndexedDB();
+                return new Promise((resolve) => {
+                    const tx = db.transaction('sessions', 'readwrite');
+                    tx.objectStore('sessions').put(session);
+                    tx.oncomplete = () => resolve();
+                });
+            } catch(e) {}
+        }
+
+        async function deleteSessionFromDB(id) {
+            try {
+                const db = await initIndexedDB();
+                return new Promise((resolve) => {
+                    const tx = db.transaction('sessions', 'readwrite');
+                    tx.objectStore('sessions').delete(id);
+                    tx.oncomplete = () => resolve();
+                });
+            } catch(e) {}
+        }
+
+        async function clearAllSessionsFromDB() {
+            try {
+                const db = await initIndexedDB();
+                return new Promise((resolve) => {
+                    const tx = db.transaction('sessions', 'readwrite');
+                    tx.objectStore('sessions').clear();
+                    tx.oncomplete = () => resolve();
+                });
+            } catch(e) {}
+        }
+
+        // ==========================================
+        // APP VARIABLER OG LOGIKK
+        // ==========================================
         let startDate = safeStorage.get('piano_start_date') || new Date().toISOString();
         safeStorage.set('piano_start_date', startDate);
         let goalHours = parseInt(safeStorage.get('piano_goal_hours')) || 100;
         
-        // Timer variabler som håndterer pause sømløst
         let timerActive = false, timerPaused = false, timerMode = 'stopwatch';
         let startTime = null, sessionElapsedSeconds = 0, timerInterval = null, countdownTotal = 0;
         let editingSessionId = null, isAlarmRinging = false, currentAudio = null, flashInterval = null;
 
-        // MODALER
         function openModal(id) { 
             D(id).classList.add('active'); 
             if(id.includes('audio-modal') || id.includes('settings-modal')) renderAudioGallery();
@@ -675,7 +750,6 @@
             if(id.includes('metronome-modal') && isMetronomePlaying) toggleMetronome();
         }
 
-        // TIMER LOGIKK
         function setMode(mode) {
             if (timerActive) return; 
             timerMode = mode;
@@ -723,7 +797,6 @@
             if (isAlarmRinging) return stopAlarmAndSave();
 
             if (!timerActive) {
-                // 1. START NY ØKT
                 timerActive = true; 
                 timerPaused = false;
                 sessionElapsedSeconds = 0;
@@ -735,23 +808,19 @@
                 syncTimerUI();
                 startTimerInterval();
             } else { 
-                // 2. ØKTEN ER ALLEREDE I GANG
                 if (isMinimalClick) {
                     if (!timerPaused) {
-                        // SETT PÅ PAUSE
                         timerPaused = true;
                         sessionElapsedSeconds += (Date.now() - startTime) / 1000;
                         clearInterval(timerInterval);
                         syncTimerUI();
                     } else {
-                        // GJENOPPTA
                         timerPaused = false;
                         startTime = Date.now();
                         syncTimerUI();
                         startTimerInterval();
                     }
                 } else {
-                    // Hvis man trykker på "Fullfør Økt" i det klassiske designet, stopper vi bare hele greia
                     stopAndSave(); 
                 }
             }
@@ -760,32 +829,22 @@
         function syncTimerUI() {
             if (timerActive) {
                 if (timerPaused) {
-                    // --- MINIMALIST DESIGN: PAUSET TILSTAND ---
                     setText('timer-action-text-minimal', "Pause");
                     D('timer-action-text-minimal').classList.add('animate-pulse', 'text-amber-500');
                     D('timer-action-text-minimal').classList.remove('text-primary');
-                    
                     if(D('btn-main-timer-minimal')) D('btn-main-timer-minimal').classList.remove('timer-running');
                     if(D('timer-svg-minimal')) D('timer-svg-minimal').classList.remove('ring-pulsing');
-                    
-                    // Vis Avslutt-knappen nederst i rundingen
                     if(D('btn-end-session-minimal')) D('btn-end-session-minimal').classList.remove('hidden');
 
-                    // --- KLASSISK DESIGN: PAUSET ---
                     setText('start-btn-text-classic', "Fullfør Økt");
                 } else {
-                    // --- MINIMALIST DESIGN: LØPENDE TILSTAND ---
                     setText('timer-action-text-minimal', isAlarmRinging ? "Stopp" : "Pause");
                     D('timer-action-text-minimal').classList.remove('animate-pulse', 'text-amber-500');
                     D('timer-action-text-minimal').classList.add('text-primary');
-                    
                     if(D('btn-main-timer-minimal')) D('btn-main-timer-minimal').classList.add('timer-running');
                     if(D('timer-svg-minimal')) D('timer-svg-minimal').classList.add('ring-pulsing');
-                    
-                    // Skjul Avslutt-knappen mens klokka går
                     if(D('btn-end-session-minimal')) D('btn-end-session-minimal').classList.add('hidden');
 
-                    // --- KLASSISK DESIGN: LØPENDE ---
                     setText('start-btn-text-classic', isAlarmRinging ? "Stopp Alarm & Lagre" : "Fullfør Økt");
                     if (isAlarmRinging && D('btn-start-classic')) {
                         D('btn-start-classic').style.backgroundColor = "#facc15";
@@ -798,11 +857,9 @@
                     }
                 }
             } else {
-                // --- BEGGE DESIGN: IDLE TILSTAND (Ikke startet) ---
                 setText('timer-action-text-minimal', "Start");
                 D('timer-action-text-minimal').classList.remove('animate-pulse', 'text-amber-500');
                 D('timer-action-text-minimal').classList.add('text-primary');
-                
                 if(D('btn-main-timer-minimal')) D('btn-main-timer-minimal').classList.remove('timer-running');
                 if(D('timer-svg-minimal')) D('timer-svg-minimal').classList.remove('ring-pulsing');
                 if(D('btn-end-session-minimal')) D('btn-end-session-minimal').classList.add('hidden');
@@ -817,12 +874,10 @@
                 if(D('btn-record-classic')) D('btn-record-classic').classList.add('hidden');
             }
 
-            // Synkroniser Modus-faner (Stopwatch / Nedtelling)
             if (timerMode === 'stopwatch') {
                 if(D('mode-stopwatch-minimal')) { D('mode-stopwatch-minimal').classList.add('text-primary'); D('mode-stopwatch-minimal').classList.remove('hover:text-textMain'); }
                 if(D('mode-countdown-minimal')) { D('mode-countdown-minimal').classList.remove('text-primary'); D('mode-countdown-minimal').classList.add('hover:text-textMain'); }
                 if(D('quick-time-panel-minimal')) D('quick-time-panel-minimal').classList.add('hidden');
-                
                 if(D('btn-mode-stopwatch-classic')) D('btn-mode-stopwatch-classic').className = 'px-4 py-1.5 rounded-lg text-xs font-bold uppercase bg-white text-brand-600 shadow-sm';
                 if(D('btn-mode-countdown-classic')) D('btn-mode-countdown-classic').className = 'px-4 py-1.5 rounded-lg text-xs font-bold uppercase text-gray-500';
                 if(D('stopwatch-settings-classic')) D('stopwatch-settings-classic').classList.remove('hidden');
@@ -832,7 +887,6 @@
                 if(D('mode-countdown-minimal')) { D('mode-countdown-minimal').classList.add('text-primary'); D('mode-countdown-minimal').classList.remove('hover:text-textMain'); }
                 if(D('mode-stopwatch-minimal')) { D('mode-stopwatch-minimal').classList.remove('text-primary'); D('mode-stopwatch-minimal').classList.add('hover:text-textMain'); }
                 if(D('quick-time-panel-minimal')) D('quick-time-panel-minimal').classList.remove('hidden');
-                
                 if(D('btn-mode-countdown-classic')) D('btn-mode-countdown-classic').className = 'px-4 py-1.5 rounded-lg text-xs font-bold uppercase bg-white text-brand-600 shadow-sm';
                 if(D('btn-mode-stopwatch-classic')) D('btn-mode-stopwatch-classic').className = 'px-4 py-1.5 rounded-lg text-xs font-bold uppercase text-gray-500';
                 if(D('countdown-settings-classic')) D('countdown-settings-classic').classList.remove('hidden');
@@ -876,10 +930,9 @@
             stopAndSave();
         }
 
-        function stopAndSave() {
+        async function stopAndSave() {
             clearInterval(timerInterval);
             
-            // Hvis klokka gikk da vi trykket avslutt, legges den siste tiden til
             if (timerActive && !timerPaused) {
                 sessionElapsedSeconds += (Date.now() - startTime) / 1000;
             }
@@ -891,20 +944,28 @@
                 if(swSound) playSynthSound(swSound.value);
             }
 
-            if (finalDur > 0) {
-                if (finalDur < 60) {
-                    if(!confirm("Økten var under 1 minutt. Vil du lagre den?")) return resetTimer();
+            // Lagre hvis vi har øvd litt ELLER hvis vi har tatt opp lyd (selv om klokka ikke gikk)
+            if (finalDur > 0 || currentRecordingBase64) {
+                if (finalDur > 0 && finalDur < 60) {
+                    if(!confirm("Økten var under 1 minutt. Vil du lagre den?")) {
+                        if (!currentRecordingBase64) return resetTimer();
+                    }
                 }
+                
                 const d = new Date();
-                sessions.unshift({ 
+                const newSession = { 
                     id: Date.now(), isoDate: d.toISOString(), 
                     date: d.toLocaleDateString('no-NO', {day:'2-digit',month:'2-digit',year:'2-digit'}), 
                     time: d.toLocaleTimeString('no-NO', {hour:'2-digit',minute:'2-digit'}), 
-                    name: `Økt ${d.toLocaleDateString('no-NO')}`, 
+                    name: finalDur === 0 ? `Lydopptak ${d.toLocaleDateString('no-NO')}` : `Økt ${d.toLocaleDateString('no-NO')}`, 
                     duration: finalDur, mode: timerMode, audio: currentRecordingBase64||undefined 
-                });
+                };
+                
+                sessions.unshift(newSession);
+                await saveSessionToDB(newSession);
                 updateStats();
             }
+            
             if(isRecording) stopRecording();
             resetTimer();
         }
@@ -927,13 +988,11 @@
             resetRecordingState();
         }
 
-        // --- STATISTIKK OG OPPDATERING (Begge design) ---
         function updateStats() {
             const totalSecs = sessions.reduce((a, s) => a + s.duration, 0);
             const totalHoursStr = (totalSecs / 3600).toFixed(1);
             const progress = Math.min(100, (totalSecs / (goalHours*3600)) * 100);
             
-            // Text updates
             setText('header-total-hours-minimal', totalHoursStr + "t");
             setText('total-hours-display-classic', totalHoursStr);
             setText('header-goal-hours-minimal', goalHours + "t");
@@ -945,14 +1004,12 @@
             setText('percent-display-minimal', `${Math.round(progress)}%`);
             setText('percent-display-classic', `${Math.round(progress)}%`);
             
-            // Rings
-            const ringOffset = 565.48 - (565.48 * (progress / 100)); // Minimal SVG is bigger
+            const ringOffset = 565.48 - (565.48 * (progress / 100));
             if(D('main-progress-ring-minimal')) D('main-progress-ring-minimal').style.strokeDashoffset = ringOffset;
             
-            const classicOffset = 534 - (534 * (progress / 100)); // Classic SVG is smaller
+            const classicOffset = 534 - (534 * (progress / 100));
             if(D('progress-circle-classic')) D('progress-circle-classic').style.strokeDashoffset = classicOffset;
 
-            // Days & Streaks
             const todayStart = new Date(); todayStart.setHours(0,0,0,0);
             const startD = new Date(startDate); startD.setHours(0,0,0,0);
             const daysCount = Math.round((todayStart - startD) / 86400000);
@@ -971,13 +1028,11 @@
             setText('streak-display-minimal', streak);
             setText('streak-display-classic', streak);
 
-            // Session Lists
             const emptyStr = `<p class="text-center text-xs font-bold uppercase py-10 opacity-30">Ingen økter</p>`;
             if (sessions.length === 0) {
                 setHTML('session-list-minimal', emptyStr);
                 setHTML('session-list-classic', emptyStr);
             } else {
-                // Minimalist List
                 setHTML('session-list-minimal', sessions.map(s => `
                     <div class="bg-surface p-4 rounded-2xl border border-black/5 flex justify-between items-center shadow-sm">
                         <div class="flex-1 pr-4 min-w-0">
@@ -994,7 +1049,6 @@
                         </div>
                     </div>`).join(''));
                 
-                // Classic List
                 setHTML('session-list-classic', sessions.map(s => `
                     <div class="bg-gray-50/50 p-4 rounded-2xl border border-gray-100">
                         <div class="flex justify-between items-center">
@@ -1013,7 +1067,6 @@
                     </div>`).join(''));
             }
 
-            // Heatmaps
             const dayTotals = {}; 
             sessions.forEach(s => { 
                 const sDate = new Date(s.isoDate || s.id); sDate.setHours(0,0,0,0);
@@ -1024,13 +1077,10 @@
             let hHTMLMin = '', hHTMLCls = '';
             for (let j = 27; j >= 0; j--) {
                 const dur = dayTotals[j] || 0;
-                
-                // Minimal colors
                 let cMin = 'bg-primaryLight/30'; 
                 if(dur > 0 && dur < 900) cMin = 'bg-primaryLight'; else if(dur >= 900 && dur < 2700) cMin = 'bg-primary/80'; else if(dur >= 2700) cMin = 'bg-primary';
                 hHTMLMin += `<div class="w-full aspect-square rounded-md ${cMin}"></div>`;
                 
-                // Classic colors
                 let cCls = 'bg-gray-200/50'; 
                 if(dur > 0 && dur < 900) cCls = 'bg-green-200'; else if(dur >= 900 && dur < 2700) cCls = 'bg-green-400'; else if(dur >= 2700) cCls = 'bg-green-600';
                 hHTMLCls += `<div class="w-full aspect-square rounded-[3px] ${cCls}"></div>`;
@@ -1038,20 +1088,32 @@
             setHTML('heatmap-grid-minimal', hHTMLMin);
             setHTML('heatmap-grid-classic', hHTMLCls);
 
-            // Badges (Classic only)
             let bHTML = '';
             for (let t_hrs = 10; t_hrs <= 100; t_hrs += 10) {
                 const e = (totalSecs/3600) >= t_hrs;
                 bHTML += `<div class="flex-shrink-0 w-11 h-11 rounded-full flex items-center justify-center font-bold text-xs ${e?'bg-gradient-to-br from-yellow-300 to-amber-500 text-yellow-900 border-yellow-200':'bg-slate-800 text-slate-500 opacity-40 border-white/5'}">${t_hrs}t<br><span class="text-[8px] -mt-1 block">${e?'🏆':''}</span></div>`;
             }
             setHTML('badges-container-classic', bHTML);
-
-            safeStorage.set('piano_sessions', JSON.stringify(sessions));
         }
 
-        // --- MANUELLE HANDLINGER ---
-        function deleteSession(id) { if (confirm("Slette denne økten?")) { sessions = sessions.filter(s => s.id !== id); updateStats(); } }
-        function clearLogs() { if (confirm("Slette all historikk?")) { sessions = []; safeStorage.set('piano_start_date', new Date().toISOString()); updateStats(); closeModal(`history-modal-${currentLayout}`); } }
+        async function deleteSession(id) { 
+            if (confirm("Slette denne økten?")) { 
+                sessions = sessions.filter(s => s.id !== id); 
+                await deleteSessionFromDB(id);
+                updateStats(); 
+                renderAudioGallery();
+            } 
+        }
+
+        async function clearLogs() { 
+            if (confirm("Slette all historikk?")) { 
+                sessions = []; 
+                await clearAllSessionsFromDB();
+                safeStorage.set('piano_start_date', new Date().toISOString()); 
+                updateStats(); 
+                closeModal(`history-modal-${currentLayout}`); 
+            } 
+        }
         
         function openRenameModal(id) { 
             editingSessionId = id; 
@@ -1059,11 +1121,17 @@
             if(inp) inp.value = sessions.find(s=>s.id===id).name; 
             openModal(`rename-modal-${currentLayout}`); 
         }
-        function saveNewName() { 
+
+        async function saveNewName() { 
             const inp = D(`rename-input-${currentLayout}`);
             if(inp && inp.value.trim() && editingSessionId) { 
-                sessions.find(s=>s.id===editingSessionId).name = inp.value.trim(); 
-                updateStats(); 
+                let session = sessions.find(s=>s.id===editingSessionId);
+                if (session) {
+                    session.name = inp.value.trim(); 
+                    await saveSessionToDB(session);
+                    updateStats(); 
+                    renderAudioGallery();
+                }
             } 
             closeModal(`rename-modal-${currentLayout}`); 
             editingSessionId = null; 
@@ -1079,16 +1147,18 @@
             closeModal(`goal-modal-${currentLayout}`); 
         }
         
-        function saveManualEntry() {
+        async function saveManualEntry() {
             const inp = D(`manual-input-${currentLayout}`);
             const m = parseInt(inp ? inp.value : 0);
             if(m > 0) { 
                 const d = new Date(); 
-                sessions.unshift({ 
+                const newSession = { 
                     id: Date.now(), isoDate: d.toISOString(), 
                     date: d.toLocaleDateString('no-NO'), time: d.toLocaleTimeString('no-NO',{hour:'2-digit',minute:'2-digit'}), 
                     name: `Manuell økt`, duration: m*60, mode: 'manual' 
-                }); 
+                };
+                sessions.unshift(newSession); 
+                await saveSessionToDB(newSession);
                 updateStats(); 
                 closeModal(`manual-modal-${currentLayout}`); 
             }
@@ -1154,7 +1224,6 @@
                     };
                     mediaRecorder.start(); isRecording = true;
                     
-                    // Update Minimalist Inline Button
                     if(D('inline-record-dot')) {
                         D('inline-record-dot').classList.replace('bg-slate-300', 'bg-rose-500');
                         D('inline-record-dot').classList.add('pulse-record');
@@ -1163,11 +1232,8 @@
                         D('inline-record-text').classList.replace('text-textMuted', 'text-rose-600');
                         D('inline-record-text').textContent = 'Tar opp';
                     }
-                    
-                    // Update Menu Button
                     if(D('btn-record-menu-minimal')) D('btn-record-menu-minimal').innerHTML = '<span class="w-2 h-2 rounded-full bg-slate-400"></span> Stopp opptak';
                     
-                    // Update Classic UI
                     if(D('btn-record-classic')) {
                         D('btn-record-classic').classList.replace('bg-gray-200','bg-red-500');
                         D('btn-record-classic').classList.replace('text-gray-700','text-white');
@@ -1181,7 +1247,6 @@
             if (mediaRecorder && mediaRecorder.state !== 'inactive') {
                 mediaRecorder.stop(); isRecording = false;
                 
-                // Reset Minimalist Inline Button
                 if(D('inline-record-dot')) {
                     D('inline-record-dot').classList.replace('bg-rose-500', 'bg-slate-300');
                     D('inline-record-dot').classList.remove('pulse-record');
@@ -1190,11 +1255,8 @@
                     D('inline-record-text').classList.replace('text-rose-600', 'text-textMuted');
                     D('inline-record-text').textContent = 'Opptak';
                 }
-
-                // Reset Menu Button
                 if(D('btn-record-menu-minimal')) D('btn-record-menu-minimal').innerHTML = '<span class="w-2 h-2 rounded-full bg-red-400"></span> Ta opp nå';
                 
-                // Reset Classic UI
                 if(D('btn-record-classic')) {
                     D('btn-record-classic').classList.replace('bg-red-500','bg-green-500');
                     D('btn-record-classic').classList.remove('pulse-record-classic');
@@ -1227,12 +1289,15 @@
 
         function renderAudioGallery() {
             const recs = sessions.filter(s => s.audio);
-            const html = recs.length === 0 ? `<p class="text-center text-sm text-gray-400 py-6">Ingen opptak ennå.</p>` : 
+            const html = recs.length === 0 ? `<p class="text-center text-sm opacity-50 py-6">Ingen opptak ennå.</p>` : 
                 recs.map(s => `
                     <div class="border-b border-black/5 pb-3 last:border-0 last:pb-0 mb-3">
                         <div class="flex justify-between items-center mb-2">
-                            <p class="font-bold text-sm text-gray-800">${s.name}</p>
-                            <button onclick="deleteAudio(${s.id})" class="text-gray-400 hover:text-red-400"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg></button>
+                            <p class="font-bold text-sm text-inherit">${s.name}</p>
+                            <div class="flex gap-2 text-inherit opacity-70">
+                                <button onclick="openRenameModal(${s.id})" class="hover:text-primary"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg></button>
+                                <button onclick="deleteAudio(${s.id})" class="hover:text-red-400"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg></button>
+                            </div>
                         </div>
                         <audio controls src="${s.audio}" class="w-full h-8 outline-none"></audio>
                     </div>`).join('');
@@ -1240,7 +1305,18 @@
             setHTML('audio-list-minimal', html);
             setHTML('audio-list-classic', html);
         }
-        function deleteAudio(id) { if(confirm("Fjerne lydopptak?")) { delete sessions.find(s=>s.id===id).audio; updateStats(); renderAudioGallery(); } }
+
+        async function deleteAudio(id) { 
+            if(confirm("Fjerne lydopptak?")) { 
+                let session = sessions.find(s=>s.id===id);
+                if(session) {
+                    delete session.audio; 
+                    await saveSessionToDB(session);
+                    updateStats(); 
+                    renderAudioGallery(); 
+                }
+            } 
+        }
 
         // --- METRONOM (Oppdaterer begge UI) ---
         let metroAudioCtx = null, metronomeIntervalId = null, isMetronomePlaying = false, bpm = 100, beatsPerMeasure = 4, currentBeat = 0;
@@ -1352,9 +1428,12 @@
         if(D('ai-input-minimal')) D('ai-input-minimal').addEventListener('keypress', (e) => { if(e.key === 'Enter') sendAIQuery(); });
         if(D('ai-input-classic')) D('ai-input-classic').addEventListener('keypress', (e) => { if(e.key === 'Enter') sendAIQuery(); });
 
-        // INITIALISERING
-        switchDesign(currentLayout); // Dette setter opp alt riktig ved første last
-        setTimeSignature(4);
+        // INITIALISERING MED DATABASE
+        window.onload = async () => {
+            sessions = await loadSessions();
+            switchDesign(currentLayout);
+            setTimeSignature(4);
+        };
     </script>
 </body>
 </html>
