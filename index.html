@@ -3,33 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    
-    <!-- App-funksjonalitet for mobil -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Piano 100t">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="theme-color" content="#0f172a">
-    
     <title>Piano 100 timer challenge</title>
-    
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Tailwind Konfigurasjon for Dynamiske Temaer og Responsivitet -->
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        brand: {
-                            50: 'var(--brand-50)',
-                            100: 'var(--brand-100)',
-                            200: 'var(--brand-200)',
-                            300: 'var(--brand-300)',
-                            400: 'var(--brand-400)',
-                            500: 'var(--brand-500)',
-                            600: 'var(--brand-600)',
-                            700: 'var(--brand-700)',
-                        }
+                        brand: { 50: 'var(--brand-50)', 100: 'var(--brand-100)', 200: 'var(--brand-200)', 300: 'var(--brand-300)', 400: 'var(--brand-400)', 500: 'var(--brand-500)', 600: 'var(--brand-600)', 700: 'var(--brand-700)' }
                     }
                 }
             }
@@ -37,83 +23,34 @@
     </script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
-        
         :root {
-            /* Standard Blå Tema */
             --brand-50: #eff6ff; --brand-100: #dbeafe; --brand-200: #bfdbfe; --brand-300: #93c5fd;
             --brand-400: #60a5fa; --brand-500: #3b82f6; --brand-600: #2563eb; --brand-700: #1d4ed8;
             --theme-grad-1: #1e293b; --theme-grad-2: #0f172a;
         }
-
-        [data-theme="purple"] {
-            --brand-50: #faf5ff; --brand-100: #f3e8ff; --brand-200: #e9d5ff; --brand-300: #d8b4fe;
-            --brand-400: #c084fc; --brand-500: #a855f7; --brand-600: #9333ea; --brand-700: #7e22ce;
-            --theme-grad-1: #2e1065; --theme-grad-2: #0f172a;
-        }
-
-        [data-theme="green"] {
-            --brand-50: #f0fdf4; --brand-100: #dcfce7; --brand-200: #bbf7d0; --brand-300: #86efac;
-            --brand-400: #4ade80; --brand-500: #22c55e; --brand-600: #16a34a; --brand-700: #15803d;
-            --theme-grad-1: #14532d; --theme-grad-2: #022c22;
-        }
-
-        [data-theme="rose"] {
-            --brand-50: #fff1f2; --brand-100: #ffe4e6; --brand-200: #fecdd3; --brand-300: #fda4af;
-            --brand-400: #fb7185; --brand-500: #f43f5e; --brand-600: #e11d48; --brand-700: #be123c;
-            --theme-grad-1: #4c0519; --theme-grad-2: #1e050f;
-        }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f8fafc;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        .piano-gradient {
-            background: linear-gradient(135deg, var(--theme-grad-1) 0%, var(--theme-grad-2) 100%);
-            transition: background 0.5s ease;
-        }
-
-        .progress-ring {
-            transition: stroke-dashoffset 0.35s;
-            transform: rotate(-90deg);
-            transform-origin: 50% 50%;
-        }
-
-        .scrollbar-hide::-webkit-scrollbar {
-            display: none;
-        }
-        .scrollbar-hide {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
-
+        [data-theme="purple"] { --brand-50: #faf5ff; --brand-100: #f3e8ff; --brand-200: #e9d5ff; --brand-300: #d8b4fe; --brand-400: #c084fc; --brand-500: #a855f7; --brand-600: #9333ea; --brand-700: #7e22ce; --theme-grad-1: #2e1065; --theme-grad-2: #0f172a; }
+        [data-theme="green"] { --brand-50: #f0fdf4; --brand-100: #dcfce7; --brand-200: #bbf7d0; --brand-300: #86efac; --brand-400: #4ade80; --brand-500: #22c55e; --brand-600: #16a34a; --brand-700: #15803d; --theme-grad-1: #14532d; --theme-grad-2: #022c22; }
+        [data-theme="rose"] { --brand-50: #fff1f2; --brand-100: #ffe4e6; --brand-200: #fecdd3; --brand-300: #fda4af; --brand-400: #fb7185; --brand-500: #f43f5e; --brand-600: #e11d48; --brand-700: #be123c; --theme-grad-1: #4c0519; --theme-grad-2: #1e050f; }
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; -webkit-tap-highlight-color: transparent; }
+        .piano-gradient { background: linear-gradient(135deg, var(--theme-grad-1) 0%, var(--theme-grad-2) 100%); transition: background 0.5s ease; }
+        .progress-ring { transition: stroke-dashoffset 0.35s; transform: rotate(-90deg); transform-origin: 50% 50%; }
+        .scrollbar-hide::-webkit-scrollbar { display: none; }
+        .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
         #session-list::-webkit-scrollbar { width: 4px; }
         #session-list::-webkit-scrollbar-thumb { background-color: #e2e8f0; border-radius: 10px; }
         .modal-open { overflow: hidden; }
-        
-        .pulse-record {
-            animation: pulseRecord 1.5s infinite;
-        }
-        @keyframes pulseRecord {
-            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
-            70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
-            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
-        }
+        .pulse-record { animation: pulseRecord 1.5s infinite; }
+        @keyframes pulseRecord { 0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); } 70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); } 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); } }
     </style>
 </head>
-<!-- Endret body for å sentrere på PC-skjerm -->
 <body class="p-0 md:p-8 transition-colors duration-300 min-h-screen flex items-center justify-center">
     
-    <!-- Hoved-wrapper: Blir bredere (lg:max-w-6xl) og endrer til flex-row på desktop -->
     <div id="app" class="w-full max-w-md lg:max-w-5xl xl:max-w-6xl mx-auto bg-white lg:rounded-3xl shadow-2xl overflow-hidden border-0 lg:border border-gray-100 min-h-screen lg:min-h-0 lg:h-[800px] flex flex-col lg:flex-row transition-all duration-300">
         
-        <!-- VENSTRE PANEL (Topp på mobil): Profil & Progresjon -->
+        <!-- VENSTRE PANEL -->
         <div class="piano-gradient p-8 text-white text-center shrink-0 relative lg:w-[360px] xl:w-[400px] flex flex-col lg:justify-center overflow-y-auto scrollbar-hide">
             <div class="absolute top-4 right-4 flex gap-1">
-                <button onclick="toggleLanguage()" id="lang-btn" class="p-2 text-white/50 hover:text-white transition-colors text-xl leading-none" title="Bytt språk">
-                    🇳🇴
-                </button>
+                <button onclick="toggleLanguage()" id="lang-btn" class="p-2 text-white/50 hover:text-white transition-colors text-xl leading-none" title="Bytt språk">🇳🇴</button>
                 <button onclick="openThemeModal()" class="p-2 text-white/50 hover:text-white transition-colors" title="Endre tema">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                         <path fill-rule="evenodd" d="M4 2a2 2 0 00-2 2v11a3 3 0 106 0V4a2 2 0 00-2-2H4zm1 14a1 1 0 100-2 1 1 0 000 2zm5-1.757l4.9-4.9a2 2 0 000-2.828L13.485 5.1a2 2 0 00-2.828 0L10 10.001v4.242zM16.243 9.1l-4.9-4.9m4.9 4.9l4.242 4.243a2 2 0 010 2.828l-1.414 1.414a2 2 0 01-2.828 0L12 13.344" clip-rule="evenodd" />
@@ -155,19 +92,17 @@
                 </div>
             </div>
 
-            <!-- Milepæler / Badges -->
+            <!-- Milepæler -->
             <div class="mt-6 bg-slate-800/30 rounded-xl p-3 border border-white/5">
-                <p data-i18n="milestones" class="text-slate-400 text-[10px] uppercase tracking-wider mb-2 text-left">Milepæler (Hver 10. time)</p>
-                <div id="badges-container" class="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
-                    <!-- Fylles med JS -->
-                </div>
+                <p data-i18n="milestones" class="text-slate-400 text-[10px] uppercase tracking-wider mb-2 text-left">Milepæler</p>
+                <div id="badges-container" class="flex gap-3 overflow-x-auto pb-2 scrollbar-hide"></div>
             </div>
         </div>
 
-        <!-- HØYRE DEL: Timer og Historikk (Deles i 2 kolonner på Desktop) -->
+        <!-- HØYRE DEL: Timer og Historikk -->
         <div class="flex-1 flex flex-col lg:flex-row p-6 lg:p-8 gap-6 lg:gap-10 overflow-hidden bg-white">
             
-            <!-- MIDT-KOLONNE (Desktop) / Seksjon 1 (Mobil): Timer og Actions -->
+            <!-- MIDT-KOLONNE: Timer og Actions -->
             <div class="flex-1 flex flex-col w-full max-w-md mx-auto lg:max-w-none overflow-y-auto scrollbar-hide">
                 <div class="bg-gray-50 rounded-3xl p-6 border border-gray-200 mb-6 shrink-0 relative shadow-sm">
                     <div class="flex justify-between items-center mb-6">
@@ -178,40 +113,34 @@
                         </div>
                     </div>
 
+                    <!-- Stopwatch Settings -->
                     <div id="stopwatch-settings" class="mb-6">
                         <div class="flex items-center gap-3 bg-white border border-gray-200 rounded-2xl p-3">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
-                                <path d="M18 3a1 1 0 00-1.196-.98l-10 2A1 1 0 006 5v9.114A4.369 4.369 0 005 14c-1.657 0-3 .895-3 2s1.343 2 3 2 3-.895 3-2V7.28l8-1.6V11.114A4.369 4.369 0 0015 11c-1.657 0-3 .895-3 2s1.343 2 3 2 3-.895 3-2V3z" />
-                            </svg>
+                            <span class="text-xl">🎵</span>
                             <select id="stopwatch-sound-select" class="w-full bg-transparent text-sm font-semibold text-gray-700 outline-none">
                                 <option data-i18n="noEndSound" value="none">Ingen sluttlyd</option>
-                                <option data-i18n="magicChime" value="https://actions.google.com/sounds/v1/cartoon/magic_chime_cord.ogg">Trylleklang</option>
-                                <option data-i18n="xylophone" value="https://actions.google.com/sounds/v1/cartoon/xylophone_sweep.ogg">Xylofon</option>
-                                <option data-i18n="glassClink" value="https://actions.google.com/sounds/v1/impacts/glass_clink.ogg">Glassklirr</option>
-                                <option data-i18n="bell" value="https://actions.google.com/sounds/v1/alarms/medium_bell_ringing_near.ogg">Bjelle</option>
+                                <option data-i18n="magicChime" value="magicChime">Trylleklang</option>
+                                <option data-i18n="xylophone" value="xylophone">Xylofon</option>
+                                <option data-i18n="glassClink" value="glassClink">Glassklirr</option>
+                                <option data-i18n="bell" value="bell">Bjelle</option>
                             </select>
-                            <button onclick="testStopwatchSound()" class="p-2 text-brand-500 hover:text-brand-700 hover:bg-brand-50 rounded-full transition-colors" title="Test lyd">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd" />
-                                </svg>
-                            </button>
+                            <button onclick="testStopwatchSound()" class="p-2 text-brand-500 hover:bg-brand-50 rounded-full" title="Test lyd">▶️</button>
                         </div>
                     </div>
 
+                    <!-- Countdown Settings -->
                     <div id="countdown-settings" class="hidden mb-6">
                         <div class="flex items-center gap-3 mb-4">
                             <input type="number" id="input-minutes" value="20" min="1" max="300" class="w-full p-3 bg-white border border-brand-200 rounded-2xl text-center font-bold text-2xl text-brand-600 focus:ring-2 focus:ring-brand-400 outline-none shadow-inner">
                             <span data-i18n="min" class="text-sm font-bold text-gray-400 uppercase">Min</span>
                         </div>
                         <div class="flex gap-2 mb-4">
-                            <button onclick="setQuickTime(10)" class="flex-1 bg-brand-50 hover:bg-brand-100 text-brand-600 font-bold py-2.5 rounded-xl text-sm transition-colors border border-brand-100">10 min</button>
-                            <button onclick="setQuickTime(20)" class="flex-1 bg-brand-50 hover:bg-brand-100 text-brand-600 font-bold py-2.5 rounded-xl text-sm transition-colors border border-brand-100">20 min</button>
-                            <button onclick="setQuickTime(30)" class="flex-1 bg-brand-50 hover:bg-brand-100 text-brand-600 font-bold py-2.5 rounded-xl text-sm transition-colors border border-brand-100">30 min</button>
+                            <button onclick="setQuickTime(10)" class="flex-1 bg-brand-50 text-brand-600 font-bold py-2.5 rounded-xl text-sm border border-brand-100 hover:bg-brand-100">10 min</button>
+                            <button onclick="setQuickTime(20)" class="flex-1 bg-brand-50 text-brand-600 font-bold py-2.5 rounded-xl text-sm border border-brand-100 hover:bg-brand-100">20 min</button>
+                            <button onclick="setQuickTime(30)" class="flex-1 bg-brand-50 text-brand-600 font-bold py-2.5 rounded-xl text-sm border border-brand-100 hover:bg-brand-100">30 min</button>
                         </div>
                         <div class="flex items-center gap-3 bg-white border border-gray-200 rounded-2xl p-3">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
-                                <path fill-rule="evenodd" d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.707.707L4.586 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.586l3.707-3.707a1 1 0 011.09-.217zM14.657 2.929a1 1 0 011.414 0A9.972 9.972 0 0119 10a9.972 9.972 0 01-2.929 7.071 1 1 0 01-1.414-1.414A7.971 7.971 0 0017 10c0-2.21-.894-4.208-2.343-5.657a1 1 0 010-1.414zm-2.829 2.828a1 1 0 011.415 0A5.983 5.983 0 0115 10a5.984 5.984 0 01-1.757 4.243 1 1 0 01-1.415-1.415A3.984 3.984 0 0013 10a3.983 3.983 0 00-1.172-2.828 1 1 0 010-1.415z" clip-rule="evenodd" />
-                            </svg>
+                            <span class="text-xl">⏰</span>
                             <select id="alarm-sound-select" class="w-full bg-transparent text-sm font-semibold text-gray-700 outline-none">
                                 <option data-i18n="classicAlarm" value="https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg">Klassisk Vekkerklokke</option>
                                 <option data-i18n="digitalAlarm" value="https://actions.google.com/sounds/v1/alarms/digital_watch_alarm_long.ogg">Digital Alarm</option>
@@ -220,167 +149,148 @@
                                 <option data-i18n="customAudio" value="custom">🎵 Velg egen lydfil...</option>
                             </select>
                             <input type="file" id="custom-audio-upload" class="hidden" accept="audio/*">
-                            <button onclick="testAlarmSound()" class="p-2 text-brand-500 hover:text-brand-700 hover:bg-brand-50 rounded-full transition-colors" title="Test lyd og volum">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd" />
-                                </svg>
-                            </button>
+                            <button onclick="testAlarmSound()" class="p-2 text-brand-500 hover:bg-brand-50 rounded-full">▶️</button>
                         </div>
                     </div>
 
-                    <div id="timer-display" class="text-6xl font-mono font-bold text-center py-4 text-slate-800 tracking-tighter">
-                        00:00:00
-                    </div>
+                    <div id="timer-display" class="text-6xl font-mono font-bold text-center py-4 text-slate-800 tracking-tighter">00:00:00</div>
 
                     <div class="flex gap-3 mt-4">
-                        <button id="btn-start" onclick="toggleTimer()" class="flex-[3] bg-brand-600 hover:bg-brand-700 text-white font-bold py-5 rounded-2xl shadow-lg transition-all active:scale-95 flex items-center justify-center gap-2 text-lg">
+                        <button id="btn-start" onclick="toggleTimer()" class="flex-[3] bg-brand-600 hover:bg-brand-700 text-white font-bold py-5 rounded-2xl shadow-lg transition-all active:scale-95 flex items-center justify-center text-lg">
                             <span id="start-btn-text" data-i18n="startPractice">Start Øving</span>
                         </button>
-                        
-                        <button id="btn-record" onclick="toggleRecording()" class="hidden flex-1 bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold py-5 rounded-2xl shadow-sm transition-all flex items-center justify-center text-xl" title="Spill inn et lite klipp">
-                            🎙️
-                        </button>
-
-                        <button id="btn-reset" onclick="resetTimer()" data-i18n="reset" class="hidden flex-1 bg-gray-200 hover:bg-gray-300 text-gray-600 font-bold py-5 rounded-2xl transition-all">
-                            Nullstill
-                        </button>
+                        <button id="btn-record" onclick="toggleRecording()" class="hidden flex-1 bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold py-5 rounded-2xl transition-all text-xl" title="Spill inn">🎙️</button>
+                        <button id="btn-reset" onclick="resetTimer()" data-i18n="reset" class="hidden flex-1 bg-gray-200 hover:bg-gray-300 text-gray-600 font-bold py-5 rounded-2xl transition-all">Nullstill</button>
                     </div>
                 </div>
 
                 <!-- Quick Action Buttons -->
-                <div class="flex flex-col sm:flex-row gap-3 mb-6 lg:mb-0 shrink-0">
-                    <button onclick="openMetronomeModal()" class="flex-1 bg-amber-100 hover:bg-amber-200 text-amber-800 font-bold py-4 px-4 rounded-2xl shadow-sm transition-all active:scale-95 flex items-center justify-center gap-2">
+                <div class="flex flex-col sm:flex-row gap-2 mb-6 lg:mb-0 shrink-0">
+                    <button onclick="openMetronomeModal()" class="flex-1 bg-amber-100 hover:bg-amber-200 text-amber-800 font-bold py-4 px-2 rounded-2xl transition-all active:scale-95 flex justify-center gap-2 text-sm">
                         <span data-i18n="metronome">🎵 Metronom</span>
                     </button>
-                    <button onclick="openAIModal()" class="flex-1 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white font-bold py-4 px-4 rounded-2xl shadow-sm transition-all active:scale-95 flex items-center justify-center gap-2">
-                        <span data-i18n="aiTeacher">✨ AI-Pianolærer</span>
+                    <button onclick="openAudioModal()" class="flex-1 bg-green-100 hover:bg-green-200 text-green-800 font-bold py-4 px-2 rounded-2xl transition-all active:scale-95 flex justify-center gap-2 text-sm">
+                        <span data-i18n="recordings">🎙️ Lydopptak</span>
+                    </button>
+                    <button onclick="openAIModal()" class="flex-1 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 text-white font-bold py-4 px-2 rounded-2xl transition-all active:scale-95 flex justify-center gap-2 text-sm">
+                        <span data-i18n="aiTeacher">✨ AI-Lærer</span>
                     </button>
                 </div>
             </div>
 
-            <!-- HØYRE KOLONNE (Desktop) / Seksjon 2 (Mobil): Historikk & Varmekart -->
+            <!-- HØYRE KOLONNE: Historikk & Varmekart -->
             <div class="flex-1 flex flex-col w-full max-w-md mx-auto lg:max-w-none lg:border-l lg:border-gray-100 lg:pl-10 overflow-hidden">
-                
-                <!-- Heatmap -->
                 <div class="mb-8 shrink-0">
                     <h3 data-i18n="activity" class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Aktivitet siste 28 dager</h3>
-                    <div class="grid grid-cols-7 gap-2" id="heatmap-grid">
-                        <!-- Fylles via JS -->
-                    </div>
+                    <div class="grid grid-cols-7 gap-2" id="heatmap-grid"></div>
                 </div>
 
-                <!-- Recent Sessions -->
                 <div class="flex-1 flex flex-col overflow-hidden">
                     <h3 class="font-bold text-gray-800 text-lg mb-4 flex justify-between items-center shrink-0">
                         <span data-i18n="recentSessions">Siste økter</span>
                         <div class="flex gap-4">
-                            <button onclick="openManualModal()" data-i18n="addManual" class="text-[11px] font-bold text-brand-600 uppercase hover:text-brand-800 transition-colors">+ Manuelt</button>
-                            <button onclick="clearLogs()" data-i18n="deleteAll" class="text-[11px] font-bold text-gray-400 uppercase hover:text-red-500 transition-colors">Slett alle</button>
+                            <button onclick="openManualModal()" data-i18n="addManual" class="text-[11px] font-bold text-brand-600 uppercase hover:text-brand-800">+ Manuelt</button>
+                            <button onclick="clearLogs()" data-i18n="deleteAll" class="text-[11px] font-bold text-gray-400 uppercase hover:text-red-500">Slett alle</button>
                         </div>
                     </h3>
-                    <div id="session-list" class="space-y-3 overflow-y-auto pr-2 pb-6">
-                        <!-- Sessions injected here -->
-                    </div>
+                    <div id="session-list" class="space-y-3 overflow-y-auto pr-2 pb-6"></div>
                 </div>
             </div>
-
         </div>
     </div>
 
-    <!-- Modaler (Forblir uendret, men fungerer perfekt i det nye systemet) -->
+    <!-- MODALER -->
     
-    <!-- Theme Selection Modal -->
+    <!-- Theme Modal -->
     <div id="theme-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-6 z-50 hidden">
-        <div class="bg-white rounded-3xl w-full max-w-xs p-6 shadow-2xl transform transition-all scale-100 text-center">
-            <h3 data-i18n="themeTitle" class="font-bold text-xl mb-4 text-gray-800">Velg Tema 🎨</h3>
+        <div class="bg-white rounded-3xl w-full max-w-xs p-6 shadow-2xl text-center">
+            <h3 data-i18n="themeTitle" class="font-bold text-xl mb-4">Velg Tema 🎨</h3>
             <div class="grid grid-cols-2 gap-3 mb-6">
-                <button onclick="changeTheme('blue')" data-i18n="classicBlue" class="p-4 bg-blue-50 text-blue-600 font-bold rounded-2xl border-2 border-blue-200 hover:bg-blue-100">Klassisk Blå</button>
-                <button onclick="changeTheme('purple')" data-i18n="purple" class="p-4 bg-purple-50 text-purple-600 font-bold rounded-2xl border-2 border-purple-200 hover:bg-purple-100">Lilla</button>
-                <button onclick="changeTheme('green')" data-i18n="green" class="p-4 bg-green-50 text-green-600 font-bold rounded-2xl border-2 border-green-200 hover:bg-green-100">Grønn</button>
-                <button onclick="changeTheme('rose')" data-i18n="red" class="p-4 bg-rose-50 text-rose-600 font-bold rounded-2xl border-2 border-rose-200 hover:bg-rose-100">Rød</button>
+                <button onclick="changeTheme('blue')" data-i18n="classicBlue" class="p-4 bg-blue-50 text-blue-600 font-bold rounded-2xl border-2 border-blue-200">Klassisk Blå</button>
+                <button onclick="changeTheme('purple')" data-i18n="purple" class="p-4 bg-purple-50 text-purple-600 font-bold rounded-2xl border-2 border-purple-200">Lilla</button>
+                <button onclick="changeTheme('green')" data-i18n="green" class="p-4 bg-green-50 text-green-600 font-bold rounded-2xl border-2 border-green-200">Grønn</button>
+                <button onclick="changeTheme('rose')" data-i18n="red" class="p-4 bg-rose-50 text-rose-600 font-bold rounded-2xl border-2 border-rose-200">Rød</button>
             </div>
-            <button onclick="closeThemeModal()" data-i18n="close" class="w-full py-3 bg-gray-100 text-gray-600 font-bold rounded-xl hover:bg-gray-200 transition-colors">Lukk</button>
+            <button onclick="closeThemeModal()" data-i18n="close" class="w-full py-3 bg-gray-100 text-gray-600 font-bold rounded-xl">Lukk</button>
         </div>
     </div>
 
     <!-- Metronome Modal -->
     <div id="metronome-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-6 z-50 hidden">
-        <div class="bg-white rounded-3xl w-full max-w-xs p-6 shadow-2xl transform transition-all scale-100 text-center">
-            <h3 class="font-bold text-xl mb-1 text-gray-800 flex justify-center gap-2 items-center" data-i18n="metronome">🎵 Metronom</h3>
+        <div class="bg-white rounded-3xl w-full max-w-xs p-6 shadow-2xl text-center">
+            <h3 class="font-bold text-xl mb-1 flex justify-center gap-2 items-center" data-i18n="metronome">🎵 Metronom</h3>
             <p data-i18n="keepBeat" class="text-xs text-gray-400 mb-6 uppercase font-semibold">Hold takten</p>
-            
             <div class="text-5xl font-black text-gray-800 mb-4" id="bpm-display">100</div>
             <p class="text-xs font-bold text-gray-400 uppercase mb-4">BPM</p>
-
             <input type="range" id="bpm-slider" min="30" max="240" value="100" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer mb-6 accent-amber-500">
-            
             <div class="flex gap-3 mb-6">
-                <button onclick="changeBpm(-5)" class="flex-1 bg-gray-100 py-2 rounded-xl font-bold text-gray-600 hover:bg-gray-200">-5</button>
-                <button onclick="changeBpm(5)" class="flex-1 bg-gray-100 py-2 rounded-xl font-bold text-gray-600 hover:bg-gray-200">+5</button>
+                <button onclick="changeBpm(-5)" class="flex-1 bg-gray-100 py-2 rounded-xl font-bold">-5</button>
+                <button onclick="changeBpm(5)" class="flex-1 bg-gray-100 py-2 rounded-xl font-bold">+5</button>
             </div>
-
             <p data-i18n="timeSignature" class="text-xs font-bold text-gray-400 uppercase mb-3">Taktart</p>
             <div class="flex justify-center gap-1.5 mb-2">
-                <button onclick="setTimeSignature(1)" id="ts-btn-1" class="w-10 h-10 rounded-full font-bold text-sm bg-gray-100 text-gray-600 hover:bg-gray-200 transition-colors">1</button>
-                <button onclick="setTimeSignature(2)" id="ts-btn-2" class="w-10 h-10 rounded-full font-bold text-sm bg-gray-100 text-gray-600 hover:bg-gray-200 transition-colors">2</button>
-                <button onclick="setTimeSignature(3)" id="ts-btn-3" class="w-10 h-10 rounded-full font-bold text-sm bg-gray-100 text-gray-600 hover:bg-gray-200 transition-colors">3</button>
-                <button onclick="setTimeSignature(4)" id="ts-btn-4" class="w-10 h-10 rounded-full font-bold text-sm bg-amber-500 text-white transition-colors">4</button>
-                <button onclick="setTimeSignature(5)" id="ts-btn-5" class="w-10 h-10 rounded-full font-bold text-sm bg-gray-100 text-gray-600 hover:bg-gray-200 transition-colors">5</button>
-                <button onclick="setTimeSignature(6)" id="ts-btn-6" class="w-10 h-10 rounded-full font-bold text-sm bg-gray-100 text-gray-600 hover:bg-gray-200 transition-colors">6</button>
+                <button onclick="setTimeSignature(1)" id="ts-btn-1" class="w-10 h-10 rounded-full font-bold text-sm bg-gray-100">1</button>
+                <button onclick="setTimeSignature(2)" id="ts-btn-2" class="w-10 h-10 rounded-full font-bold text-sm bg-gray-100">2</button>
+                <button onclick="setTimeSignature(3)" id="ts-btn-3" class="w-10 h-10 rounded-full font-bold text-sm bg-gray-100">3</button>
+                <button onclick="setTimeSignature(4)" id="ts-btn-4" class="w-10 h-10 rounded-full font-bold text-sm bg-amber-500 text-white">4</button>
+                <button onclick="setTimeSignature(5)" id="ts-btn-5" class="w-10 h-10 rounded-full font-bold text-sm bg-gray-100">5</button>
+                <button onclick="setTimeSignature(6)" id="ts-btn-6" class="w-10 h-10 rounded-full font-bold text-sm bg-gray-100">6</button>
             </div>
-            
-            <div id="beat-indicators" class="flex justify-center gap-2 mb-6 h-3">
-                <!-- Fylles dynamisk med JS -->
-            </div>
-
+            <div id="beat-indicators" class="flex justify-center gap-2 mb-6 h-3"></div>
             <div class="flex gap-3">
-                <button onclick="closeMetronomeModal()" data-i18n="close" class="flex-1 py-3 text-gray-400 font-bold hover:bg-gray-50 rounded-xl transition-colors">Lukk</button>
-                <button id="btn-metronome-toggle" onclick="toggleMetronome()" data-i18n="start" class="flex-1 py-3 bg-amber-500 text-white font-bold rounded-xl hover:bg-amber-600 shadow-md transition-colors">Start</button>
+                <button onclick="closeMetronomeModal()" data-i18n="close" class="flex-1 py-3 text-gray-400 font-bold hover:bg-gray-50 rounded-xl">Lukk</button>
+                <button id="btn-metronome-toggle" onclick="toggleMetronome()" data-i18n="start" class="flex-1 py-3 bg-amber-500 text-white font-bold rounded-xl hover:bg-amber-600">Start</button>
             </div>
         </div>
     </div>
 
-    <!-- Rename Modal -->
+    <!-- Audio Gallery Modal -->
+    <div id="audio-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-6 z-50 hidden">
+        <div class="bg-white rounded-3xl w-full max-w-md p-6 shadow-2xl flex flex-col max-h-[90vh]">
+            <div class="flex justify-between items-center mb-4 shrink-0">
+                <h3 data-i18n="audioGallery" class="font-bold text-xl flex items-center gap-2">🎙️ Dine Lydopptak</h3>
+                <button onclick="closeAudioModal()" class="p-2 bg-gray-100 rounded-full text-gray-500 hover:bg-gray-200">❌</button>
+            </div>
+            <div class="overflow-y-auto flex-1 pr-2 space-y-3 scrollbar-hide" id="audio-list"></div>
+        </div>
+    </div>
+
+    <!-- Rename, Goal & Manual Modals -->
     <div id="rename-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-6 z-50 hidden">
-        <div class="bg-white rounded-3xl w-full max-w-xs p-6 shadow-2xl transform transition-all scale-100">
-            <h3 data-i18n="renameTitle" class="font-bold text-xl mb-1 text-gray-800">Endre navn</h3>
-            <p data-i18n="describeSession" class="text-xs text-gray-400 mb-4 uppercase font-semibold">Beskriv økten din</p>
-            <input type="text" id="rename-input" class="w-full p-4 bg-gray-50 border border-gray-100 rounded-2xl mb-6 focus:ring-2 focus:ring-brand-500 outline-none font-medium" data-i18n-placeholder="describeSession" placeholder="f.eks. Skalaer, Mozart...">
+        <div class="bg-white rounded-3xl w-full max-w-xs p-6 shadow-2xl">
+            <h3 data-i18n="renameTitle" class="font-bold text-xl mb-1">Endre navn</h3>
+            <input type="text" id="rename-input" class="w-full p-4 bg-gray-50 border border-gray-100 rounded-2xl mb-6 mt-4 outline-none font-medium" data-i18n-placeholder="describeSession" placeholder="Beskriv...">
             <div class="flex gap-3">
-                <button onclick="closeModal()" data-i18n="cancel" class="flex-1 py-3 text-gray-400 font-bold hover:bg-gray-50 rounded-xl transition-colors">Avbryt</button>
-                <button onclick="saveNewName()" data-i18n="save" class="flex-1 py-3 bg-brand-600 text-white font-bold rounded-xl hover:bg-brand-700 shadow-md transition-colors">Lagre</button>
+                <button onclick="closeModal()" data-i18n="cancel" class="flex-1 py-3 text-gray-400 font-bold rounded-xl">Avbryt</button>
+                <button onclick="saveNewName()" data-i18n="save" class="flex-1 py-3 bg-brand-600 text-white font-bold rounded-xl">Lagre</button>
             </div>
         </div>
     </div>
 
-    <!-- Goal Modal -->
     <div id="goal-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-6 z-50 hidden">
-        <div class="bg-white rounded-3xl w-full max-w-xs p-6 shadow-2xl transform transition-all scale-100">
-            <h3 data-i18n="changeGoalTitle" class="font-bold text-xl mb-1 text-gray-800">Endre mål</h3>
-            <p data-i18n="howManyHours" class="text-xs text-gray-400 mb-4 uppercase font-semibold">Hvor mange timer totalt?</p>
+        <div class="bg-white rounded-3xl w-full max-w-xs p-6 shadow-2xl">
+            <h3 data-i18n="changeGoalTitle" class="font-bold text-xl mb-4">Endre mål</h3>
             <div class="flex items-center gap-3 mb-6">
-                <input type="number" id="goal-input" class="w-full p-4 bg-gray-50 border border-gray-100 rounded-2xl focus:ring-2 focus:ring-brand-500 outline-none font-bold text-xl text-center" placeholder="100" min="1">
+                <input type="number" id="goal-input" class="w-full p-4 bg-gray-50 border border-gray-100 rounded-2xl outline-none font-bold text-xl text-center">
                 <span data-i18n="hours" class="text-xs font-bold text-gray-400 uppercase">Timer</span>
             </div>
             <div class="flex gap-3">
-                <button onclick="closeGoalModal()" data-i18n="cancel" class="flex-1 py-3 text-gray-400 font-bold hover:bg-gray-50 rounded-xl transition-colors">Avbryt</button>
-                <button onclick="saveNewGoal()" data-i18n="save" class="flex-1 py-3 bg-brand-600 text-white font-bold rounded-xl hover:bg-brand-700 shadow-md transition-colors">Lagre</button>
+                <button onclick="closeGoalModal()" data-i18n="cancel" class="flex-1 py-3 text-gray-400 font-bold rounded-xl">Avbryt</button>
+                <button onclick="saveNewGoal()" data-i18n="save" class="flex-1 py-3 bg-brand-600 text-white font-bold rounded-xl">Lagre</button>
             </div>
         </div>
     </div>
 
-    <!-- Manual Entry Modal -->
     <div id="manual-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-6 z-50 hidden">
-        <div class="bg-white rounded-3xl w-full max-w-xs p-6 shadow-2xl transform transition-all scale-100">
-            <h3 data-i18n="manualTitle" class="font-bold text-xl mb-1 text-gray-800">Legg til manuelt</h3>
-            <p data-i18n="howManyMins" class="text-xs text-gray-400 mb-4 uppercase font-semibold">Hvor mange minutter øvde du?</p>
+        <div class="bg-white rounded-3xl w-full max-w-xs p-6 shadow-2xl">
+            <h3 data-i18n="manualTitle" class="font-bold text-xl mb-4">Legg til manuelt</h3>
             <div class="flex items-center gap-3 mb-6">
-                <input type="number" id="manual-input" class="w-full p-4 bg-gray-50 border border-gray-100 rounded-2xl focus:ring-2 focus:ring-brand-500 outline-none font-bold text-xl text-center" placeholder="30" min="1">
+                <input type="number" id="manual-input" class="w-full p-4 bg-gray-50 border border-gray-100 rounded-2xl outline-none font-bold text-xl text-center">
                 <span data-i18n="min" class="text-xs font-bold text-gray-400 uppercase">Min</span>
             </div>
             <div class="flex gap-3">
-                <button onclick="closeManualModal()" data-i18n="cancel" class="flex-1 py-3 text-gray-400 font-bold hover:bg-gray-50 rounded-xl transition-colors">Avbryt</button>
-                <button onclick="saveManualEntry()" data-i18n="save" class="flex-1 py-3 bg-brand-600 text-white font-bold rounded-xl hover:bg-brand-700 shadow-md transition-colors">Lagre</button>
+                <button onclick="closeManualModal()" data-i18n="cancel" class="flex-1 py-3 text-gray-400 font-bold rounded-xl">Avbryt</button>
+                <button onclick="saveManualEntry()" data-i18n="save" class="flex-1 py-3 bg-brand-600 text-white font-bold rounded-xl">Lagre</button>
             </div>
         </div>
     </div>
@@ -389,496 +299,386 @@
     <div id="ai-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 z-50 hidden">
         <div class="bg-white rounded-3xl w-full max-w-md p-6 shadow-2xl flex flex-col max-h-[90vh]">
             <div class="flex justify-between items-center mb-4 shrink-0">
-                <h3 data-i18n="aiTeacher" class="font-bold text-xl text-gray-800 flex items-center gap-2">✨ AI-Pianolærer</h3>
-                <button onclick="closeAIModal()" class="p-2 bg-gray-100 rounded-full text-gray-500 hover:bg-gray-200 transition-colors">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
-                    </svg>
-                </button>
+                <h3 data-i18n="aiTeacher" class="font-bold text-xl flex items-center gap-2">✨ AI-Pianolærer</h3>
+                <button onclick="closeAIModal()" class="p-2 bg-gray-100 rounded-full text-gray-500">❌</button>
             </div>
-            
             <div class="overflow-y-auto flex-1 mb-4 pr-2 space-y-4" id="ai-chat-history">
-                <div data-i18n="aiGreeting" class="bg-indigo-50 border border-indigo-100 p-4 rounded-2xl text-sm text-indigo-900">
-                    Hei! Jeg er din personlige AI-pianolærer, drevet av Gemini. Spør meg om oppvarmingsøvelser, teknikktips, eller be meg analysere øvingsloggen din for litt ekstra motivasjon! 🎹
-                </div>
+                <div data-i18n="aiGreeting" class="bg-indigo-50 border border-indigo-100 p-4 rounded-2xl text-sm text-indigo-900">Hei! Jeg er din AI-pianolærer...</div>
             </div>
-
             <div class="shrink-0 space-y-3">
                 <div class="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
-                    <button onclick="askAIPrompt('aiWarmup')" data-i18n="aiBtnWarmup" class="whitespace-nowrap px-3 py-1.5 bg-purple-100 text-purple-700 text-xs font-bold rounded-full hover:bg-purple-200 transition-colors">Oppvarming</button>
-                    <button onclick="askAIPrompt('aiMotivate')" data-i18n="aiBtnMotivate" class="whitespace-nowrap px-3 py-1.5 bg-blue-100 text-blue-700 text-xs font-bold rounded-full hover:bg-blue-200 transition-colors">Motiver meg</button>
-                    <button onclick="askAIPrompt('aiDifficult')" data-i18n="aiBtnDifficult" class="whitespace-nowrap px-3 py-1.5 bg-green-100 text-green-700 text-xs font-bold rounded-full hover:bg-green-200 transition-colors">Vanskelige passasjer</button>
+                    <button onclick="askAIPrompt('aiWarmup')" data-i18n="aiBtnWarmup" class="whitespace-nowrap px-3 py-1.5 bg-purple-100 text-purple-700 text-xs font-bold rounded-full">Oppvarming</button>
+                    <button onclick="askAIPrompt('aiMotivate')" data-i18n="aiBtnMotivate" class="whitespace-nowrap px-3 py-1.5 bg-blue-100 text-blue-700 text-xs font-bold rounded-full">Motiver meg</button>
+                    <button onclick="askAIPrompt('aiDifficult')" data-i18n="aiBtnDifficult" class="whitespace-nowrap px-3 py-1.5 bg-green-100 text-green-700 text-xs font-bold rounded-full">Vanskelige passasjer</button>
                 </div>
-                
                 <div class="flex gap-2">
-                    <input type="text" id="ai-input" class="flex-1 p-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none text-sm font-medium" data-i18n-placeholder="askTeacher" placeholder="Spør læreren...">
-                    <button onclick="sendAIQuery()" id="btn-send-ai" class="p-3 bg-indigo-600 text-white rounded-xl hover:bg-indigo-700 shadow-md transition-colors flex items-center justify-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                            <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" />
-                        </svg>
-                    </button>
+                    <input type="text" id="ai-input" class="flex-1 p-3 bg-gray-50 border border-gray-200 rounded-xl outline-none text-sm" data-i18n-placeholder="askTeacher">
+                    <button onclick="sendAIQuery()" id="btn-send-ai" class="p-3 bg-indigo-600 text-white rounded-xl">💬</button>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        // --- OVERSETTELSER ---
         const translations = {
             no: {
-                appTitle: "Piano 100 timer challenge",
-                goalSubtitle: "Mål: {x} timer øving",
-                hours: "Timer",
-                remaining: "Gjenstår",
-                progress: "Fremgang",
-                streak: "Streak 🔥",
-                days: "Dager",
-                milestones: "Milepæler (Hver 10. time)",
-                stopwatch: "Stoppeklokke",
-                countdown: "Nedtelling",
-                free: "Fri",
-                goal: "Mål",
-                noEndSound: "Ingen sluttlyd",
-                magicChime: "Trylleklang",
-                xylophone: "Xylofon",
-                glassClink: "Glassklirr",
-                bell: "Bjelle",
-                min: "Min",
-                classicAlarm: "Klassisk Vekkerklokke",
-                digitalAlarm: "Digital Alarm",
-                trumpet: "Trompet",
-                chime: "Bjelle / Klokke",
-                customAudio: "🎵 Velg egen lydfil...",
-                startPractice: "Start Øving",
-                finishSession: "Fullfør Økt",
-                stopAlarmSave: "Stopp Alarm & Lagre",
-                reset: "Nullstill",
-                metronome: "🎵 Metronom",
-                aiTeacher: "✨ AI-Pianolærer",
-                activity: "Aktivitet siste 28 dager",
-                recentSessions: "Siste økter",
-                addManual: "+ Manuelt",
-                deleteAll: "Slett alle",
-                noSessions: "Ingen økter ennå",
-                themeTitle: "Velg Tema 🎨",
-                classicBlue: "Klassisk Blå",
-                purple: "Lilla",
-                green: "Grønn",
-                red: "Rød",
-                close: "Lukk",
-                keepBeat: "Hold takten",
-                start: "Start",
-                stop: "Stopp",
-                renameTitle: "Endre navn",
-                describeSession: "Beskriv økten din",
-                cancel: "Avbryt",
-                save: "Lagre",
-                changeGoalTitle: "Endre mål",
-                howManyHours: "Hvor mange timer totalt?",
-                manualTitle: "Legg til manuelt",
-                howManyMins: "Hvor mange minutter øvde du?",
-                aiGreeting: "Hei! Jeg er din personlige AI-pianolærer, drevet av Gemini. Spør meg om oppvarmingsøvelser, teknikktips, eller be meg analysere øvingsloggen din for litt ekstra motivasjon! 🎹",
-                timeSignature: "Taktart",
-                aiBtnWarmup: "Oppvarming",
-                aiBtnMotivate: "Motiver meg",
-                aiBtnDifficult: "Vanskelige passasjer",
-                aiWarmup: "✨ Gi meg et 10-minutters oppvarmingsprogram",
-                aiMotivate: "✨ Analyser loggen min og gi meg motivasjon!",
-                aiDifficult: "✨ Hvordan bør jeg øve inn en vanskelig passasje?",
-                askTeacher: "Spør læreren...",
-                thinking: "Tenker...",
-                aiError: "Beklager, jeg mistet forbindelsen til Gemini. Prøv igjen! 🔌",
-                sessionName: "Økt",
-                manualSessionName: "Manuell økt",
-                manual: "Manuell",
-                confirmDelete: "Vil du slette all historikk? (Dette sletter også streak og lydopptak!)",
-                fileTooLarge: "Lydfilen er for stor (maks 2MB).",
-                fileSaveError: "Kunne ikke lagre lydfilen lokalt. Den kan være for stor.",
-                micError: "Kunne ikke få tilgang til mikrofonen. Sjekk tillatelser.",
-                today: "I dag",
-                daysAgo: "dager siden",
-                hoursAbbr: "t",
-                aiSystemPrompt: "Du er en vennlig, oppmuntrende og ekspert pianolærer. Svar kort, konstruktivt og motiverende på norsk. Bruk gjerne markdown for struktur og emojis for å være engasjerende. Svar alltid under 150 ord."
+                appTitle: "Piano 100 timer", goalSubtitle: "Mål: {x} timer øving", hours: "Timer", remaining: "Gjenstår", progress: "Fremgang", streak: "Streak 🔥", days: "Dager",
+                milestones: "Milepæler", stopwatch: "Stoppeklokke", countdown: "Nedtelling", free: "Fri", goal: "Mål", noEndSound: "Ingen sluttlyd",
+                magicChime: "Trylleklang", xylophone: "Xylofon", glassClink: "Glassklirr", bell: "Bjelle", min: "Min", classicAlarm: "Klassisk Vekkerklokke",
+                digitalAlarm: "Digital Alarm", trumpet: "Trompet", chime: "Bjelle / Klokke", customAudio: "🎵 Velg egen lydfil...", startPractice: "Start Øving",
+                finishSession: "Fullfør Økt", stopAlarmSave: "Stopp Alarm & Lagre", reset: "Nullstill", metronome: "🎵 Metronom", aiTeacher: "✨ AI-Lærer",
+                recordings: "🎙️ Lydopptak", audioGallery: "Dine Lydopptak", noRecordings: "Ingen opptak ennå.", deleteAudio: "Slett lyd", activity: "Aktivitet siste 28 dager",
+                recentSessions: "Siste økter", addManual: "+ Manuelt", deleteAll: "Slett alle", noSessions: "Ingen økter ennå", themeTitle: "Velg Tema",
+                classicBlue: "Klassisk Blå", purple: "Lilla", green: "Grønn", red: "Rød", close: "Lukk", keepBeat: "Hold takten", start: "Start", stop: "Stopp",
+                renameTitle: "Endre navn", describeSession: "Beskriv økten din...", cancel: "Avbryt", save: "Lagre", changeGoalTitle: "Endre mål",
+                howManyHours: "Hvor mange timer totalt?", manualTitle: "Legg til manuelt", howManyMins: "Hvor mange minutter øvde du?",
+                aiGreeting: "Hei! Jeg er din personlige AI-pianolærer! Spør meg om oppvarmingsøvelser, teknikktips eller motivasjon! 🎹",
+                timeSignature: "Taktart", aiBtnWarmup: "Oppvarming", aiBtnMotivate: "Motivasjon", aiBtnDifficult: "Vanskelige passasjer",
+                aiWarmup: "✨ Gi meg et 10-minutters oppvarmingsprogram", aiMotivate: "✨ Analyser loggen min og gi meg motivasjon!",
+                aiDifficult: "✨ Hvordan bør jeg øve inn en vanskelig passasje?", askTeacher: "Spør læreren...", thinking: "Tenker...",
+                aiError: "Beklager, mistet forbindelsen. Prøv igjen! 🔌", sessionName: "Økt", manualSessionName: "Manuell økt", manual: "Manuell",
+                confirmDelete: "Vil du slette all historikk?", deleteSessionConfirm: "Vil du slette denne økten?", saveShortSession: "Økten var under 1 min. Vil du lagre?",
+                fileTooLarge: "Lydfil for stor (maks 2MB).", fileSaveError: "Kunne ikke lagre lydfil lokalt.", micError: "Fikk ikke tilgang til mikrofon.",
+                today: "I dag", daysAgo: "dager siden", hoursAbbr: "t", aiSystemPrompt: "Du er en ekspert pianolærer. Svar kort, motiverende og på norsk under 150 ord."
             },
             en: {
-                appTitle: "Piano 100 Hours Challenge",
-                goalSubtitle: "Goal: {x} hours practice",
-                hours: "Hours",
-                remaining: "Remaining",
-                progress: "Progress",
-                streak: "Streak 🔥",
-                days: "Days",
-                milestones: "Milestones (Every 10 hours)",
-                stopwatch: "Stopwatch",
-                countdown: "Countdown",
-                free: "Free",
-                goal: "Goal",
-                noEndSound: "No end sound",
-                magicChime: "Magic Chime",
-                xylophone: "Xylophone",
-                glassClink: "Glass clink",
-                bell: "Bell",
-                min: "Min",
-                classicAlarm: "Classic Alarm",
-                digitalAlarm: "Digital Alarm",
-                trumpet: "Trumpet",
-                chime: "Bell / Chime",
-                customAudio: "🎵 Choose custom audio...",
-                startPractice: "Start Practice",
-                finishSession: "Finish Session",
-                stopAlarmSave: "Stop Alarm & Save",
-                reset: "Reset",
-                metronome: "🎵 Metronome",
-                aiTeacher: "✨ AI Piano Teacher",
-                activity: "Activity last 28 days",
-                recentSessions: "Recent Sessions",
-                addManual: "+ Manual",
-                deleteAll: "Delete all",
-                noSessions: "No sessions yet",
-                themeTitle: "Choose Theme 🎨",
-                classicBlue: "Classic Blue",
-                purple: "Purple",
-                green: "Green",
-                red: "Red",
-                close: "Close",
-                keepBeat: "Keep the beat",
-                start: "Start",
-                stop: "Stop",
-                renameTitle: "Rename",
-                describeSession: "Describe your session",
-                cancel: "Cancel",
-                save: "Save",
-                changeGoalTitle: "Change Goal",
-                howManyHours: "How many hours total?",
-                manualTitle: "Add manually",
-                howManyMins: "How many mins did you practice?",
-                aiGreeting: "Hi! I am your personal AI piano teacher, powered by Gemini. Ask me about warm-up exercises, technique tips, or ask me to analyze your practice log for some extra motivation! 🎹",
-                timeSignature: "Time Signature",
-                aiBtnWarmup: "Warm-up",
-                aiBtnMotivate: "Motivate me",
-                aiBtnDifficult: "Difficult passages",
-                aiWarmup: "✨ Give me a 10-minute warm-up program",
-                aiMotivate: "✨ Analyze my log and give me motivation!",
-                aiDifficult: "✨ How should I practice a difficult passage?",
-                askTeacher: "Ask the teacher...",
-                thinking: "Thinking...",
-                aiError: "Sorry, I lost connection to Gemini. Try again! 🔌",
-                sessionName: "Session",
-                manualSessionName: "Manual session",
-                manual: "Manual",
-                confirmDelete: "Do you want to delete all history? (This also deletes streak and audio recordings!)",
-                fileTooLarge: "Audio file is too large (max 2MB).",
-                fileSaveError: "Could not save audio file locally. It might be too large.",
-                micError: "Could not access the microphone. Check permissions.",
-                today: "Today",
-                daysAgo: "days ago",
-                hoursAbbr: "h",
-                aiSystemPrompt: "You are a friendly, encouraging, and expert piano teacher. Answer shortly, constructively and motivatingly in English. Feel free to use markdown for structure and emojis to be engaging. Always answer under 150 words."
+                appTitle: "Piano 100 Hours", goalSubtitle: "Goal: {x} hours", hours: "Hours", remaining: "Remaining", progress: "Progress", streak: "Streak 🔥", days: "Days",
+                milestones: "Milestones", stopwatch: "Stopwatch", countdown: "Countdown", free: "Free", goal: "Goal", noEndSound: "No end sound",
+                magicChime: "Magic Chime", xylophone: "Xylophone", glassClink: "Glass clink", bell: "Bell", min: "Min", classicAlarm: "Classic Alarm",
+                digitalAlarm: "Digital Alarm", trumpet: "Trumpet", chime: "Chime", customAudio: "🎵 Choose custom audio...", startPractice: "Start Practice",
+                finishSession: "Finish Session", stopAlarmSave: "Stop Alarm & Save", reset: "Reset", metronome: "🎵 Metronome", aiTeacher: "✨ AI Teacher",
+                recordings: "🎙️ Recordings", audioGallery: "Your Recordings", noRecordings: "No recordings yet.", deleteAudio: "Delete audio", activity: "Activity (28 days)",
+                recentSessions: "Recent Sessions", addManual: "+ Manual", deleteAll: "Delete all", noSessions: "No sessions", themeTitle: "Choose Theme",
+                classicBlue: "Classic Blue", purple: "Purple", green: "Green", red: "Red", close: "Close", keepBeat: "Keep the beat", start: "Start", stop: "Stop",
+                renameTitle: "Rename", describeSession: "Describe session...", cancel: "Cancel", save: "Save", changeGoalTitle: "Change Goal",
+                howManyHours: "Total hours?", manualTitle: "Add manually", howManyMins: "Minutes practiced?",
+                aiGreeting: "Hi! I am your AI piano teacher! Ask me about warm-ups, technique or motivation! 🎹",
+                timeSignature: "Time Signature", aiBtnWarmup: "Warm-up", aiBtnMotivate: "Motivate", aiBtnDifficult: "Difficulties",
+                aiWarmup: "✨ Give me a 10-min warm-up", aiMotivate: "✨ Give me motivation!", aiDifficult: "✨ How to practice a hard passage?",
+                askTeacher: "Ask teacher...", thinking: "Thinking...", aiError: "Connection lost. Try again! 🔌", sessionName: "Session", manualSessionName: "Manual session",
+                manual: "Manual", confirmDelete: "Delete all history?", deleteSessionConfirm: "Delete this session?", saveShortSession: "Session < 1 min. Save it?",
+                fileTooLarge: "File too large (max 2MB).", fileSaveError: "Could not save file.", micError: "Microphone access denied.",
+                today: "Today", daysAgo: "days ago", hoursAbbr: "h", aiSystemPrompt: "You are an expert piano teacher. Answer shortly in English under 150 words."
             }
         };
 
         let currentLang = localStorage.getItem('piano_lang') || 'no';
-
-        function t(key) {
-            return translations[currentLang][key] || key;
-        }
+        const t = key => translations[currentLang][key] || key;
+        const D = id => document.getElementById(id);
 
         function applyTranslations() {
-            // Update button icon
-            document.getElementById('lang-btn').textContent = currentLang === 'no' ? '🇳🇴' : '🇬🇧';
+            D('lang-btn').textContent = currentLang === 'no' ? '🇳🇴' : '🇬🇧';
             document.documentElement.lang = currentLang;
-            
-            // Translate all elements with data-i18n
-            document.querySelectorAll('[data-i18n]').forEach(el => {
-                const key = el.getAttribute('data-i18n');
-                if (translations[currentLang][key]) {
-                    el.textContent = translations[currentLang][key];
-                }
-            });
-
-            // Translate all placeholders
-            document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
-                const key = el.getAttribute('data-i18n-placeholder');
-                if (translations[currentLang][key]) {
-                    el.placeholder = translations[currentLang][key];
-                }
-            });
-
-            // Update app title dynamically based on language
-            updateAppTitle();
-            
-            // Update button texts depending on state
-            if (timerActive) {
-                startBtnText.textContent = isAlarmRinging ? t('stopAlarmSave') : t('finishSession');
-            } else {
-                startBtnText.textContent = t('startPractice');
-            }
-            document.getElementById('btn-metronome-toggle').textContent = isMetronomePlaying ? t('stop') : t('start');
-            document.getElementById('timer-mode-label').textContent = timerMode === 'stopwatch' ? t('stopwatch') : t('countdown');
-            
-            // Re-render components that rely on language strings
-            if(sessions) {
-                updateStats(); // Redraws list and heatmap with new language
-            }
+            document.querySelectorAll('[data-i18n]').forEach(el => { if (translations[currentLang][el.dataset.i18n]) el.textContent = translations[currentLang][el.dataset.i18n]; });
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(el => { if (translations[currentLang][el.dataset.i18nPlaceholder]) el.placeholder = translations[currentLang][el.dataset.i18nPlaceholder]; });
+            D('app-main-title').textContent = t('appTitle');
+            D('app-subtitle').textContent = t('goalSubtitle').replace('{x}', goalHours);
+            if(timerActive) D('start-btn-text').textContent = isAlarmRinging ? t('stopAlarmSave') : t('finishSession');
+            else D('start-btn-text').textContent = t('startPractice');
+            D('btn-metronome-toggle').textContent = isMetronomePlaying ? t('stop') : t('start');
+            D('timer-mode-label').textContent = timerMode === 'stopwatch' ? t('stopwatch') : t('countdown');
+            if(sessions) updateStats();
         }
 
-        function toggleLanguage() {
-            currentLang = currentLang === 'no' ? 'en' : 'no';
-            localStorage.setItem('piano_lang', currentLang);
-            applyTranslations();
-        }
+        function toggleLanguage() { currentLang = currentLang === 'no' ? 'en' : 'no'; localStorage.setItem('piano_lang', currentLang); applyTranslations(); }
 
-        // --- TILSTAND OG DATA ---
         let sessions = JSON.parse(localStorage.getItem('piano_sessions')) || [];
         sessions.forEach(s => { if (!s.isoDate) s.isoDate = new Date(s.id).toISOString(); });
+        let startDate = localStorage.getItem('piano_start_date') || new Date().toISOString();
+        localStorage.setItem('piano_start_date', startDate);
 
-        let startDate = localStorage.getItem('piano_start_date');
-        if (!startDate) {
-            startDate = new Date().toISOString();
-            localStorage.setItem('piano_start_date', startDate);
-        }
-
-        let timerActive = false;
-        let timerMode = 'stopwatch'; 
-        let startTime = null;
-        let elapsedAtPause = 0;
-        let timerInterval = null;
-        let editingSessionId = null;
-        let isAlarmRinging = false;
-        let currentAudio = null;
-        let flashInterval = null;
+        let timerActive = false, timerMode = 'stopwatch', startTime = null, elapsedAtPause = 0, timerInterval = null;
+        let editingSessionId = null, isAlarmRinging = false, currentAudio = null, flashInterval = null;
         let goalHours = parseInt(localStorage.getItem('piano_goal_hours')) || 100;
 
-        // UI Elementer
-        const timerDisplay = document.getElementById('timer-display');
-        const startBtn = document.getElementById('btn-start');
-        const startBtnText = document.getElementById('start-btn-text');
-        const resetBtn = document.getElementById('btn-reset');
-        const recordBtn = document.getElementById('btn-record');
-        const sessionList = document.getElementById('session-list');
-        const totalHoursDisplay = document.getElementById('total-hours-display');
-        const remainingTimeDisplay = document.getElementById('remaining-time');
-        const percentDisplay = document.getElementById('percent-display');
-        const streakDisplay = document.getElementById('streak-display');
-        const daysDisplay = document.getElementById('days-display');
-        const progressCircle = document.getElementById('progress-circle');
-        const countdownSettings = document.getElementById('countdown-settings');
-        const stopwatchSettings = document.getElementById('stopwatch-settings');
-        const timerModeLabel = document.getElementById('timer-mode-label');
-        
-        // Modaler & Inputs
-        const renameModal = document.getElementById('rename-modal');
-        const renameInput = document.getElementById('rename-input');
-        const alarmSoundSelect = document.getElementById('alarm-sound-select');
-        const goalInput = document.getElementById('goal-input');
-        const manualModal = document.getElementById('manual-modal');
-        const manualInput = document.getElementById('manual-input');
-        const customAudioUpload = document.getElementById('custom-audio-upload');
-        const stopwatchSoundSelect = document.getElementById('stopwatch-sound-select');
-        const themeModal = document.getElementById('theme-modal');
-
-        // --- TEMA HÅNDTERING ---
         const savedTheme = localStorage.getItem('piano_theme') || 'blue';
         document.body.setAttribute('data-theme', savedTheme);
+        function openThemeModal() { D('theme-modal').classList.remove('hidden'); document.body.classList.add('modal-open'); }
+        function closeThemeModal() { D('theme-modal').classList.add('hidden'); document.body.classList.remove('modal-open'); }
+        function changeTheme(themeName) { document.body.setAttribute('data-theme', themeName); localStorage.setItem('piano_theme', themeName); closeThemeModal(); }
 
-        function openThemeModal() {
-            themeModal.classList.remove('hidden');
-            document.body.classList.add('modal-open');
-        }
-        function closeThemeModal() {
-            themeModal.classList.add('hidden');
-            document.body.classList.remove('modal-open');
-        }
-        function changeTheme(themeName) {
-            document.body.setAttribute('data-theme', themeName);
-            localStorage.setItem('piano_theme', themeName);
-            closeThemeModal();
-        }
-
-        // --- LYDOPPTAK (MediaRecorder API) ---
-        let mediaRecorder;
-        let audioChunks = [];
-        let isRecording = false;
-        let currentRecordingBase64 = null;
-        let recordingTimeout;
-
+        let mediaRecorder, audioChunks = [], isRecording = false, currentRecordingBase64 = null, recordingTimeout;
         async function toggleRecording() {
-            if (isRecording) {
-                stopRecording();
-            } else {
+            if (isRecording) { stopRecording(); } else {
                 try {
                     const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-                    mediaRecorder = new MediaRecorder(stream);
-                    audioChunks = [];
-                    currentRecordingBase64 = null;
-
+                    mediaRecorder = new MediaRecorder(stream); audioChunks = []; currentRecordingBase64 = null;
                     mediaRecorder.ondataavailable = e => { if (e.data.size > 0) audioChunks.push(e.data); };
                     mediaRecorder.onstop = () => {
-                        const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
                         const reader = new FileReader();
-                        reader.readAsDataURL(audioBlob);
+                        reader.readAsDataURL(new Blob(audioChunks, { type: 'audio/webm' }));
                         reader.onloadend = () => { currentRecordingBase64 = reader.result; };
                         stream.getTracks().forEach(tr => tr.stop());
                     };
-
-                    mediaRecorder.start();
-                    isRecording = true;
-                    recordBtn.classList.add('pulse-record', 'bg-red-500', 'text-white');
-                    recordBtn.classList.remove('bg-gray-200', 'text-gray-700');
-                    recordBtn.innerHTML = '⏹️';
-                    
+                    mediaRecorder.start(); isRecording = true;
+                    D('btn-record').className = "flex-1 pulse-record bg-red-500 text-white font-bold py-5 rounded-2xl text-xl transition-all";
+                    D('btn-record').innerHTML = '⏹️';
                     recordingTimeout = setTimeout(() => { if(isRecording) stopRecording(); }, 60000);
-                } catch (err) {
-                    alert(t('micError'));
-                }
+                } catch (err) { alert(t('micError')); }
             }
         }
-
         function stopRecording() {
             if (mediaRecorder && mediaRecorder.state !== 'inactive') {
-                mediaRecorder.stop();
-                isRecording = false;
-                clearTimeout(recordingTimeout);
-                recordBtn.classList.remove('pulse-record', 'bg-red-500', 'text-white');
-                recordBtn.classList.add('bg-green-500', 'text-white'); 
-                recordBtn.innerHTML = '✅';
-                recordBtn.disabled = true; 
+                mediaRecorder.stop(); isRecording = false; clearTimeout(recordingTimeout);
+                D('btn-record').className = "flex-1 bg-green-500 text-white font-bold py-5 rounded-2xl text-xl transition-all";
+                D('btn-record').innerHTML = '✅'; D('btn-record').disabled = true;
             }
         }
-
         function resetRecordingState() {
-            isRecording = false;
-            currentRecordingBase64 = null;
+            isRecording = false; currentRecordingBase64 = null;
             if (mediaRecorder && mediaRecorder.state !== 'inactive') mediaRecorder.stop();
             clearTimeout(recordingTimeout);
-            recordBtn.classList.remove('pulse-record', 'bg-red-500', 'bg-green-500', 'text-white');
-            recordBtn.classList.add('bg-gray-200', 'text-gray-700');
-            recordBtn.innerHTML = '🎙️';
-            recordBtn.disabled = false;
+            D('btn-record').className = "hidden flex-1 bg-gray-200 text-gray-700 font-bold py-5 rounded-2xl text-xl transition-all";
+            D('btn-record').innerHTML = '🎙️'; D('btn-record').disabled = false;
         }
 
-        // --- METRONOM ---
-        let metroAudioCtx = null;
-        let metronomeIntervalId = null;
-        let isMetronomePlaying = false;
-        let bpm = 100;
-        let beatsPerMeasure = 4;
-        let currentBeat = 0;
-
-        const bpmSlider = document.getElementById('bpm-slider');
-        const bpmDisplay = document.getElementById('bpm-display');
-        const metronomeModal = document.getElementById('metronome-modal');
-        const btnMetronomeToggle = document.getElementById('btn-metronome-toggle');
-
-        function openMetronomeModal() {
-            metronomeModal.classList.remove('hidden');
-            document.body.classList.add('modal-open');
-            renderBeatIndicators();
-        }
-        function closeMetronomeModal() {
-            metronomeModal.classList.add('hidden');
-            document.body.classList.remove('modal-open');
-            if (isMetronomePlaying) toggleMetronome(); 
-        }
-
+        let metroAudioCtx = null, metronomeIntervalId = null, isMetronomePlaying = false, bpm = 100, beatsPerMeasure = 4, currentBeat = 0;
+        function openMetronomeModal() { D('metronome-modal').classList.remove('hidden'); document.body.classList.add('modal-open'); renderBeatIndicators(); }
+        function closeMetronomeModal() { D('metronome-modal').classList.add('hidden'); document.body.classList.remove('modal-open'); if (isMetronomePlaying) toggleMetronome(); }
         function setTimeSignature(beats) {
-            beatsPerMeasure = beats;
-            currentBeat = 0;
+            beatsPerMeasure = beats; currentBeat = 0;
             for(let i=1; i<=6; i++) {
-                const btn = document.getElementById(`ts-btn-${i}`);
-                if(btn) {
-                    if(i === beats) {
-                        btn.className = "w-10 h-10 rounded-full font-bold text-sm bg-amber-500 text-white transition-colors";
-                    } else {
-                        btn.className = "w-10 h-10 rounded-full font-bold text-sm bg-gray-100 text-gray-600 hover:bg-gray-200 transition-colors";
-                    }
-                }
+                const btn = D(`ts-btn-${i}`);
+                if(btn) btn.className = `w-10 h-10 rounded-full font-bold text-sm transition-colors ${i === beats ? 'bg-amber-500 text-white' : 'bg-gray-100'}`;
             }
             renderBeatIndicators();
         }
-
         function renderBeatIndicators() {
-            const container = document.getElementById('beat-indicators');
-            if(!container) return;
-            container.innerHTML = '';
+            const cont = D('beat-indicators'); if(!cont) return; cont.innerHTML = '';
             if(beatsPerMeasure === 1) return;
-
             for(let i=0; i<beatsPerMeasure; i++) {
-                const dot = document.createElement('div');
-                dot.id = `beat-dot-${i}`;
+                const dot = document.createElement('div'); dot.id = `beat-dot-${i}`;
                 dot.className = `w-2 h-2 rounded-full transition-all duration-75 ${i === 0 ? 'bg-amber-500/40' : 'bg-gray-200'}`;
-                container.appendChild(dot);
+                cont.appendChild(dot);
             }
         }
-        
-        bpmSlider.addEventListener('input', (e) => {
-            bpm = parseInt(e.target.value);
-            bpmDisplay.textContent = bpm;
-            if (isMetronomePlaying) {
-                clearInterval(metronomeIntervalId);
-                metronomeIntervalId = setInterval(playMetronomeClick, 60000 / bpm);
-            }
+        D('bpm-slider').addEventListener('input', (e) => {
+            bpm = parseInt(e.target.value); D('bpm-display').textContent = bpm;
+            if (isMetronomePlaying) { clearInterval(metronomeIntervalId); metronomeIntervalId = setInterval(playMetronomeClick, 60000 / bpm); }
         });
-
         function changeBpm(amount) {
-            bpm = Math.max(30, Math.min(240, bpm + amount));
-            bpmSlider.value = bpm;
-            bpmDisplay.textContent = bpm;
-            if (isMetronomePlaying) {
-                clearInterval(metronomeIntervalId);
-                currentBeat = 0;
-                renderBeatIndicators();
-                metronomeIntervalId = setInterval(playMetronomeClick, 60000 / bpm);
-            }
+            bpm = Math.max(30, Math.min(240, bpm + amount)); D('bpm-slider').value = bpm; D('bpm-display').textContent = bpm;
+            if (isMetronomePlaying) { clearInterval(metronomeIntervalId); currentBeat = 0; renderBeatIndicators(); metronomeIntervalId = setInterval(playMetronomeClick, 60000 / bpm); }
         }
-
         function playMetronomeClick() {
             if (!metroAudioCtx) return;
-            const osc = metroAudioCtx.createOscillator();
-            const gain = metroAudioCtx.createGain();
-            osc.connect(gain);
-            gain.connect(metroAudioCtx.destination);
-            
-            // Forskjellig lyd på slag 1
-            if (beatsPerMeasure > 1 && currentBeat === 0) {
-                osc.frequency.value = 1200; // Lysere pling
-            } else {
-                osc.frequency.value = 800;  // Vanlig metronom-tikk
-            }
-            
-            gain.gain.setValueAtTime(1, metroAudioCtx.currentTime);
-            gain.gain.exponentialRampToValueAtTime(0.001, metroAudioCtx.currentTime + 0.05);
-            osc.start(metroAudioCtx.currentTime);
-            osc.stop(metroAudioCtx.currentTime + 0.05);
-
-            // Visuell oppdatering (Prikker)
+            const osc = metroAudioCtx.createOscillator(), gain = metroAudioCtx.createGain();
+            osc.connect(gain); gain.connect(metroAudioCtx.destination);
+            osc.frequency.value = (beatsPerMeasure > 1 && currentBeat === 0) ? 1200 : 800;
+            gain.gain.setValueAtTime(1, metroAudioCtx.currentTime); gain.gain.exponentialRampToValueAtTime(0.001, metroAudioCtx.currentTime + 0.05);
+            osc.start(metroAudioCtx.currentTime); osc.stop(metroAudioCtx.currentTime + 0.05);
             if (beatsPerMeasure > 1) {
-                for(let i=0; i<beatsPerMeasure; i++) {
-                    const dot = document.getElementById(`beat-dot-${i}`);
-                    if(dot) {
-                        dot.classList.remove('bg-amber-500', 'bg-gray-500', 'scale-150');
-                        dot.classList.add(i === 0 ? 'bg-amber-500/40' : 'bg-gray-200');
-                    }
-                }
-                const currentDot = document.getElementById(`beat-dot-${currentBeat}`);
-                if(currentDot) {
-                    currentDot.classList.remove('bg-amber-500/40', 'bg-gray-200');
-                    currentDot.classList.add(currentBeat === 0 ? 'bg-amber-500' : 'bg-gray-500', 'scale-150');
-                }
+                for(let i=0; i<beatsPerMeasure; i++) { const dot = D(`beat-dot-${i}`); if(dot) dot.className = `w-2 h-2 rounded-full transition-all duration-75 ${i===0 ? 'bg-amber-500/40' : 'bg-gray-200'}`; }
+                const cur = D(`beat-dot-${currentBeat}`); if(cur) cur.className = `w-2 h-2 rounded-full transition-all duration-75 scale-150 ${currentBeat===0 ? 'bg-amber-500' : 'bg-gray-500'}`;
             }
-
-            // Gå til neste slag
             currentBeat = (currentBeat + 1) % beatsPerMeasure;
         }
-
         function toggleMetronome() {
             if (isMetronomePlaying) {
-                clearInterval(metronomeIntervalId);
-                isMetronomePlaying = false;
-                currentBeat = 0;
-                renderBeatIndicators();
-                btnMetronomeToggle.textContent = t('start');
-                btnMetronomeToggle.classList.replace('bg-red-500', 'bg-amber-500');
-                btnMetronomeToggle.classList.replace('hover:bg-red-600', 'hover:bg-amber-600');
+                clearInterval(metronomeIntervalId); isMetronomePlaying = false; currentBeat = 0; renderBeatIndicators();
+                D('btn-metronome-toggle').textContent = t('start'); D('btn-metronome-toggle').classList.replace('bg-red-500', 'bg-amber-500');
             } else {
-                if
+                if (!metroAudioCtx) metroAudioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                if (metroAudioCtx.state === 'suspended') metroAudioCtx.resume();
+                currentBeat = 0; playMetronomeClick(); metronomeIntervalId = setInterval(playMetronomeClick, 60000 / bpm); isMetronomePlaying = true;
+                D('btn-metronome-toggle').textContent = t('stop'); D('btn-metronome-toggle').classList.replace('bg-amber-500', 'bg-red-500');
+            }
+        }
+
+        function setQuickTime(mins) { D('input-minutes').value = mins; }
+        function getActualSoundUrl() { return D('alarm-sound-select').value === 'custom' ? (localStorage.getItem('piano_custom_audio') || "https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg") : D('alarm-sound-select').value; }
+        
+        if (localStorage.getItem('piano_stopwatch_sound')) D('stopwatch-sound-select').value = localStorage.getItem('piano_stopwatch_sound');
+        D('stopwatch-sound-select').addEventListener('change', (e) => { localStorage.setItem('piano_stopwatch_sound', e.target.value); testStopwatchSound(); });
+
+        function testStopwatchSound() { playSynthSound(D('stopwatch-sound-select').value); }
+        function playSynthSound(type) {
+            if (type === 'none') return;
+            const ctx = new (window.AudioContext || window.webkitAudioContext)();
+            if (ctx.state === 'suspended') ctx.resume();
+            const now = ctx.currentTime;
+            if (type === 'magicChime') {
+                [523.25, 659.25, 783.99, 1046.50].forEach((f, i) => {
+                    const o = ctx.createOscillator(), g = ctx.createGain(); o.type = 'sine'; o.frequency.value = f; o.connect(g); g.connect(ctx.destination);
+                    o.start(now + i*0.1); g.gain.setValueAtTime(0, now + i*0.1); g.gain.linearRampToValueAtTime(0.3, now + i*0.1 + 0.05); g.gain.exponentialRampToValueAtTime(0.01, now + i*0.1 + 0.8); o.stop(now + i*0.1 + 0.8);
+                });
+            } else if (type === 'xylophone') {
+                const o = ctx.createOscillator(), g = ctx.createGain(); o.type = 'sine'; o.frequency.value = 880; o.connect(g); g.connect(ctx.destination);
+                g.gain.setValueAtTime(0.8, now); g.gain.exponentialRampToValueAtTime(0.01, now + 0.2); o.start(now); o.stop(now + 0.2);
+            } else if (type === 'glassClink') {
+                const o = ctx.createOscillator(), g = ctx.createGain(); o.type = 'triangle'; o.frequency.value = 2000; o.connect(g); g.connect(ctx.destination);
+                g.gain.setValueAtTime(0.5, now); g.gain.exponentialRampToValueAtTime(0.01, now + 0.15); o.start(now); o.stop(now + 0.15);
+            } else if (type === 'bell') {
+                const playB = (f, d, v) => { const o = ctx.createOscillator(), g = ctx.createGain(); o.type = 'sine'; o.frequency.value = f; o.connect(g); g.connect(ctx.destination); g.gain.setValueAtTime(v, now); g.gain.exponentialRampToValueAtTime(0.01, now + d); o.start(now); o.stop(now + d); };
+                playB(1046, 2.0, 0.6); playB(2093, 1.0, 0.3);
+            }
+        }
+
+        const savedSound = localStorage.getItem('piano_alarm_sound');
+        if(savedSound) {
+            if (Array.from(D('alarm-sound-select').options).some(o => o.value === savedSound) || savedSound === 'custom') D('alarm-sound-select').value = savedSound;
+            else localStorage.removeItem('piano_alarm_sound');
+        }
+        D('alarm-sound-select').addEventListener('change', (e) => { if (e.target.value === 'custom') D('custom-audio-upload').click(); else { localStorage.setItem('piano_alarm_sound', e.target.value); testAlarmSound(1500); } });
+        D('custom-audio-upload').addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                if (file.size > 2 * 1024 * 1024) return alert(t('fileTooLarge'));
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    try { localStorage.setItem('piano_custom_audio', event.target.result); localStorage.setItem('piano_alarm_sound', 'custom'); testAlarmSound(1500); }
+                    catch (err) { alert(t('fileSaveError')); D('alarm-sound-select').value = "https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg"; }
+                }; reader.readAsDataURL(file);
+            }
+        });
+        function testAlarmSound(duration = 3000) {
+            if (currentAudio) { currentAudio.pause(); currentAudio.currentTime = 0; }
+            currentAudio = new Audio(getActualSoundUrl()); currentAudio.play().catch(e=>console.log(e));
+            setTimeout(() => { if (currentAudio && !isAlarmRinging) currentAudio.pause(); }, duration);
+        }
+
+        function updateStats() {
+            const totalSecs = sessions.reduce((a, s) => a + s.duration, 0), progress = Math.min(100, (totalSecs / (goalHours*3600)) * 100);
+            D('total-hours-display').textContent = (totalSecs / 3600).toFixed(1);
+            D('remaining-time').textContent = `${Math.floor(Math.max(0, goalHours*3600 - totalSecs) / 3600)}${t('hoursAbbr')} ${Math.floor((Math.max(0, goalHours*3600 - totalSecs) % 3600) / 60)}m`;
+            D('percent-display').textContent = `${Math.round(progress)}%`;
+            D('progress-circle').style.strokeDashoffset = 534 - (534 * (progress / 100));
+            D('days-display').textContent = Math.round((new Date().setHours(0,0,0,0) - new Date(startDate).setHours(0,0,0,0)) / 86400000);
+            
+            let daysPracticed = new Set(), today = new Date().setHours(0,0,0,0);
+            sessions.forEach(s => daysPracticed.add(Math.floor((today - new Date(s.isoDate||s.id).setHours(0,0,0,0)) / 86400000)));
+            let streak = 0, i = daysPracticed.has(0) ? 0 : 1;
+            if (daysPracticed.has(0) || daysPracticed.has(1)) while (daysPracticed.has(i)) { streak++; i++; }
+            D('streak-display').textContent = streak;
+
+            if (sessions.length === 0) D('session-list').innerHTML = `<p class="text-center text-xs font-bold uppercase py-10 opacity-30">${t('noSessions')}</p>`;
+            else D('session-list').innerHTML = sessions.map(s => {
+                let d = s.date; try { d = new Date(s.isoDate).toLocaleDateString(currentLang==='no'?'no-NO':'en-US', {day:'2-digit',month:'2-digit',year:'2-digit'}); } catch(e){}
+                return `<div class="bg-gray-50/50 p-4 rounded-2xl border border-gray-100"><div class="flex justify-between items-center"><div class="flex-1 pr-4 min-w-0"><div class="flex items-center gap-1 mb-0.5"><span class="font-bold text-gray-800 truncate mr-1">${s.name}</span>${s.audio ? '<span class="mr-1">🎙️</span>' : ''}<button onclick="openRenameModal(${s.id})" class="p-1 text-gray-300 hover:text-brand-500">✏️</button><button onclick="deleteSession(${s.id})" class="p-1 text-gray-300 hover:text-red-500">🗑️</button></div><p class="text-[10px] text-gray-400 font-bold uppercase">${d} kl. ${s.time||'--'} • ${s.mode==='stopwatch'?t('free'):(s.mode==='manual'?t('manual'):t('goal'))}</p></div><div class="text-right text-brand-600 font-black text-sm">${Math.floor(s.duration/60)}m ${s.duration%60}s</div></div>${s.audio ? `<audio controls src="${s.audio}" class="w-full h-8 mt-3 opacity-80"></audio>` : ''}</div>`;
+            }).join('');
+
+            const hGrid = D('heatmap-grid'), dayTotals = {}; hGrid.innerHTML = '';
+            sessions.forEach(s => { const diff = Math.floor((today - new Date(s.isoDate||s.id).setHours(0,0,0,0)) / 86400000); if (diff >= 0 && diff < 28) dayTotals[diff] = (dayTotals[diff] || 0) + s.duration; });
+            for (let i = 27; i >= 0; i--) {
+                const dur = dayTotals[i] || 0;
+                let c = 'bg-gray-200/50'; if(dur>0&&dur<900) c='bg-green-200'; else if(dur>=900&&dur<2700) c='bg-green-400'; else if(dur>=2700) c='bg-green-600';
+                hGrid.innerHTML += `<div class="w-full aspect-square rounded-[3px] ${c}" title="${i===0?t('today'):i+' '+t('daysAgo')}: ${Math.floor(dur/60)}m"></div>`;
+            }
+
+            const bCont = D('badges-container'); bCont.innerHTML = '';
+            for (let t_hrs = 10; t_hrs <= 100; t_hrs += 10) {
+                const e = (totalSecs/3600) >= t_hrs;
+                bCont.innerHTML += `<div class="flex-shrink-0 w-11 h-11 rounded-full flex items-center justify-center font-bold text-xs ${e?'bg-gradient-to-br from-yellow-300 to-amber-500 text-yellow-900 border-yellow-200':'bg-slate-800 text-slate-500 opacity-40 border-white/5'}">${t_hrs}t<br><span class="text-[8px] -mt-1 block">${e?'🏆':''}</span></div>`;
+            }
+            localStorage.setItem('piano_sessions', JSON.stringify(sessions));
+        }
+
+        function deleteSession(id) { if (confirm(t('deleteSessionConfirm'))) { sessions = sessions.filter(s => s.id !== id); updateStats(); } }
+
+        function setMode(mode) {
+            if (timerActive) return; timerMode = mode;
+            D('btn-mode-stopwatch').className = mode === 'stopwatch' ? 'px-4 py-1.5 rounded-lg text-xs font-bold uppercase bg-white text-brand-600 shadow-sm' : 'px-4 py-1.5 rounded-lg text-xs font-bold uppercase text-gray-500';
+            D('btn-mode-countdown').className = mode === 'countdown' ? 'px-4 py-1.5 rounded-lg text-xs font-bold uppercase bg-white text-brand-600 shadow-sm' : 'px-4 py-1.5 rounded-lg text-xs font-bold uppercase text-gray-500';
+            D('countdown-settings').classList.toggle('hidden', mode === 'stopwatch'); D('stopwatch-settings').classList.toggle('hidden', mode === 'countdown');
+            D('timer-mode-label').textContent = mode === 'stopwatch' ? t('stopwatch') : t('countdown');
+            resetTimer();
+        }
+
+        function toggleTimer() {
+            if (isAlarmRinging) return stopAlarmAndSave();
+            if (!timerActive) {
+                timerActive = true; D('start-btn-text').textContent = t('finishSession');
+                D('btn-start').className = "flex-[3] bg-red-500 hover:bg-red-600 text-white font-bold py-5 rounded-2xl shadow-lg flex justify-center text-lg";
+                D('btn-reset').classList.remove('hidden'); D('btn-record').classList.remove('hidden');
+                if (timerMode === 'countdown') elapsedAtPause = (parseInt(D('input-minutes').value) || 20) * 60;
+                startTime = Date.now(); timerInterval = setInterval(() => {
+                    const diff = (Date.now() - startTime) / 1000;
+                    let sec = timerMode === 'stopwatch' ? elapsedAtPause + diff : Math.max(0, elapsedAtPause - diff);
+                    if (timerMode === 'countdown' && sec <= 0) { clearInterval(timerInterval); D('timer-display').textContent = "00:00:00"; return startAlarm(); }
+                    D('timer-display').textContent = [Math.floor(sec/3600), Math.floor((sec%3600)/60), Math.floor(sec%60)].map(v=>v<10?"0"+v:v).join(":");
+                }, 100);
+            } else { if(isRecording) stopRecording(); stopAndSave(); }
+        }
+
+        function startAlarm() {
+            isAlarmRinging = true; if(currentAudio) currentAudio.pause();
+            currentAudio = new Audio(getActualSoundUrl()); currentAudio.loop = true; currentAudio.play().catch(e=>e);
+            D('start-btn-text').textContent = t('stopAlarmSave'); D('btn-start').className = "flex-[3] bg-yellow-400 text-slate-900 font-bold py-5 rounded-2xl shadow-lg flex justify-center text-lg animate-bounce";
+            let isFlash = false; if(navigator.vibrate) navigator.vibrate([500,200,500,200]);
+            flashInterval = setInterval(() => { document.body.style.backgroundColor = isFlash ? '#f8fafc' : '#ef4444'; isFlash = !isFlash; }, 500);
+        }
+        function stopAlarmAndSave() {
+            if(currentAudio){currentAudio.pause();currentAudio.currentTime=0;} isAlarmRinging=false; clearInterval(flashInterval); document.body.style.backgroundColor='';
+            if(isRecording) stopRecording(); stopAndSave();
+        }
+        function stopAndSave() {
+            clearInterval(timerInterval);
+            const diff = Math.floor((Date.now() - startTime) / 1000);
+            let finalDur = timerMode === 'stopwatch' ? diff : Math.min((parseInt(D('input-minutes').value)||20)*60, diff);
+            
+            if (timerMode === 'stopwatch') playSynthSound(D('stopwatch-sound-select').value);
+
+            if (finalDur > 0) {
+                if (finalDur < 60 && !confirm(t('saveShortSession'))) return resetTimer();
+                const d = new Date();
+                sessions.unshift({ id: Date.now(), isoDate: d.toISOString(), date: d.toLocaleDateString(currentLang==='no'?'no-NO':'en-US', {day:'2-digit',month:'2-digit',year:'2-digit'}), time: d.toLocaleTimeString(currentLang==='no'?'no-NO':'en-US', {hour:'2-digit',minute:'2-digit'}), name: `${t('sessionName')} ${d.toLocaleDateString()}`, duration: finalDur, mode: timerMode, audio: currentRecordingBase64||undefined });
+                updateStats();
+            }
+            resetTimer();
+        }
+        function resetTimer() {
+            clearInterval(timerInterval); if(currentAudio){currentAudio.pause();currentAudio.currentTime=0;} isAlarmRinging=false; clearInterval(flashInterval); document.body.style.backgroundColor='';
+            timerActive = false; elapsedAtPause = 0; D('timer-display').textContent = "00:00:00";
+            D('start-btn-text').textContent = t('startPractice'); D('btn-start').className = "flex-[3] bg-brand-600 hover:bg-brand-700 text-white font-bold py-5 rounded-2xl flex justify-center text-lg";
+            D('btn-reset').classList.add('hidden'); resetRecordingState();
+        }
+
+        function openRenameModal(id) { editingSessionId = id; D('rename-input').value = sessions.find(s=>s.id===id).name; D('rename-modal').classList.remove('hidden'); }
+        function closeModal() { D('rename-modal').classList.add('hidden'); editingSessionId = null; }
+        function saveNewName() { if(D('rename-input').value.trim() && editingSessionId) { sessions.find(s=>s.id===editingSessionId).name = D('rename-input').value.trim(); updateStats(); } closeModal(); }
+        function clearLogs() { if (confirm(t('confirmDelete'))) { sessions = []; localStorage.setItem('piano_start_date', new Date().toISOString()); updateStats(); } }
+        D('rename-input').addEventListener('keypress', (e) => { if (e.key === 'Enter') saveNewName(); });
+
+        function openAudioModal() { D('audio-modal').classList.remove('hidden'); renderAudioGallery(); }
+        function closeAudioModal() { D('audio-modal').classList.add('hidden'); }
+        function renderAudioGallery() {
+            const recs = sessions.filter(s => s.audio);
+            D('audio-list').innerHTML = recs.length === 0 ? `<p class="text-center text-gray-400 py-10">${t('noRecordings')}</p>` : recs.map(s => `<div class="bg-gray-50 border border-gray-200 rounded-xl p-4"><div class="flex justify-between items-center mb-3"><div><p class="font-bold text-sm">${s.name}</p></div><button onclick="deleteAudio(${s.id})" class="text-red-400 p-2 bg-red-50 rounded-full">🗑️</button></div><audio controls src="${s.audio}" class="w-full h-8"></audio></div>`).join('');
+        }
+        function deleteAudio(id) { if(confirm("Vil du fjerne lydopptaket?")) { delete sessions.find(s=>s.id===id).audio; updateStats(); renderAudioGallery(); } }
+
+        function openGoalModal() { D('goal-input').value = goalHours; D('goal-modal').classList.remove('hidden'); }
+        function closeGoalModal() { D('goal-modal').classList.add('hidden'); }
+        function saveNewGoal() { if(parseInt(D('goal-input').value)>0) { goalHours = parseInt(D('goal-input').value); localStorage.setItem('piano_goal_hours', goalHours); applyTranslations(); } closeGoalModal(); }
+        
+        function openManualModal() { D('manual-input').value = ''; D('manual-modal').classList.remove('hidden'); }
+        function closeManualModal() { D('manual-modal').classList.add('hidden'); }
+        function saveManualEntry() {
+            const m = parseInt(D('manual-input').value);
+            if(m>0) { const d = new Date(); sessions.unshift({ id: Date.now(), isoDate: d.toISOString(), date: d.toLocaleDateString(), time: d.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}), name: `${t('manualSessionName')} ${d.toLocaleDateString()}`, duration: m*60, mode: 'manual' }); updateStats(); closeManualModal(); }
+        }
+
+        const apiKey = ""; 
+        function openAIModal() { D('ai-modal').classList.remove('hidden'); }
+        function closeAIModal() { D('ai-modal').classList.add('hidden'); }
+        function askAIPrompt(key) { askAI(t(key)); }
+        async function askAI(prompt) {
+            D('ai-chat-history').innerHTML += `<div class="bg-gray-100 p-3 rounded-2xl text-sm ml-auto max-w-[85%] mb-2">${prompt.replace('✨ ','')}</div><div id="ai-load" class="bg-indigo-50 p-3 rounded-2xl text-sm w-24 text-center font-bold mb-2 animate-pulse">${t('thinking')}</div>`;
+            D('ai-chat-history').scrollTop = D('ai-chat-history').scrollHeight; D('btn-send-ai').disabled = D('ai-input').disabled = true;
+            try {
+                const sys = t('aiSystemPrompt') + `\nGoal:${goalHours}h, Done:${(sessions.reduce((a,s)=>a+s.duration,0)/3600).toFixed(1)}h.`;
+                const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`, { method:'POST', body:JSON.stringify({contents:[{parts:[{text:prompt}]}], systemInstruction:{parts:[{text:sys}]}}) });
+                const json = await res.json();
+                const text = json.candidates?.[0]?.content?.parts?.[0]?.text || t('aiError');
+                D('ai-load').remove();
+                D('ai-chat-history').innerHTML += `<div class="bg-indigo-50 p-4 rounded-2xl text-sm max-w-[95%] mb-2 leading-relaxed">${text.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\n/g,'<br>')}</div>`;
+            } catch(e) { D('ai-load').remove(); D('ai-chat-history').innerHTML += `<div class="bg-indigo-50 p-4 rounded-2xl text-sm text-red-500 mb-2">${t('aiError')}</div>`; }
+            D('btn-send-ai').disabled = D('ai-input').disabled = false; D('ai-chat-history').scrollTop = D('ai-chat-history').scrollHeight;
+        }
+        function sendAIQuery() { if(D('ai-input').value.trim()) { askAI(D('ai-input').value.trim()); D('ai-input').value = ''; } }
+        D('ai-input').addEventListener('keypress', (e) => { if(e.key === 'Enter') sendAIQuery(); });
+
+        applyTranslations();
+    </script>
+</body>
+</html>
