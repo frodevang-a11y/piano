@@ -118,28 +118,23 @@
                     </svg>
                 </div>
 
-                <!-- TIMER-RUNDING MED INKLUDERTE FUNKSJONER -->
                 <div id="btn-main-timer-minimal" onclick="toggleTimer(true)" role="button" tabindex="0" class="cursor-pointer relative z-10 w-60 h-60 lg:w-64 lg:h-64 bg-surface rounded-full shadow-soft flex flex-col items-center justify-center transition-all duration-300 active:scale-95 group border border-black/5 hover:shadow-xl">
-                    
-                    <!-- Opptaksknapp inni sirkelen (øverst) -->
                     <button id="btn-inline-record-minimal" onclick="event.stopPropagation(); toggleRecording()" class="absolute top-5 z-20 flex items-center gap-1.5 px-3 py-1.5 bg-base/50 rounded-full shadow-sm border border-black/5 hover:bg-black/5 transition-all">
                         <span id="inline-record-dot" class="w-2.5 h-2.5 rounded-full bg-slate-300 transition-colors"></span>
-                        <span id="inline-record-text" class="text-[9px] font-bold uppercase tracking-wider text-textMuted">Opptak</span>
+                        <span id="inline-record-text" class="text-[9px] font-bold uppercase tracking-wider text-textMuted" data-i18n="record">Opptak</span>
                     </button>
 
-                    <!-- Tid og Start/Pause Status -->
                     <span id="timer-display-minimal" class="text-5xl lg:text-6xl font-light tracking-tighter text-textMain mb-2 font-mono pointer-events-none mt-2">00:00:00</span>
-                    <span id="timer-action-text-minimal" data-i18n="startPractice" class="uppercase tracking-[0.2em] text-xs font-bold text-primary transition-colors pointer-events-none">Start</span>
+                    <span id="timer-action-text-minimal" data-i18n="startPractice" class="uppercase tracking-[0.2em] text-xs font-bold text-primary transition-colors pointer-events-none">Start Øving</span>
                     
-                    <!-- Avslutt økten-knappen (skjult til pause er aktiv, nederst) -->
-                    <button id="btn-end-session-minimal" onclick="event.stopPropagation(); stopAndSave();" class="absolute bottom-5 hidden z-20 px-5 py-2 bg-red-50 text-red-500 rounded-full font-bold text-[10px] uppercase tracking-wider shadow-sm border border-red-100 hover:bg-red-100 transition-colors">
+                    <button id="btn-end-session-minimal" onclick="event.stopPropagation(); stopAndSave();" data-i18n="finishSessionBtn" class="absolute bottom-5 hidden z-20 px-5 py-2 bg-red-50 text-red-500 rounded-full font-bold text-[10px] uppercase tracking-wider shadow-sm border border-red-100 hover:bg-red-100 transition-colors">
                         Avslutt økten?
                     </button>
                 </div>
 
                 <div class="absolute bottom-4 bg-surface/50 backdrop-blur-md px-4 py-1.5 rounded-full flex gap-4 text-xs font-bold uppercase tracking-wider text-textMuted border border-black/5">
-                    <button id="mode-stopwatch-minimal" onclick="setMode('stopwatch')" class="transition-colors text-primary">Stoppeklokke</button>
-                    <button id="mode-countdown-minimal" onclick="setMode('countdown')" class="transition-colors hover:text-textMain">Nedtelling</button>
+                    <button id="mode-stopwatch-minimal" onclick="setMode('stopwatch')" data-i18n="stopwatch" class="transition-colors text-primary">Stoppeklokke</button>
+                    <button id="mode-countdown-minimal" onclick="setMode('countdown')" data-i18n="countdown" class="transition-colors hover:text-textMain">Nedtelling</button>
                 </div>
             </div>
 
@@ -153,19 +148,19 @@
             <div class="w-full bg-surface shadow-[0_-10px_40px_rgba(0,0,0,0.03)] rounded-3xl p-2 flex justify-between items-center z-20 shrink-0">
                 <button onclick="openModal('history-modal-minimal')" class="flex-1 flex flex-col items-center py-3 text-textMuted hover:text-primary transition-colors">
                     <svg class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
-                    <span class="text-[10px] font-bold uppercase tracking-wider">Logg</span>
+                    <span class="text-[10px] font-bold uppercase tracking-wider" data-i18n="log">Logg</span>
                 </button>
                 <button onclick="openModal('metronome-modal-minimal')" class="flex-1 flex flex-col items-center py-3 text-textMuted hover:text-primary transition-colors">
                     <svg class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"></path></svg>
-                    <span class="text-[10px] font-bold uppercase tracking-wider">Takt</span>
+                    <span class="text-[10px] font-bold uppercase tracking-wider" data-i18n="beat">Takt</span>
                 </button>
                 <button onclick="openModal('ai-modal-minimal')" class="flex-1 flex flex-col items-center py-3 text-textMuted hover:text-primary transition-colors">
                     <svg class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-                    <span class="text-[10px] font-bold uppercase tracking-wider">Lærer</span>
+                    <span class="text-[10px] font-bold uppercase tracking-wider" data-i18n="teacher">Lærer</span>
                 </button>
                 <button onclick="openModal('settings-modal-minimal')" class="flex-1 flex flex-col items-center py-3 text-textMuted hover:text-primary transition-colors">
                     <svg class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-                    <span class="text-[10px] font-bold uppercase tracking-wider">Meny</span>
+                    <span class="text-[10px] font-bold uppercase tracking-wider" data-i18n="menu">Meny</span>
                 </button>
             </div>
         </div>
@@ -180,11 +175,11 @@
                 <div class="flex-1 overflow-y-auto p-6 space-y-6">
                     <div class="grid grid-cols-2 gap-3">
                         <div class="bg-surface p-4 rounded-2xl shadow-soft text-center border border-black/5">
-                            <p class="text-[10px] uppercase font-bold text-textMuted mb-1">Dager på rad 🔥</p>
+                            <p class="text-[10px] uppercase font-bold text-textMuted mb-1" data-i18n="streak">Dager på rad 🔥</p>
                             <p id="streak-display-minimal" class="text-2xl font-bold text-primary">0</p>
                         </div>
                         <div class="bg-surface p-4 rounded-2xl shadow-soft text-center border border-black/5">
-                            <p class="text-[10px] uppercase font-bold text-textMuted mb-1">Gjennomført</p>
+                            <p class="text-[10px] uppercase font-bold text-textMuted mb-1" data-i18n="progress">Gjennomført</p>
                             <p id="percent-display-minimal" class="text-2xl font-bold text-primary">0%</p>
                         </div>
                     </div>
@@ -194,10 +189,10 @@
                     </div>
                     <div>
                         <div class="flex justify-between items-end mb-3">
-                            <h3 class="text-xs font-bold text-textMuted uppercase tracking-widest">Siste økter</h3>
+                            <h3 class="text-xs font-bold text-textMuted uppercase tracking-widest" data-i18n="recentSessionsList">Siste økter</h3>
                             <div class="flex gap-3">
-                                <button onclick="openModal('manual-modal-minimal'); closeModal('history-modal-minimal');" class="text-[11px] font-bold text-primary uppercase">+ Manuelt</button>
-                                <button onclick="clearLogs()" class="text-[11px] font-bold text-textMuted uppercase hover:text-red-400">Slett alle</button>
+                                <button onclick="openModal('manual-modal-minimal'); closeModal('history-modal-minimal');" class="text-[11px] font-bold text-primary uppercase" data-i18n="addManual">+ Manuelt</button>
+                                <button onclick="clearLogs()" class="text-[11px] font-bold text-textMuted uppercase hover:text-red-400" data-i18n="deleteAll">Slett alle</button>
                             </div>
                         </div>
                         <div id="session-list-minimal" class="space-y-3"></div>
@@ -211,8 +206,8 @@
                 <div class="w-full flex justify-end mb-2">
                     <button onclick="closeModal('metronome-modal-minimal')" class="p-2 bg-base rounded-full text-textMuted hover:text-textMain"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button>
                 </div>
-                <h2 class="text-2xl font-bold text-textMain mb-1">Metronom</h2>
-                <p class="text-xs text-textMuted uppercase font-bold tracking-widest mb-8">Finn rytmen</p>
+                <h2 class="text-2xl font-bold text-textMain mb-1" data-i18n="metronomeTitle">Metronom</h2>
+                <p class="text-xs text-textMuted uppercase font-bold tracking-widest mb-8" data-i18n="findRhythm">Finn rytmen</p>
                 <div class="text-6xl font-light text-primary mb-2 font-mono" id="bpm-display-minimal">100</div>
                 <p class="text-xs font-bold text-textMuted uppercase mb-8">BPM</p>
                 <input type="range" id="bpm-slider-minimal" min="30" max="240" value="100" class="w-full mb-8">
@@ -220,7 +215,7 @@
                     <button onclick="changeBpm(-5)" class="flex-1 py-3 bg-base rounded-2xl font-bold text-textMain hover:bg-black/5 transition-colors">-5</button>
                     <button onclick="changeBpm(5)" class="flex-1 py-3 bg-base rounded-2xl font-bold text-textMain hover:bg-black/5 transition-colors">+5</button>
                 </div>
-                <p class="text-xs font-bold text-textMuted uppercase mb-4">Taktart</p>
+                <p class="text-xs font-bold text-textMuted uppercase mb-4" data-i18n="timeSignature">Taktart</p>
                 <div class="flex justify-center gap-2 mb-8">
                     <button onclick="setTimeSignature(2)" id="ts-btn-2-minimal" class="w-12 h-12 rounded-full font-bold text-sm bg-base text-textMuted transition-colors">2</button>
                     <button onclick="setTimeSignature(3)" id="ts-btn-3-minimal" class="w-12 h-12 rounded-full font-bold text-sm bg-base text-textMuted transition-colors">3</button>
@@ -229,27 +224,27 @@
                     <button onclick="setTimeSignature(6)" id="ts-btn-6-minimal" class="w-12 h-12 rounded-full font-bold text-sm bg-base text-textMuted transition-colors">6</button>
                 </div>
                 <div id="beat-indicators-minimal" class="flex justify-center gap-3 mb-8 h-4 items-center"></div>
-                <button id="btn-metronome-toggle-minimal" onclick="toggleMetronome()" class="w-full py-4 bg-primary text-white font-bold rounded-2xl text-lg shadow-soft active:scale-95 transition-transform">Start</button>
+                <button id="btn-metronome-toggle-minimal" onclick="toggleMetronome()" data-i18n="start" class="w-full py-4 bg-primary text-white font-bold rounded-2xl text-lg shadow-soft active:scale-95 transition-transform">Start</button>
             </div>
         </div>
 
         <div id="ai-modal-minimal" class="modal-overlay fixed inset-0 flex flex-col justify-end md:justify-center md:items-center bg-textMain/20">
             <div class="modal-content w-full md:max-w-md bg-base rounded-t-3xl md:rounded-3xl h-[85vh] md:h-[600px] shadow-2xl flex flex-col overflow-hidden">
                 <div class="p-6 bg-surface shadow-sm z-10 flex justify-between items-center shrink-0">
-                    <h2 class="text-xl font-bold text-textMain flex items-center gap-2">✨ AI Lærer</h2>
+                    <h2 class="text-xl font-bold text-textMain flex items-center gap-2" data-i18n="aiTeacherBtn">✨ AI Lærer</h2>
                     <button onclick="closeModal('ai-modal-minimal')" class="p-2 bg-base rounded-full text-textMuted hover:text-textMain"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button>
                 </div>
                 <div class="flex-1 overflow-y-auto p-6 space-y-4" id="ai-chat-history-minimal">
-                    <div class="bg-surface p-4 rounded-2xl rounded-tl-sm text-sm text-textMain shadow-soft border border-black/5">Hei! Jeg er din personlige pianolærer. Hva vil du fokusere på i dag?</div>
+                    <div class="bg-surface p-4 rounded-2xl rounded-tl-sm text-sm text-textMain shadow-soft border border-black/5" data-i18n="aiGreeting">Hei! Jeg er din personlige AI-pianolærer, drevet av Gemini. Spør meg om oppvarmingsøvelser, teknikktips, eller be meg analysere øvingsloggen din for litt ekstra motivasjon! 🎹</div>
                 </div>
                 <div class="p-4 bg-surface border-t border-black/5 shrink-0">
                     <div class="flex gap-2 overflow-x-auto pb-3 scrollbar-hide">
-                        <button onclick="askAIPrompt('Oppvarming')" class="whitespace-nowrap px-4 py-2 bg-base border border-black/5 text-textMain text-xs font-bold rounded-full hover:bg-black/5">🎵 Oppvarming</button>
-                        <button onclick="askAIPrompt('Motivasjon')" class="whitespace-nowrap px-4 py-2 bg-base border border-black/5 text-textMain text-xs font-bold rounded-full hover:bg-black/5">🔥 Motiver meg</button>
-                        <button onclick="askAIPrompt('Teknikk')" class="whitespace-nowrap px-4 py-2 bg-base border border-black/5 text-textMain text-xs font-bold rounded-full hover:bg-black/5">🎹 Teknikk</button>
+                        <button onclick="askAIPrompt('Oppvarming')" data-i18n="aiBtnWarmup" class="whitespace-nowrap px-4 py-2 bg-base border border-black/5 text-textMain text-xs font-bold rounded-full hover:bg-black/5">🎵 Oppvarming</button>
+                        <button onclick="askAIPrompt('Motivasjon')" data-i18n="aiBtnMotivate" class="whitespace-nowrap px-4 py-2 bg-base border border-black/5 text-textMain text-xs font-bold rounded-full hover:bg-black/5">🔥 Motiver meg</button>
+                        <button onclick="askAIPrompt('Teknikk')" data-i18n="aiBtnDifficult" class="whitespace-nowrap px-4 py-2 bg-base border border-black/5 text-textMain text-xs font-bold rounded-full hover:bg-black/5">🎹 Teknikk</button>
                     </div>
                     <div class="flex gap-2">
-                        <input type="text" id="ai-input-minimal" class="flex-1 p-3 bg-base rounded-xl focus:ring-2 focus:ring-primary outline-none text-sm font-medium" placeholder="Spør læreren...">
+                        <input type="text" id="ai-input-minimal" class="flex-1 p-3 bg-base rounded-xl focus:ring-2 focus:ring-primary outline-none text-sm font-medium" data-i18n-placeholder="askTeacherPlc" placeholder="Spør læreren...">
                         <button onclick="sendAIQuery()" id="btn-send-ai-minimal" class="px-5 bg-primary text-white rounded-xl shadow-soft active:scale-95 transition-transform"><svg class="w-5 h-5 transform rotate-90" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg></button>
                     </div>
                 </div>
@@ -259,57 +254,67 @@
         <div id="settings-modal-minimal" class="modal-overlay fixed inset-0 flex flex-col justify-end md:justify-center md:items-center bg-textMain/20">
             <div class="modal-content w-full md:max-w-md bg-base rounded-t-3xl md:rounded-3xl h-[85vh] md:h-[600px] shadow-2xl flex flex-col overflow-hidden">
                 <div class="p-6 bg-surface shadow-sm z-10 flex justify-between items-center shrink-0">
-                    <h2 class="text-xl font-bold text-textMain">Meny & Innstillinger</h2>
+                    <h2 class="text-xl font-bold text-textMain" data-i18n="menuAndSettings">Meny & Innstillinger</h2>
                     <button onclick="closeModal('settings-modal-minimal')" class="p-2 bg-base rounded-full text-textMuted hover:text-textMain"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button>
                 </div>
                 <div class="flex-1 overflow-y-auto p-6 space-y-8">
                     <!-- Bytt Design Veksleknapp -->
                     <div class="p-4 bg-primary/10 rounded-2xl shadow-inner-soft border border-primary/20 flex justify-between items-center">
                         <div>
-                            <p class="font-bold text-primary text-sm">Prøv det Klassiske Designet</p>
-                            <p class="text-xs text-textMuted">Mer detaljert oversikt.</p>
+                            <p class="font-bold text-primary text-sm" data-i18n="tryClassic">Prøv det Klassiske Designet</p>
+                            <p class="text-xs text-textMuted" data-i18n="tryClassicSub">Mer detaljert oversikt.</p>
                         </div>
-                        <button onclick="switchDesign('classic')" class="px-4 py-2 bg-primary text-white rounded-xl text-xs font-bold shadow-soft">Bytt Design</button>
+                        <button onclick="switchDesign('classic')" data-i18n="switchDesignBtn" class="px-4 py-2 bg-primary text-white rounded-xl text-xs font-bold shadow-soft">Bytt Design</button>
                     </div>
 
                     <section>
-                        <h3 class="text-xs font-bold text-textMuted uppercase tracking-widest mb-4">Utseende</h3>
+                        <h3 class="text-xs font-bold text-textMuted uppercase tracking-widest mb-4" data-i18n="language">Språk / Language</h3>
+                        <button onclick="toggleLanguage()" class="w-full flex justify-between items-center p-4 bg-surface rounded-2xl shadow-soft border border-black/5 hover:bg-black/5 transition-colors">
+                            <span class="font-bold text-textMain text-sm lang-toggle-text">🇳🇴 Norsk</span>
+                            <span class="text-textMuted">🔄</span>
+                        </button>
+                    </section>
+
+                    <section>
+                        <h3 class="text-xs font-bold text-textMuted uppercase tracking-widest mb-4" data-i18n="appearance">Utseende</h3>
                         <div class="grid grid-cols-2 gap-3">
-                            <button onclick="changeTheme('zen')" class="p-4 bg-surface rounded-2xl shadow-soft text-sm font-bold text-[#8b9a8b] border border-[#8b9a8b]/20">Muted Zen</button>
-                            <button onclick="changeTheme('dusty-blue')" class="p-4 bg-surface rounded-2xl shadow-soft text-sm font-bold text-[#7c8ea3] border border-[#7c8ea3]/20">Støvblå</button>
-                            <button onclick="changeTheme('soft-rose')" class="p-4 bg-surface rounded-2xl shadow-soft text-sm font-bold text-[#bda2a2] border border-[#bda2a2]/20">Myk Rose</button>
-                            <button onclick="changeTheme('warm-sand')" class="p-4 bg-surface rounded-2xl shadow-soft text-sm font-bold text-[#c2a77d] border border-[#c2a77d]/20">Varm Sand</button>
+                            <button onclick="changeTheme('zen')" data-i18n="mutedZen" class="p-4 bg-surface rounded-2xl shadow-soft text-sm font-bold text-[#8b9a8b] border border-[#8b9a8b]/20">Muted Zen</button>
+                            <button onclick="changeTheme('dusty-blue')" data-i18n="dustyBlue" class="p-4 bg-surface rounded-2xl shadow-soft text-sm font-bold text-[#7c8ea3] border border-[#7c8ea3]/20">Støvblå</button>
+                            <button onclick="changeTheme('soft-rose')" data-i18n="softRose" class="p-4 bg-surface rounded-2xl shadow-soft text-sm font-bold text-[#bda2a2] border border-[#bda2a2]/20">Myk Rose</button>
+                            <button onclick="changeTheme('warm-sand')" data-i18n="warmSand" class="p-4 bg-surface rounded-2xl shadow-soft text-sm font-bold text-[#c2a77d] border border-[#c2a77d]/20">Varm Sand</button>
                         </div>
                     </section>
+
                     <section>
                         <div class="flex justify-between items-center mb-4">
-                            <h3 class="text-xs font-bold text-textMuted uppercase tracking-widest">Lydopptak</h3>
-                            <button onclick="toggleRecording()" id="btn-record-menu-minimal" class="text-[11px] font-bold text-primary uppercase flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-red-400"></span> Ta opp nå</button>
+                            <h3 class="text-xs font-bold text-textMuted uppercase tracking-widest" data-i18n="soundRecording">Lydopptak</h3>
+                            <button onclick="toggleRecording()" id="btn-record-menu-minimal" class="text-[11px] font-bold text-primary uppercase flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-red-400"></span> <span data-i18n="recordNow">Ta opp nå</span></button>
                         </div>
                         <div id="audio-list-minimal" class="space-y-3 bg-surface p-4 rounded-2xl shadow-soft border border-black/5 min-h-[100px] flex flex-col justify-center"></div>
                     </section>
+
                     <section class="space-y-3">
-                        <h3 class="text-xs font-bold text-textMuted uppercase tracking-widest mb-4">Innstillinger</h3>
+                        <h3 class="text-xs font-bold text-textMuted uppercase tracking-widest mb-4" data-i18n="settings">Innstillinger</h3>
                         <button onclick="openModal('goal-modal-minimal'); closeModal('settings-modal-minimal');" class="w-full flex justify-between items-center p-4 bg-surface rounded-2xl shadow-soft border border-black/5">
-                            <span class="font-bold text-textMain text-sm">Endre Mål (Timer)</span>
+                            <span class="font-bold text-textMain text-sm" data-i18n="changeGoalBtn">Endre Mål (Timer)</span>
                             <span class="text-textMuted"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg></span>
                         </button>
                         <div class="p-4 bg-surface rounded-2xl shadow-soft border border-black/5">
-                            <label class="block font-bold text-textMain text-sm mb-2">Lyd ved ferdig økt (Stoppeklokke)</label>
+                            <label class="block font-bold text-textMain text-sm mb-2" data-i18n="soundEndSession">Lyd ved ferdig økt (Stoppeklokke)</label>
                             <select id="stopwatch-sound-select-minimal" class="w-full bg-base p-3 rounded-xl text-sm font-semibold text-textMain outline-none border border-black/5">
-                                <option value="none">Ingen sluttlyd</option>
-                                <option value="magicChime">Trylleklang</option>
-                                <option value="xylophone">Xylofon</option>
-                                <option value="glassClink">Glassklirr</option>
+                                <option value="none" data-i18n="noEndSound">Ingen sluttlyd</option>
+                                <option value="magicChime" data-i18n="magicChime">Trylleklang</option>
+                                <option value="xylophone" data-i18n="xylophone">Xylofon</option>
+                                <option value="glassClink" data-i18n="glassClink">Glassklirr</option>
                             </select>
                         </div>
                         <div class="p-4 bg-surface rounded-2xl shadow-soft border border-black/5">
-                            <label class="block font-bold text-textMain text-sm mb-2">Alarm (Nedtelling)</label>
+                            <label class="block font-bold text-textMain text-sm mb-2" data-i18n="alarmCountdown">Alarm (Nedtelling)</label>
                             <select id="alarm-sound-select-minimal" class="w-full bg-base p-3 rounded-xl text-sm font-semibold text-textMain outline-none border border-black/5">
-                                <option value="https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg">Klassisk Vekkerklokke</option>
-                                <option value="https://actions.google.com/sounds/v1/alarms/digital_watch_alarm_long.ogg">Digital Alarm</option>
-                                <option value="https://actions.google.com/sounds/v1/alarms/bugle_tune.ogg">Trompet</option>
-                                <option value="https://actions.google.com/sounds/v1/alarms/medium_bell_ringing_near.ogg">Bjelle</option>
+                                <option value="https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg" data-i18n="classicAlarm">Klassisk Vekkerklokke</option>
+                                <option value="https://actions.google.com/sounds/v1/alarms/digital_watch_alarm_long.ogg" data-i18n="digitalAlarm">Digital Alarm</option>
+                                <option value="https://actions.google.com/sounds/v1/alarms/bugle_tune.ogg" data-i18n="trumpet">Trompet</option>
+                                <option value="https://actions.google.com/sounds/v1/alarms/medium_bell_ringing_near.ogg" data-i18n="bell">Bjelle</option>
                             </select>
                         </div>
                     </section>
@@ -319,34 +324,34 @@
 
         <div id="rename-modal-minimal" class="modal-overlay fixed inset-0 z-[60] flex items-center justify-center p-6 bg-textMain/40">
             <div class="modal-content w-full max-w-xs bg-surface p-6 rounded-3xl shadow-2xl">
-                <h3 class="font-bold text-xl mb-4 text-textMain">Endre navn</h3>
-                <input type="text" id="rename-input-minimal" class="w-full p-4 bg-base rounded-2xl mb-6 outline-none font-medium text-sm" placeholder="f.eks. Skalaer...">
+                <h3 class="font-bold text-xl mb-4 text-textMain" data-i18n="renameTitle">Endre navn</h3>
+                <input type="text" id="rename-input-minimal" class="w-full p-4 bg-base rounded-2xl mb-6 outline-none font-medium text-sm" data-i18n-placeholder="describeSessionPlc" placeholder="f.eks. Skalaer...">
                 <div class="flex gap-3">
-                    <button onclick="closeModal('rename-modal-minimal')" class="flex-1 py-3 text-textMuted font-bold bg-base rounded-xl">Avbryt</button>
-                    <button onclick="saveNewName()" class="flex-1 py-3 bg-primary text-white font-bold rounded-xl shadow-soft">Lagre</button>
+                    <button onclick="closeModal('rename-modal-minimal')" class="flex-1 py-3 text-textMuted font-bold bg-base rounded-xl" data-i18n="cancel">Avbryt</button>
+                    <button onclick="saveNewName()" class="flex-1 py-3 bg-primary text-white font-bold rounded-xl shadow-soft" data-i18n="save">Lagre</button>
                 </div>
             </div>
         </div>
         <div id="goal-modal-minimal" class="modal-overlay fixed inset-0 z-[60] flex items-center justify-center p-6 bg-textMain/40">
             <div class="modal-content w-full max-w-xs bg-surface p-6 rounded-3xl shadow-2xl">
-                <h3 class="font-bold text-xl mb-4 text-textMain">Nytt Mål</h3>
+                <h3 class="font-bold text-xl mb-4 text-textMain" data-i18n="changeGoalTitle">Nytt Mål</h3>
                 <input type="number" id="goal-input-minimal" class="w-full p-4 bg-base rounded-2xl mb-6 outline-none font-bold text-2xl text-center text-primary" placeholder="100">
                 <div class="flex gap-3">
-                    <button onclick="closeModal('goal-modal-minimal')" class="flex-1 py-3 text-textMuted font-bold bg-base rounded-xl">Avbryt</button>
-                    <button onclick="saveNewGoal()" class="flex-1 py-3 bg-primary text-white font-bold rounded-xl shadow-soft">Lagre</button>
+                    <button onclick="closeModal('goal-modal-minimal')" class="flex-1 py-3 text-textMuted font-bold bg-base rounded-xl" data-i18n="cancel">Avbryt</button>
+                    <button onclick="saveNewGoal()" class="flex-1 py-3 bg-primary text-white font-bold rounded-xl shadow-soft" data-i18n="save">Lagre</button>
                 </div>
             </div>
         </div>
         <div id="manual-modal-minimal" class="modal-overlay fixed inset-0 z-[60] flex items-center justify-center p-6 bg-textMain/40">
             <div class="modal-content w-full max-w-xs bg-surface p-6 rounded-3xl shadow-2xl">
-                <h3 class="font-bold text-xl mb-4 text-textMain">Logg Manuelt</h3>
+                <h3 class="font-bold text-xl mb-4 text-textMain" data-i18n="manualTitle">Logg Manuelt</h3>
                 <div class="flex items-center gap-2 mb-6">
                     <input type="number" id="manual-input-minimal" class="w-full p-4 bg-base rounded-2xl outline-none font-bold text-2xl text-center text-primary" placeholder="30">
-                    <span class="text-textMuted font-bold">Min</span>
+                    <span class="text-textMuted font-bold" data-i18n="min">Min</span>
                 </div>
                 <div class="flex gap-3">
-                    <button onclick="closeModal('manual-modal-minimal')" class="flex-1 py-3 text-textMuted font-bold bg-base rounded-xl">Avbryt</button>
-                    <button onclick="saveManualEntry()" class="flex-1 py-3 bg-primary text-white font-bold rounded-xl shadow-soft">Lagre</button>
+                    <button onclick="closeModal('manual-modal-minimal')" class="flex-1 py-3 text-textMuted font-bold bg-base rounded-xl" data-i18n="cancel">Avbryt</button>
+                    <button onclick="saveManualEntry()" class="flex-1 py-3 bg-primary text-white font-bold rounded-xl shadow-soft" data-i18n="save">Lagre</button>
                 </div>
             </div>
         </div>
@@ -360,15 +365,18 @@
         
         <div class="piano-gradient p-8 text-white text-center shrink-0 relative lg:w-[360px] xl:w-[400px] flex flex-col lg:justify-center overflow-y-auto scrollbar-hide">
             <div class="absolute top-4 right-4 flex gap-1">
-                <button onclick="switchDesign('minimal')" class="p-2 text-white/50 hover:text-white transition-colors text-sm font-bold bg-white/10 rounded-lg px-3 mr-2">✨ Design</button>
-                <button onclick="toggleLanguage()" class="p-2 text-white/50 hover:text-white transition-colors text-xl leading-none">🇳🇴</button>
-                <button onclick="openModal('theme-modal-classic')" class="p-2 text-white/50 hover:text-white transition-colors">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4 2a2 2 0 00-2 2v11a3 3 0 106 0V4a2 2 0 00-2-2H4zm1 14a1 1 0 100-2 1 1 0 000 2zm5-1.757l4.9-4.9a2 2 0 000-2.828L13.485 5.1a2 2 0 00-2.828 0L10 10.001v4.242zM16.243 9.1l-4.9-4.9m4.9 4.9l4.242 4.243a2 2 0 010 2.828l-1.414 1.414a2 2 0 01-2.828 0L12 13.344" clip-rule="evenodd" /></svg>
+                <button onclick="switchDesign('minimal')" class="p-2 text-white/50 hover:text-white transition-colors text-sm font-bold bg-white/10 rounded-lg px-3 mr-2" data-i18n="switchDesignBtnMin">✨ Design</button>
+                <!-- Menyeknapp i Design 2 som åpner innstillinger -->
+                <button onclick="openModal('settings-modal-classic')" class="p-2 text-white/50 hover:text-white transition-colors" title="Meny">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
                 </button>
             </div>
 
-            <h1 class="text-2xl lg:text-3xl font-bold mb-1 mt-6 lg:mt-0">Piano Challenge</h1>
-            <p class="text-slate-400 text-xs lg:text-sm mb-8">Mål: <span id="header-goal-hours-classic">100</span> timer øving</p>
+            <h1 class="text-2xl lg:text-3xl font-bold mb-1 mt-6 lg:mt-0" data-i18n="appTitle">Piano Challenge</h1>
+            <p class="text-slate-400 text-xs lg:text-sm mb-8"><span data-i18n="goal">Mål</span>: <span id="header-goal-hours-classic">100</span> <span data-i18n="hoursText">timer</span></p>
             
             <div class="relative inline-flex items-center justify-center">
                 <svg class="w-48 h-48">
@@ -377,31 +385,31 @@
                 </svg>
                 <div class="absolute text-center">
                     <span id="total-hours-display-classic" class="block text-4xl font-bold">0.0</span>
-                    <span class="text-[10px] uppercase tracking-widest text-slate-400">Timer</span>
+                    <span class="text-[10px] uppercase tracking-widest text-slate-400" data-i18n="hours">Timer</span>
                 </div>
             </div>
 
             <div class="mt-8 grid grid-cols-2 gap-3 text-sm text-center">
                 <div class="bg-slate-800/50 p-3 rounded-xl border border-white/5 cursor-pointer hover:bg-slate-700/50" onclick="openModal('goal-modal-classic')">
-                    <p class="text-slate-400 text-[10px] uppercase tracking-wider mb-1">Gjenstår</p>
+                    <p class="text-slate-400 text-[10px] uppercase tracking-wider mb-1" data-i18n="remaining">Gjenstår</p>
                     <p id="remaining-time-classic" class="font-semibold text-brand-300 text-sm">100t 0m</p>
                 </div>
                 <div class="bg-slate-800/50 p-3 rounded-xl border border-white/5">
-                    <p class="text-slate-400 text-[10px] uppercase tracking-wider mb-1">Fremgang</p>
+                    <p class="text-slate-400 text-[10px] uppercase tracking-wider mb-1" data-i18n="progress">Fremgang</p>
                     <p id="percent-display-classic" class="font-semibold text-green-400 text-sm">0%</p>
                 </div>
                 <div class="bg-slate-800/50 p-3 rounded-xl border border-white/5 ring-1 ring-orange-500/30">
-                    <p class="text-slate-400 text-[10px] uppercase tracking-wider mb-1">Streak 🔥</p>
+                    <p class="text-slate-400 text-[10px] uppercase tracking-wider mb-1" data-i18n="streak">Streak 🔥</p>
                     <p id="streak-display-classic" class="font-semibold text-orange-400 text-sm">0</p>
                 </div>
                 <div class="bg-slate-800/50 p-3 rounded-xl border border-white/5">
-                    <p class="text-slate-400 text-[10px] uppercase tracking-wider mb-1">Dager</p>
+                    <p class="text-slate-400 text-[10px] uppercase tracking-wider mb-1" data-i18n="days">Dager</p>
                     <p id="days-display-classic" class="font-semibold text-purple-400 text-sm">0</p>
                 </div>
             </div>
 
             <div class="mt-6 bg-slate-800/30 rounded-xl p-3 border border-white/5">
-                <p class="text-slate-400 text-[10px] uppercase tracking-wider mb-2 text-left">Milepæler (Hver 10. time)</p>
+                <p class="text-slate-400 text-[10px] uppercase tracking-wider mb-2 text-left" data-i18n="milestones">Milepæler (Hver 10. time)</p>
                 <div id="badges-container-classic" class="flex gap-3 overflow-x-auto pb-2 scrollbar-hide"></div>
             </div>
         </div>
@@ -410,10 +418,10 @@
             <div class="flex-1 flex flex-col w-full max-w-md mx-auto lg:max-w-none overflow-y-auto scrollbar-hide">
                 <div class="bg-gray-50 rounded-3xl p-6 border border-gray-200 mb-6 shrink-0 relative shadow-sm">
                     <div class="flex justify-between items-center mb-6">
-                        <h2 id="timer-mode-label-classic" class="font-bold text-gray-800 text-base">Stoppeklokke</h2>
+                        <h2 id="timer-mode-label-classic" class="font-bold text-gray-800 text-base" data-i18n="stopwatch">Stoppeklokke</h2>
                         <div class="flex gap-1 bg-gray-200 p-1.5 rounded-xl">
-                            <button onclick="setMode('stopwatch')" id="btn-mode-stopwatch-classic" class="px-4 py-1.5 rounded-lg text-xs font-bold uppercase transition-all bg-white text-brand-600 shadow-sm">Fri</button>
-                            <button onclick="setMode('countdown')" id="btn-mode-countdown-classic" class="px-4 py-1.5 rounded-lg text-xs font-bold uppercase transition-all text-gray-500 hover:text-gray-700">Mål</button>
+                            <button onclick="setMode('stopwatch')" id="btn-mode-stopwatch-classic" class="px-4 py-1.5 rounded-lg text-xs font-bold uppercase transition-all bg-white text-brand-600 shadow-sm" data-i18n="free">Fri</button>
+                            <button onclick="setMode('countdown')" id="btn-mode-countdown-classic" class="px-4 py-1.5 rounded-lg text-xs font-bold uppercase transition-all text-gray-500 hover:text-gray-700" data-i18n="countdown">Mål</button>
                         </div>
                     </div>
 
@@ -421,11 +429,11 @@
                         <div class="flex items-center gap-3 bg-white border border-gray-200 rounded-2xl p-3">
                             <span class="text-xl">🎵</span>
                             <select id="stopwatch-sound-select-classic" class="w-full bg-transparent text-sm font-semibold text-gray-700 outline-none">
-                                <option value="none">Ingen sluttlyd</option>
-                                <option value="magicChime">Trylleklang</option>
-                                <option value="xylophone">Xylofon</option>
-                                <option value="glassClink">Glassklirr</option>
-                                <option value="bell">Bjelle</option>
+                                <option value="none" data-i18n="noEndSound">Ingen sluttlyd</option>
+                                <option value="magicChime" data-i18n="magicChime">Trylleklang</option>
+                                <option value="xylophone" data-i18n="xylophone">Xylofon</option>
+                                <option value="glassClink" data-i18n="glassClink">Glassklirr</option>
+                                <option value="bell" data-i18n="bell">Bjelle</option>
                             </select>
                             <button onclick="playSynthSound(D('stopwatch-sound-select-classic').value)" class="p-2 text-brand-500 hover:bg-brand-50 rounded-full">▶️</button>
                         </div>
@@ -434,7 +442,7 @@
                     <div id="countdown-settings-classic" class="hidden mb-6">
                         <div class="flex items-center gap-3 mb-4">
                             <input type="number" id="input-minutes-classic" value="20" min="1" max="300" class="w-full p-3 bg-white border border-brand-200 rounded-2xl text-center font-bold text-2xl text-brand-600 focus:ring-2 focus:ring-brand-400 outline-none shadow-inner">
-                            <span class="text-sm font-bold text-gray-400 uppercase">Min</span>
+                            <span class="text-sm font-bold text-gray-400 uppercase" data-i18n="min">Min</span>
                         </div>
                         <div class="flex gap-2 mb-4">
                             <button onclick="setQuickTime(10)" class="flex-1 bg-brand-50 text-brand-600 font-bold py-2.5 rounded-xl text-sm border border-brand-100">10 min</button>
@@ -444,10 +452,10 @@
                         <div class="flex items-center gap-3 bg-white border border-gray-200 rounded-2xl p-3">
                             <span class="text-xl">⏰</span>
                             <select id="alarm-sound-select-classic" class="w-full bg-transparent text-sm font-semibold text-gray-700 outline-none">
-                                <option value="https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg">Klassisk Vekkerklokke</option>
-                                <option value="https://actions.google.com/sounds/v1/alarms/digital_watch_alarm_long.ogg">Digital Alarm</option>
-                                <option value="https://actions.google.com/sounds/v1/alarms/bugle_tune.ogg">Trompet</option>
-                                <option value="https://actions.google.com/sounds/v1/alarms/medium_bell_ringing_near.ogg">Bjelle</option>
+                                <option value="https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg" data-i18n="classicAlarm">Klassisk Vekkerklokke</option>
+                                <option value="https://actions.google.com/sounds/v1/alarms/digital_watch_alarm_long.ogg" data-i18n="digitalAlarm">Digital Alarm</option>
+                                <option value="https://actions.google.com/sounds/v1/alarms/bugle_tune.ogg" data-i18n="trumpet">Trompet</option>
+                                <option value="https://actions.google.com/sounds/v1/alarms/medium_bell_ringing_near.ogg" data-i18n="bell">Bjelle</option>
                             </select>
                             <button onclick="testAlarmSound()" class="p-2 text-brand-500 hover:bg-brand-50 rounded-full">▶️</button>
                         </div>
@@ -457,31 +465,31 @@
 
                     <div class="flex gap-3 mt-4">
                         <button id="btn-start-classic" onclick="toggleTimer()" class="flex-[3] bg-brand-600 hover:bg-brand-700 text-white font-bold py-5 rounded-2xl shadow-lg transition-all active:scale-95 text-lg">
-                            <span id="start-btn-text-classic">Start Øving</span>
+                            <span id="start-btn-text-classic" data-i18n="startPractice">Start Øving</span>
                         </button>
                         <button id="btn-record-classic" onclick="toggleRecording()" class="hidden flex-1 bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold py-5 rounded-2xl text-xl pulse-record-classic">🎙️</button>
-                        <button id="btn-reset-classic" onclick="resetTimer()" class="hidden flex-1 bg-gray-200 hover:bg-gray-300 text-gray-600 font-bold py-5 rounded-2xl transition-all">Nullstill</button>
+                        <button id="btn-reset-classic" onclick="resetTimer()" class="hidden flex-1 bg-gray-200 hover:bg-gray-300 text-gray-600 font-bold py-5 rounded-2xl transition-all" data-i18n="reset">Nullstill</button>
                     </div>
                 </div>
 
                 <div class="flex flex-col sm:flex-row gap-2 mb-6 lg:mb-0 shrink-0">
-                    <button onclick="openModal('metronome-modal-classic')" class="flex-1 bg-amber-100 text-amber-800 font-bold py-4 px-2 rounded-2xl">🎵 Metronom</button>
-                    <button onclick="openModal('audio-modal-classic')" class="flex-1 bg-green-100 text-green-800 font-bold py-4 px-2 rounded-2xl">🎙️ Lydopptak</button>
-                    <button onclick="openModal('ai-modal-classic')" class="flex-1 bg-purple-100 text-purple-800 font-bold py-4 px-2 rounded-2xl">✨ AI-Lærer</button>
+                    <button onclick="openModal('metronome-modal-classic')" class="flex-1 bg-amber-100 text-amber-800 font-bold py-4 px-2 rounded-2xl" data-i18n="metronome">🎵 Metronom</button>
+                    <button onclick="openModal('audio-modal-classic')" class="flex-1 bg-green-100 text-green-800 font-bold py-4 px-2 rounded-2xl" data-i18n="recordings">🎙️ Lydopptak</button>
+                    <button onclick="openModal('ai-modal-classic')" class="flex-1 bg-purple-100 text-purple-800 font-bold py-4 px-2 rounded-2xl" data-i18n="aiTeacherBtn">✨ AI-Lærer</button>
                 </div>
             </div>
 
             <div class="flex-1 flex flex-col w-full max-w-md mx-auto lg:max-w-none lg:border-l lg:border-gray-100 lg:pl-10 overflow-hidden">
                 <div class="mb-8 shrink-0">
-                    <h3 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Aktivitet siste 28 dager</h3>
+                    <h3 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3" data-i18n="activity">Aktivitet siste 28 dager</h3>
                     <div class="grid grid-cols-7 gap-2" id="heatmap-grid-classic"></div>
                 </div>
                 <div class="flex-1 flex flex-col overflow-hidden">
                     <h3 class="font-bold text-gray-800 text-lg mb-4 flex justify-between items-center shrink-0">
-                        <span>Siste økter</span>
+                        <span data-i18n="recentSessionsList">Siste økter</span>
                         <div class="flex gap-4">
-                            <button onclick="openModal('manual-modal-classic')" class="text-[11px] font-bold text-brand-600 uppercase">+ Manuelt</button>
-                            <button onclick="clearLogs()" class="text-[11px] font-bold text-gray-400 uppercase">Slett alle</button>
+                            <button onclick="openModal('manual-modal-classic')" class="text-[11px] font-bold text-brand-600 uppercase" data-i18n="addManual">+ Manuelt</button>
+                            <button onclick="clearLogs()" class="text-[11px] font-bold text-gray-400 uppercase" data-i18n="deleteAll">Slett alle</button>
                         </div>
                     </h3>
                     <div id="session-list-classic" class="space-y-3 overflow-y-auto pr-2 pb-6 session-list-classic"></div>
@@ -490,21 +498,36 @@
         </div>
 
         <!-- Modaler for Classic -->
-        <div id="theme-modal-classic" class="modal-overlay fixed inset-0 z-50 flex items-center justify-center p-6 bg-black/60">
+        <!-- Ny kombinert meny for Tema og Språk i Classic -->
+        <div id="settings-modal-classic" class="modal-overlay fixed inset-0 z-50 flex items-center justify-center p-6 bg-black/60">
             <div class="modal-content bg-white rounded-3xl w-full max-w-xs p-6 shadow-2xl text-center">
-                <h3 class="font-bold text-xl mb-4 text-gray-800">Velg Tema 🎨</h3>
-                <div class="grid grid-cols-2 gap-3 mb-6">
-                    <button onclick="changeTheme('blue')" class="p-4 bg-blue-50 text-blue-600 font-bold rounded-2xl border-2 border-blue-200">Blå</button>
-                    <button onclick="changeTheme('purple')" class="p-4 bg-purple-50 text-purple-600 font-bold rounded-2xl border-2 border-purple-200">Lilla</button>
-                    <button onclick="changeTheme('green')" class="p-4 bg-green-50 text-green-600 font-bold rounded-2xl border-2 border-green-200">Grønn</button>
-                    <button onclick="changeTheme('rose')" class="p-4 bg-rose-50 text-rose-600 font-bold rounded-2xl border-2 border-rose-200">Rød</button>
+                <h3 class="font-bold text-xl mb-6 text-gray-800" data-i18n="menuAndSettings">Meny & Innstillinger</h3>
+                
+                <div class="mb-6 text-left">
+                    <p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-2" data-i18n="language">Språk / Language</p>
+                    <button onclick="toggleLanguage()" class="w-full p-4 bg-gray-50 border border-gray-100 rounded-2xl flex justify-between items-center hover:bg-gray-100 transition-colors">
+                        <span class="font-bold text-gray-800 lang-toggle-text">🇳🇴 Norsk</span>
+                        <span>🔄</span>
+                    </button>
                 </div>
-                <button onclick="closeModal('theme-modal-classic')" class="w-full py-3 bg-gray-100 text-gray-600 font-bold rounded-xl">Lukk</button>
+
+                <div class="mb-6 text-left">
+                    <p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-2" data-i18n="appearance">Utseende</p>
+                    <div class="grid grid-cols-2 gap-3">
+                        <button onclick="changeTheme('blue')" class="p-3 bg-blue-50 text-blue-600 font-bold rounded-2xl border-2 border-blue-200" data-i18n="classicBlue">Blå</button>
+                        <button onclick="changeTheme('purple')" class="p-3 bg-purple-50 text-purple-600 font-bold rounded-2xl border-2 border-purple-200" data-i18n="purple">Lilla</button>
+                        <button onclick="changeTheme('green')" class="p-3 bg-green-50 text-green-600 font-bold rounded-2xl border-2 border-green-200" data-i18n="green">Grønn</button>
+                        <button onclick="changeTheme('rose')" class="p-3 bg-rose-50 text-rose-600 font-bold rounded-2xl border-2 border-rose-200" data-i18n="red">Rød</button>
+                    </div>
+                </div>
+
+                <button onclick="closeModal('settings-modal-classic')" class="w-full py-3 bg-gray-100 text-gray-600 font-bold rounded-xl" data-i18n="close">Lukk</button>
             </div>
         </div>
+
         <div id="metronome-modal-classic" class="modal-overlay fixed inset-0 z-50 flex items-center justify-center p-6 bg-black/60">
             <div class="modal-content bg-white rounded-3xl w-full max-w-xs p-6 shadow-2xl text-center">
-                <h3 class="font-bold text-xl mb-1 text-gray-800">🎵 Metronom</h3>
+                <h3 class="font-bold text-xl mb-1 text-gray-800" data-i18n="metronomeTitle">🎵 Metronom</h3>
                 <div class="text-5xl font-black text-gray-800 mb-4 mt-6" id="bpm-display-classic">100</div>
                 <input type="range" id="bpm-slider-classic" min="30" max="240" value="100" class="w-full h-2 rounded-lg appearance-none cursor-pointer mb-6 classic-range">
                 <div class="flex gap-3 mb-6">
@@ -520,28 +543,28 @@
                 </div>
                 <div id="beat-indicators-classic" class="flex justify-center gap-2 mb-6 h-3 mt-4"></div>
                 <div class="flex gap-3">
-                    <button onclick="closeModal('metronome-modal-classic')" class="flex-1 py-3 text-gray-400 font-bold bg-gray-50 rounded-xl">Lukk</button>
-                    <button id="btn-metronome-toggle-classic" onclick="toggleMetronome()" class="flex-1 py-3 bg-amber-500 text-white font-bold rounded-xl">Start</button>
+                    <button onclick="closeModal('metronome-modal-classic')" class="flex-1 py-3 text-gray-400 font-bold bg-gray-50 rounded-xl" data-i18n="close">Lukk</button>
+                    <button id="btn-metronome-toggle-classic" onclick="toggleMetronome()" class="flex-1 py-3 bg-amber-500 text-white font-bold rounded-xl" data-i18n="start">Start</button>
                 </div>
             </div>
         </div>
         <div id="ai-modal-classic" class="modal-overlay fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60">
             <div class="modal-content bg-white rounded-3xl w-full max-w-md p-6 shadow-2xl flex flex-col max-h-[90vh]">
                 <div class="flex justify-between items-center mb-4 shrink-0">
-                    <h3 class="font-bold text-xl text-gray-800">✨ AI-Pianolærer</h3>
+                    <h3 class="font-bold text-xl text-gray-800" data-i18n="aiTeacherBtn">✨ AI-Pianolærer</h3>
                     <button onclick="closeModal('ai-modal-classic')" class="p-2 bg-gray-100 rounded-full text-gray-500">❌</button>
                 </div>
                 <div class="overflow-y-auto flex-1 mb-4 pr-2 space-y-4" id="ai-chat-history-classic">
-                    <div class="bg-indigo-50 p-4 rounded-2xl text-sm text-indigo-900">Hei! Jeg er din personlige AI-pianolærer. Spør meg om oppvarming, teknikk eller motivasjon!</div>
+                    <div class="bg-indigo-50 p-4 rounded-2xl text-sm text-indigo-900" data-i18n="aiGreeting">Hei! Jeg er din personlige AI-pianolærer. Spør meg om oppvarming, teknikk eller motivasjon!</div>
                 </div>
                 <div class="shrink-0 space-y-3">
                     <div class="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
-                        <button onclick="askAIPrompt('Oppvarming')" class="whitespace-nowrap px-3 py-1.5 bg-purple-100 text-purple-700 text-xs font-bold rounded-full">Oppvarming</button>
-                        <button onclick="askAIPrompt('Motivasjon')" class="whitespace-nowrap px-3 py-1.5 bg-blue-100 text-blue-700 text-xs font-bold rounded-full">Motiver meg</button>
-                        <button onclick="askAIPrompt('Teknikk')" class="whitespace-nowrap px-3 py-1.5 bg-green-100 text-green-700 text-xs font-bold rounded-full">Vanskelige passasjer</button>
+                        <button onclick="askAIPrompt('Oppvarming')" class="whitespace-nowrap px-3 py-1.5 bg-purple-100 text-purple-700 text-xs font-bold rounded-full" data-i18n="aiBtnWarmup">Oppvarming</button>
+                        <button onclick="askAIPrompt('Motivasjon')" class="whitespace-nowrap px-3 py-1.5 bg-blue-100 text-blue-700 text-xs font-bold rounded-full" data-i18n="aiBtnMotivate">Motiver meg</button>
+                        <button onclick="askAIPrompt('Teknikk')" class="whitespace-nowrap px-3 py-1.5 bg-green-100 text-green-700 text-xs font-bold rounded-full" data-i18n="aiBtnDifficult">Vanskelige passasjer</button>
                     </div>
                     <div class="flex gap-2">
-                        <input type="text" id="ai-input-classic" class="flex-1 p-3 bg-gray-50 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none text-sm" placeholder="Spør læreren...">
+                        <input type="text" id="ai-input-classic" class="flex-1 p-3 bg-gray-50 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none text-sm" data-i18n-placeholder="askTeacherPlc" placeholder="Spør læreren...">
                         <button onclick="sendAIQuery()" id="btn-send-ai-classic" class="p-3 bg-indigo-600 text-white rounded-xl">💬</button>
                     </div>
                 </div>
@@ -550,7 +573,7 @@
         <div id="audio-modal-classic" class="modal-overlay fixed inset-0 z-50 flex items-center justify-center p-6 bg-black/60">
             <div class="modal-content bg-white rounded-3xl w-full max-w-md p-6 shadow-2xl flex flex-col max-h-[90vh]">
                 <div class="flex justify-between items-center mb-4 shrink-0">
-                    <h3 class="font-bold text-xl text-gray-800">🎙️ Dine Lydopptak</h3>
+                    <h3 class="font-bold text-xl text-gray-800" data-i18n="audioGallery">🎙️ Dine Lydopptak</h3>
                     <button onclick="closeModal('audio-modal-classic')" class="p-2 bg-gray-100 rounded-full">❌</button>
                 </div>
                 <div class="overflow-y-auto flex-1 pr-2 space-y-3 scrollbar-hide" id="audio-list-classic"></div>
@@ -558,34 +581,34 @@
         </div>
         <div id="rename-modal-classic" class="modal-overlay fixed inset-0 z-[60] flex items-center justify-center p-6 bg-black/60">
             <div class="modal-content w-full max-w-xs bg-white p-6 rounded-3xl shadow-2xl">
-                <h3 class="font-bold text-xl mb-4 text-gray-800">Endre navn</h3>
-                <input type="text" id="rename-input-classic" class="w-full p-4 bg-gray-50 rounded-2xl mb-6 outline-none font-medium text-sm">
+                <h3 class="font-bold text-xl mb-4 text-gray-800" data-i18n="renameTitle">Endre navn</h3>
+                <input type="text" id="rename-input-classic" class="w-full p-4 bg-gray-50 rounded-2xl mb-6 outline-none font-medium text-sm" data-i18n-placeholder="describeSessionPlc" placeholder="f.eks. Skalaer...">
                 <div class="flex gap-3">
-                    <button onclick="closeModal('rename-modal-classic')" class="flex-1 py-3 text-gray-400 font-bold bg-gray-50 rounded-xl">Avbryt</button>
-                    <button onclick="saveNewName()" class="flex-1 py-3 bg-brand-600 text-white font-bold rounded-xl">Lagre</button>
+                    <button onclick="closeModal('rename-modal-classic')" class="flex-1 py-3 text-gray-400 font-bold bg-gray-50 rounded-xl" data-i18n="cancel">Avbryt</button>
+                    <button onclick="saveNewName()" class="flex-1 py-3 bg-brand-600 text-white font-bold rounded-xl" data-i18n="save">Lagre</button>
                 </div>
             </div>
         </div>
         <div id="goal-modal-classic" class="modal-overlay fixed inset-0 z-[60] flex items-center justify-center p-6 bg-black/60">
             <div class="modal-content w-full max-w-xs bg-white p-6 rounded-3xl shadow-2xl">
-                <h3 class="font-bold text-xl mb-4 text-gray-800">Nytt Mål</h3>
+                <h3 class="font-bold text-xl mb-4 text-gray-800" data-i18n="changeGoalTitle">Nytt Mål</h3>
                 <input type="number" id="goal-input-classic" class="w-full p-4 bg-gray-50 rounded-2xl mb-6 outline-none font-bold text-2xl text-center text-brand-600">
                 <div class="flex gap-3">
-                    <button onclick="closeModal('goal-modal-classic')" class="flex-1 py-3 text-gray-400 font-bold bg-gray-50 rounded-xl">Avbryt</button>
-                    <button onclick="saveNewGoal()" class="flex-1 py-3 bg-brand-600 text-white font-bold rounded-xl">Lagre</button>
+                    <button onclick="closeModal('goal-modal-classic')" class="flex-1 py-3 text-gray-400 font-bold bg-gray-50 rounded-xl" data-i18n="cancel">Avbryt</button>
+                    <button onclick="saveNewGoal()" class="flex-1 py-3 bg-brand-600 text-white font-bold rounded-xl" data-i18n="save">Lagre</button>
                 </div>
             </div>
         </div>
         <div id="manual-modal-classic" class="modal-overlay fixed inset-0 z-[60] flex items-center justify-center p-6 bg-black/60">
             <div class="modal-content w-full max-w-xs bg-white p-6 rounded-3xl shadow-2xl">
-                <h3 class="font-bold text-xl mb-4 text-gray-800">Logg Manuelt</h3>
+                <h3 class="font-bold text-xl mb-4 text-gray-800" data-i18n="manualTitle">Logg Manuelt</h3>
                 <div class="flex items-center gap-2 mb-6">
                     <input type="number" id="manual-input-classic" class="w-full p-4 bg-gray-50 rounded-2xl outline-none font-bold text-2xl text-center text-brand-600">
-                    <span class="text-gray-400 font-bold">Min</span>
+                    <span class="text-gray-400 font-bold" data-i18n="min">Min</span>
                 </div>
                 <div class="flex gap-3">
-                    <button onclick="closeModal('manual-modal-classic')" class="flex-1 py-3 text-gray-400 font-bold bg-gray-50 rounded-xl">Avbryt</button>
-                    <button onclick="saveManualEntry()" class="flex-1 py-3 bg-brand-600 text-white font-bold rounded-xl">Lagre</button>
+                    <button onclick="closeModal('manual-modal-classic')" class="flex-1 py-3 text-gray-400 font-bold bg-gray-50 rounded-xl" data-i18n="cancel">Avbryt</button>
+                    <button onclick="saveManualEntry()" class="flex-1 py-3 bg-brand-600 text-white font-bold rounded-xl" data-i18n="save">Lagre</button>
                 </div>
             </div>
         </div>
@@ -604,6 +627,101 @@
             set: function(key, value) { try { window.localStorage.setItem(key, value); } catch(e) { memoryStore[key] = value; } },
             remove: function(key) { try { window.localStorage.removeItem(key); } catch(e) { delete memoryStore[key]; } }
         };
+
+        // --- OVERSETTELSER (I18N) ---
+        const translations = {
+            'no': {
+                appTitle: "Piano Challenge", goal: "Mål", hours: "Timer", hoursText: "timer",
+                remaining: "Gjenstår", progress: "Fremgang", streak: "Dager på rad 🔥", days: "Dager",
+                milestones: "Milepæler (Hver 10. time)", stopwatch: "Stoppeklokke", countdown: "Nedtelling",
+                free: "Fri", noEndSound: "Ingen sluttlyd", magicChime: "Trylleklang", xylophone: "Xylofon",
+                glassClink: "Glassklirr", bell: "Bjelle", min: "Min", classicAlarm: "Klassisk Vekkerklokke",
+                digitalAlarm: "Digital Alarm", trumpet: "Trompet", startPractice: "Start Øving", finishSessionBtn: "Avslutt økten?",
+                finishSession: "Fullfør Økt", pause: "Pause", stopAlarm: "Stopp Alarm & Lagre", stop: "Stopp", reset: "Nullstill",
+                metronome: "🎵 Metronom", recordings: "🎙️ Lydopptak", aiTeacherBtn: "✨ AI-Lærer", activity: "Aktivitet siste 28 dager",
+                recentSessions: "Øvingslogg", recentSessionsList: "Siste økter", addManual: "+ Manuelt", deleteAll: "Slett alle",
+                noSessions: "Ingen økter", audioGallery: "🎙️ Dine Lydopptak", menuAndSettings: "Meny & Innstillinger",
+                classicBlue: "Klassisk Blå", purple: "Lilla", green: "Grønn", red: "Rød", close: "Lukk",
+                metronomeTitle: "🎵 Metronom", findRhythm: "Finn rytmen", timeSignature: "Taktart", start: "Start",
+                renameTitle: "Endre navn", describeSessionPlc: "f.eks. Skalaer, Mozart...", cancel: "Avbryt", save: "Lagre",
+                changeGoalTitle: "Nytt Mål", manualTitle: "Logg Manuelt",
+                aiGreeting: "Hei! Jeg er din personlige AI-pianolærer. Spør meg om oppvarming, teknikk eller motivasjon! 🎹",
+                aiBtnWarmup: "🎵 Oppvarming", aiBtnMotivate: "🔥 Motiver meg", aiBtnDifficult: "🎹 Teknikk", askTeacherPlc: "Spør læreren...",
+                log: "Logg", beat: "Takt", teacher: "Lærer", menu: "Meny", tryClassic: "Prøv det Klassiske Designet",
+                tryClassicSub: "Mer detaljert oversikt.", switchDesignBtn: "Bytt Design", switchDesignBtnMin: "✨ Design", appearance: "Utseende",
+                soundRecording: "Lydopptak", recordNow: "Ta opp nå", stopRecord: "Stopp opptak", settings: "Innstillinger",
+                changeGoalBtn: "Endre Mål (Timer)", soundEndSession: "Lyd ved ferdig økt (Stoppeklokke)", alarmCountdown: "Alarm (Nedtelling)",
+                language: "Språk / Language", mutedZen: "Muted Zen", dustyBlue: "Støvblå", softRose: "Myk Rose", warmSand: "Varm Sand", record: "Opptak",
+                confirmShortSession: "Økten var under 1 minutt. Vil du lagre den?", confirmSaveAudio: "Lagre dette korte lydopptaket som en egen økt?",
+                confirmDeleteAudio: "Fjerne lydopptak?", confirmDeleteSession: "Slette denne økten?", confirmClearAll: "Slette all historikk?",
+                sessionNameManual: "Manuell økt", sessionNameAudio: "Lydopptak", sessionNameDefault: "Økt", connectionLost: "Beklager, mistet forbindelsen."
+            },
+            'en': {
+                appTitle: "Piano Challenge", goal: "Goal", hours: "Hours", hoursText: "hours",
+                remaining: "Remaining", progress: "Progress", streak: "Streak 🔥", days: "Days",
+                milestones: "Milestones (Every 10 hrs)", stopwatch: "Stopwatch", countdown: "Countdown",
+                free: "Free", noEndSound: "No end sound", magicChime: "Magic Chime", xylophone: "Xylophone",
+                glassClink: "Glass Clink", bell: "Bell", min: "Min", classicAlarm: "Classic Alarm",
+                digitalAlarm: "Digital Alarm", trumpet: "Trumpet", startPractice: "Start Practice", finishSessionBtn: "Finish session?",
+                finishSession: "Finish Session", pause: "Pause", stopAlarm: "Stop Alarm & Save", stop: "Stop", reset: "Reset",
+                metronome: "🎵 Metronome", recordings: "🎙️ Recordings", aiTeacherBtn: "✨ AI Teacher", activity: "Activity last 28 days",
+                recentSessions: "Practice Log", recentSessionsList: "Recent sessions", addManual: "+ Manual", deleteAll: "Delete all",
+                noSessions: "No sessions", audioGallery: "🎙️ Your Recordings", menuAndSettings: "Menu & Settings",
+                classicBlue: "Classic Blue", purple: "Purple", green: "Green", red: "Red", close: "Close",
+                metronomeTitle: "🎵 Metronome", findRhythm: "Find the rhythm", timeSignature: "Time Signature", start: "Start",
+                renameTitle: "Rename", describeSessionPlc: "e.g. Scales, Mozart...", cancel: "Cancel", save: "Save",
+                changeGoalTitle: "Change Goal", manualTitle: "Log Manually",
+                aiGreeting: "Hi! I'm your personal AI piano teacher. Ask me about warmup, technique or motivation! 🎹",
+                aiBtnWarmup: "🎵 Warmup", aiBtnMotivate: "🔥 Motivate me", aiBtnDifficult: "🎹 Technique", askTeacherPlc: "Ask the teacher...",
+                log: "Log", beat: "Beat", teacher: "Teacher", menu: "Menu", tryClassic: "Try Classic Design",
+                tryClassicSub: "More detailed overview.", switchDesignBtn: "Switch Design", switchDesignBtnMin: "✨ Design", appearance: "Appearance",
+                soundRecording: "Audio Recording", recordNow: "Record now", stopRecord: "Stop recording", settings: "Settings",
+                changeGoalBtn: "Change Goal (Hours)", soundEndSession: "Sound at session end (Stopwatch)", alarmCountdown: "Alarm (Countdown)",
+                language: "Language / Språk", mutedZen: "Muted Zen", dustyBlue: "Dusty Blue", softRose: "Soft Rose", warmSand: "Warm Sand", record: "Record",
+                confirmShortSession: "Session was under 1 minute. Save it?", confirmSaveAudio: "Save this short recording as a separate session?",
+                confirmDeleteAudio: "Remove audio recording?", confirmDeleteSession: "Delete this session?", confirmClearAll: "Delete all history?",
+                sessionNameManual: "Manual session", sessionNameAudio: "Recording", sessionNameDefault: "Session", connectionLost: "Sorry, connection lost."
+            }
+        };
+
+        let currentLang = safeStorage.get('piano_lang') || 'no';
+
+        function getT(key) {
+            return translations[currentLang][key] || key;
+        }
+
+        function toggleLanguage() {
+            currentLang = currentLang === 'no' ? 'en' : 'no';
+            safeStorage.set('piano_lang', currentLang);
+            applyLanguage();
+            syncTimerUI();
+            updateStats();
+        }
+
+        function applyLanguage() {
+            // Oversett data-i18n
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[currentLang][key]) {
+                    if (el.tagName === 'OPTION') {
+                        el.textContent = translations[currentLang][key];
+                    } else {
+                        el.innerHTML = translations[currentLang][key];
+                    }
+                }
+            });
+            // Oversett placeholders
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+                const key = el.getAttribute('data-i18n-placeholder');
+                if (translations[currentLang][key]) el.placeholder = translations[currentLang][key];
+            });
+            
+            // Oppdater UI for selve språkbryterne
+            document.querySelectorAll('.lang-toggle-text').forEach(el => {
+                el.textContent = currentLang === 'no' ? '🇳🇴 Norsk' : '🇬🇧 English';
+            });
+        }
+
 
         // DESIGN SWITCHER (Minimalist / Classic)
         let currentLayout = safeStorage.get('piano_layout') || 'minimal';
@@ -625,6 +743,7 @@
             }
             
             document.querySelectorAll('.modal-overlay').forEach(el => el.classList.remove('active'));
+            applyLanguage();
             updateStats();
             syncTimerUI();
             changeTheme(safeStorage.get('piano_theme') || 'zen');
@@ -640,7 +759,6 @@
                 document.body.setAttribute('data-theme-classic', themeName);
                 document.body.removeAttribute('data-theme-minimal');
             }
-            if(D('theme-modal-classic')) D('theme-modal-classic').classList.remove('active');
             updateStats();
         }
 
@@ -673,7 +791,6 @@
                     req.onerror = () => resolve([]);
                 });
 
-                // Migrering fra gammel LocalStorage (hvis eksisterer)
                 if (loaded.length === 0) {
                     const raw = safeStorage.get('piano_sessions');
                     if (raw) {
@@ -691,10 +808,7 @@
                     }
                 }
                 return loaded.sort((a,b) => b.id - a.id);
-            } catch (e) {
-                console.error("Kunne ikke laste database", e);
-                return [];
-            }
+            } catch (e) { return []; }
         }
 
         async function saveSessionToDB(session) {
@@ -829,23 +943,23 @@
         function syncTimerUI() {
             if (timerActive) {
                 if (timerPaused) {
-                    setText('timer-action-text-minimal', "Pause");
+                    setText('timer-action-text-minimal', getT('pause'));
                     D('timer-action-text-minimal').classList.add('animate-pulse', 'text-amber-500');
                     D('timer-action-text-minimal').classList.remove('text-primary');
                     if(D('btn-main-timer-minimal')) D('btn-main-timer-minimal').classList.remove('timer-running');
                     if(D('timer-svg-minimal')) D('timer-svg-minimal').classList.remove('ring-pulsing');
                     if(D('btn-end-session-minimal')) D('btn-end-session-minimal').classList.remove('hidden');
 
-                    setText('start-btn-text-classic', "Fullfør Økt");
+                    setText('start-btn-text-classic', getT('finishSession'));
                 } else {
-                    setText('timer-action-text-minimal', isAlarmRinging ? "Stopp" : "Pause");
+                    setText('timer-action-text-minimal', isAlarmRinging ? getT('stop') : getT('pause'));
                     D('timer-action-text-minimal').classList.remove('animate-pulse', 'text-amber-500');
                     D('timer-action-text-minimal').classList.add('text-primary');
                     if(D('btn-main-timer-minimal')) D('btn-main-timer-minimal').classList.add('timer-running');
                     if(D('timer-svg-minimal')) D('timer-svg-minimal').classList.add('ring-pulsing');
                     if(D('btn-end-session-minimal')) D('btn-end-session-minimal').classList.add('hidden');
 
-                    setText('start-btn-text-classic', isAlarmRinging ? "Stopp Alarm & Lagre" : "Fullfør Økt");
+                    setText('start-btn-text-classic', isAlarmRinging ? getT('stopAlarm') : getT('finishSession'));
                     if (isAlarmRinging && D('btn-start-classic')) {
                         D('btn-start-classic').style.backgroundColor = "#facc15";
                         D('btn-start-classic').style.color = "#0f172a";
@@ -857,14 +971,14 @@
                     }
                 }
             } else {
-                setText('timer-action-text-minimal', "Start");
+                setText('timer-action-text-minimal', getT('startPractice'));
                 D('timer-action-text-minimal').classList.remove('animate-pulse', 'text-amber-500');
                 D('timer-action-text-minimal').classList.add('text-primary');
                 if(D('btn-main-timer-minimal')) D('btn-main-timer-minimal').classList.remove('timer-running');
                 if(D('timer-svg-minimal')) D('timer-svg-minimal').classList.remove('ring-pulsing');
                 if(D('btn-end-session-minimal')) D('btn-end-session-minimal').classList.add('hidden');
 
-                setText('start-btn-text-classic', "Start Øving");
+                setText('start-btn-text-classic', getT('startPractice'));
                 if(D('btn-start-classic')) {
                     D('btn-start-classic').style.backgroundColor = "var(--brand-600)";
                     D('btn-start-classic').style.color = "#ffffff";
@@ -882,7 +996,7 @@
                 if(D('btn-mode-countdown-classic')) D('btn-mode-countdown-classic').className = 'px-4 py-1.5 rounded-lg text-xs font-bold uppercase text-gray-500';
                 if(D('stopwatch-settings-classic')) D('stopwatch-settings-classic').classList.remove('hidden');
                 if(D('countdown-settings-classic')) D('countdown-settings-classic').classList.add('hidden');
-                setText('timer-mode-label-classic', 'Stoppeklokke');
+                setText('timer-mode-label-classic', getT('stopwatch'));
             } else {
                 if(D('mode-countdown-minimal')) { D('mode-countdown-minimal').classList.add('text-primary'); D('mode-countdown-minimal').classList.remove('hover:text-textMain'); }
                 if(D('mode-stopwatch-minimal')) { D('mode-stopwatch-minimal').classList.remove('text-primary'); D('mode-stopwatch-minimal').classList.add('hover:text-textMain'); }
@@ -891,7 +1005,7 @@
                 if(D('btn-mode-stopwatch-classic')) D('btn-mode-stopwatch-classic').className = 'px-4 py-1.5 rounded-lg text-xs font-bold uppercase text-gray-500';
                 if(D('countdown-settings-classic')) D('countdown-settings-classic').classList.remove('hidden');
                 if(D('stopwatch-settings-classic')) D('stopwatch-settings-classic').classList.add('hidden');
-                setText('timer-mode-label-classic', 'Nedtelling');
+                setText('timer-mode-label-classic', getT('countdown'));
             }
         }
 
@@ -901,8 +1015,7 @@
             
             const soundSelect = D(`alarm-sound-select-${currentLayout}`);
             let soundUrl = soundSelect ? soundSelect.value : "https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg";
-            if(soundUrl === 'custom') soundUrl = safeStorage.get('piano_custom_audio') || "https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg";
-
+            
             currentAudio = new Audio(soundUrl); 
             currentAudio.loop = true; 
             currentAudio.play().catch(e=>e);
@@ -944,10 +1057,9 @@
                 if(swSound) playSynthSound(swSound.value);
             }
 
-            // Lagre hvis vi har øvd litt ELLER hvis vi har tatt opp lyd (selv om klokka ikke gikk)
             if (finalDur > 0 || currentRecordingBase64) {
                 if (finalDur > 0 && finalDur < 60) {
-                    if(!confirm("Økten var under 1 minutt. Vil du lagre den?")) {
+                    if(!confirm(getT('confirmShortSession'))) {
                         if (!currentRecordingBase64) return resetTimer();
                     }
                 }
@@ -957,7 +1069,7 @@
                     id: Date.now(), isoDate: d.toISOString(), 
                     date: d.toLocaleDateString('no-NO', {day:'2-digit',month:'2-digit',year:'2-digit'}), 
                     time: d.toLocaleTimeString('no-NO', {hour:'2-digit',minute:'2-digit'}), 
-                    name: finalDur === 0 ? `Lydopptak ${d.toLocaleDateString('no-NO')}` : `Økt ${d.toLocaleDateString('no-NO')}`, 
+                    name: finalDur === 0 ? `${getT('sessionNameAudio')} ${d.toLocaleDateString('no-NO')}` : `${getT('sessionNameDefault')} ${d.toLocaleDateString('no-NO')}`, 
                     duration: finalDur, mode: timerMode, audio: currentRecordingBase64||undefined 
                 };
                 
@@ -1028,7 +1140,7 @@
             setText('streak-display-minimal', streak);
             setText('streak-display-classic', streak);
 
-            const emptyStr = `<p class="text-center text-xs font-bold uppercase py-10 opacity-30">Ingen økter</p>`;
+            const emptyStr = `<p class="text-center text-xs font-bold uppercase py-10 opacity-30">${getT('noSessions')}</p>`;
             if (sessions.length === 0) {
                 setHTML('session-list-minimal', emptyStr);
                 setHTML('session-list-classic', emptyStr);
@@ -1041,7 +1153,7 @@
                                 ${s.audio ? '<span class="text-xs">🎙️</span>' : ''}
                                 <button onclick="openRenameModal(${s.id})" class="text-textMuted hover:text-primary"><svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg></button>
                             </div>
-                            <p class="text-[10px] text-textMuted font-bold uppercase">${s.date} • ${s.mode==='manual'?'Manuell':'App'}</p>
+                            <p class="text-[10px] text-textMuted font-bold uppercase">${s.date} • ${s.mode==='manual'?getT('sessionNameManual'):'App'}</p>
                         </div>
                         <div class="flex flex-col items-end gap-2">
                             <div class="text-right text-primary font-bold text-sm">${Math.floor(s.duration/60)}m ${s.duration%60}s</div>
@@ -1059,7 +1171,7 @@
                                     <button onclick="openRenameModal(${s.id})" class="p-1 text-gray-300 hover:text-brand-500">✏️</button>
                                     <button onclick="deleteSession(${s.id})" class="p-1 text-gray-300 hover:text-red-500">🗑️</button>
                                 </div>
-                                <p class="text-[10px] text-gray-400 font-bold uppercase">${s.date} kl. ${s.time||'--'} • ${s.mode==='manual'?'Manuell':'App'}</p>
+                                <p class="text-[10px] text-gray-400 font-bold uppercase">${s.date} kl. ${s.time||'--'} • ${s.mode==='manual'?getT('sessionNameManual'):'App'}</p>
                             </div>
                             <div class="text-right font-black text-sm text-brand-600">${Math.floor(s.duration/60)}m ${s.duration%60}s</div>
                         </div>
@@ -1097,7 +1209,7 @@
         }
 
         async function deleteSession(id) { 
-            if (confirm("Slette denne økten?")) { 
+            if (confirm(getT('confirmDeleteSession'))) { 
                 sessions = sessions.filter(s => s.id !== id); 
                 await deleteSessionFromDB(id);
                 updateStats(); 
@@ -1106,7 +1218,7 @@
         }
 
         async function clearLogs() { 
-            if (confirm("Slette all historikk?")) { 
+            if (confirm(getT('confirmClearAll'))) { 
                 sessions = []; 
                 await clearAllSessionsFromDB();
                 safeStorage.set('piano_start_date', new Date().toISOString()); 
@@ -1155,7 +1267,7 @@
                 const newSession = { 
                     id: Date.now(), isoDate: d.toISOString(), 
                     date: d.toLocaleDateString('no-NO'), time: d.toLocaleTimeString('no-NO',{hour:'2-digit',minute:'2-digit'}), 
-                    name: `Manuell økt`, duration: m*60, mode: 'manual' 
+                    name: getT('sessionNameManual'), duration: m*60, mode: 'manual' 
                 };
                 sessions.unshift(newSession); 
                 await saveSessionToDB(newSession);
@@ -1200,7 +1312,6 @@
             const sel = D(`alarm-sound-select-${currentLayout}`);
             if(!sel) return;
             let url = sel.value;
-            if (url === 'custom') url = safeStorage.get('piano_custom_audio') || "https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg";
             
             if (currentAudio) { currentAudio.pause(); currentAudio.currentTime = 0; }
             currentAudio = new Audio(url); 
@@ -1230,9 +1341,9 @@
                     }
                     if(D('inline-record-text')) {
                         D('inline-record-text').classList.replace('text-textMuted', 'text-rose-600');
-                        D('inline-record-text').textContent = 'Tar opp';
+                        D('inline-record-text').textContent = getT('record');
                     }
-                    if(D('btn-record-menu-minimal')) D('btn-record-menu-minimal').innerHTML = '<span class="w-2 h-2 rounded-full bg-slate-400"></span> Stopp opptak';
+                    if(D('btn-record-menu-minimal')) D('btn-record-menu-minimal').innerHTML = `<span class="w-2 h-2 rounded-full bg-slate-400"></span> ${getT('stopRecord')}`;
                     
                     if(D('btn-record-classic')) {
                         D('btn-record-classic').classList.replace('bg-gray-200','bg-red-500');
@@ -1253,9 +1364,9 @@
                 }
                 if(D('inline-record-text')) {
                     D('inline-record-text').classList.replace('text-rose-600', 'text-textMuted');
-                    D('inline-record-text').textContent = 'Opptak';
+                    D('inline-record-text').textContent = getT('record');
                 }
-                if(D('btn-record-menu-minimal')) D('btn-record-menu-minimal').innerHTML = '<span class="w-2 h-2 rounded-full bg-red-400"></span> Ta opp nå';
+                if(D('btn-record-menu-minimal')) D('btn-record-menu-minimal').innerHTML = `<span class="w-2 h-2 rounded-full bg-red-400"></span> ${getT('recordNow')}`;
                 
                 if(D('btn-record-classic')) {
                     D('btn-record-classic').classList.replace('bg-red-500','bg-green-500');
@@ -1263,7 +1374,7 @@
                 }
 
                 if(!timerActive) {
-                    setTimeout(() => { if(confirm("Lagre dette korte lydopptaket som en egen økt?")) stopAndSave(); }, 500);
+                    setTimeout(() => { if(confirm(getT('confirmSaveAudio'))) stopAndSave(); }, 500);
                 }
             }
         }
@@ -1278,9 +1389,9 @@
             }
             if(D('inline-record-text')) {
                 D('inline-record-text').classList.replace('text-rose-600', 'text-textMuted');
-                D('inline-record-text').textContent = 'Opptak';
+                D('inline-record-text').textContent = getT('record');
             }
-            if(D('btn-record-menu-minimal')) D('btn-record-menu-minimal').innerHTML = '<span class="w-2 h-2 rounded-full bg-red-400"></span> Ta opp nå';
+            if(D('btn-record-menu-minimal')) D('btn-record-menu-minimal').innerHTML = `<span class="w-2 h-2 rounded-full bg-red-400"></span> ${getT('recordNow')}`;
             if(D('btn-record-classic')) {
                 D('btn-record-classic').classList.replace('bg-green-500','bg-gray-200');
                 D('btn-record-classic').classList.replace('text-white','text-gray-700');
@@ -1289,7 +1400,7 @@
 
         function renderAudioGallery() {
             const recs = sessions.filter(s => s.audio);
-            const html = recs.length === 0 ? `<p class="text-center text-sm opacity-50 py-6">Ingen opptak ennå.</p>` : 
+            const html = recs.length === 0 ? `<p class="text-center text-sm opacity-50 py-6">${getT('noSessions')}</p>` : 
                 recs.map(s => `
                     <div class="border-b border-black/5 pb-3 last:border-0 last:pb-0 mb-3">
                         <div class="flex justify-between items-center mb-2">
@@ -1307,7 +1418,7 @@
         }
 
         async function deleteAudio(id) { 
-            if(confirm("Fjerne lydopptak?")) { 
+            if(confirm(getT('confirmDeleteAudio'))) { 
                 let session = sessions.find(s=>s.id===id);
                 if(session) {
                     delete session.audio; 
@@ -1377,24 +1488,24 @@
         function toggleMetronome() {
             if (isMetronomePlaying) {
                 clearInterval(metronomeIntervalId); isMetronomePlaying = false; currentBeat = 0; renderBeatIndicators();
-                setText('btn-metronome-toggle-minimal', 'Start'); if(D('btn-metronome-toggle-minimal')) D('btn-metronome-toggle-minimal').classList.replace('bg-red-400', 'bg-primary');
-                setText('btn-metronome-toggle-classic', 'Start'); if(D('btn-metronome-toggle-classic')) D('btn-metronome-toggle-classic').classList.replace('bg-red-500', 'bg-amber-500');
+                setText('btn-metronome-toggle-minimal', getT('start')); if(D('btn-metronome-toggle-minimal')) D('btn-metronome-toggle-minimal').classList.replace('bg-red-400', 'bg-primary');
+                setText('btn-metronome-toggle-classic', getT('start')); if(D('btn-metronome-toggle-classic')) D('btn-metronome-toggle-classic').classList.replace('bg-red-500', 'bg-amber-500');
             } else {
                 if (!metroAudioCtx) metroAudioCtx = new (window.AudioContext || window.webkitAudioContext)();
                 if (metroAudioCtx.state === 'suspended') metroAudioCtx.resume();
                 currentBeat = 0; playMetronomeClick(); metronomeIntervalId = setInterval(playMetronomeClick, 60000 / bpm); isMetronomePlaying = true;
-                setText('btn-metronome-toggle-minimal', 'Stopp'); if(D('btn-metronome-toggle-minimal')) D('btn-metronome-toggle-minimal').classList.replace('bg-primary', 'bg-red-400');
-                setText('btn-metronome-toggle-classic', 'Stopp'); if(D('btn-metronome-toggle-classic')) D('btn-metronome-toggle-classic').classList.replace('bg-amber-500', 'bg-red-500');
+                setText('btn-metronome-toggle-minimal', getT('stop')); if(D('btn-metronome-toggle-minimal')) D('btn-metronome-toggle-minimal').classList.replace('bg-primary', 'bg-red-400');
+                setText('btn-metronome-toggle-classic', getT('stop')); if(D('btn-metronome-toggle-classic')) D('btn-metronome-toggle-classic').classList.replace('bg-amber-500', 'bg-red-500');
             }
         }
 
         // --- AI LÆRER ---
         const apiKey = ""; 
-        function askAIPrompt(key) { askAI(key); }
+        function askAIPrompt(key) { askAI(getT(key)); }
         async function askAI(prompt) {
             const histMin = D('ai-chat-history-minimal'), histCls = D('ai-chat-history-classic');
-            const msgMin = `<div class="bg-primaryLight/20 p-3 rounded-2xl rounded-tr-sm text-sm ml-auto max-w-[85%] mb-2 text-textMain">${prompt}</div><div id="ai-load-minimal" class="bg-surface p-3 rounded-2xl text-sm w-24 text-center font-bold mb-2 animate-pulse text-textMuted border border-black/5">Tenker...</div>`;
-            const msgCls = `<div class="bg-gray-100 p-3 rounded-2xl text-sm ml-auto max-w-[85%] mb-2">${prompt}</div><div id="ai-load-classic" class="bg-indigo-50 p-3 rounded-2xl text-sm w-24 text-center font-bold mb-2 animate-pulse text-indigo-900">Tenker...</div>`;
+            const msgMin = `<div class="bg-primaryLight/20 p-3 rounded-2xl rounded-tr-sm text-sm ml-auto max-w-[85%] mb-2 text-textMain">${prompt}</div><div id="ai-load-minimal" class="bg-surface p-3 rounded-2xl text-sm w-24 text-center font-bold mb-2 animate-pulse text-textMuted border border-black/5">${getT('thinking')}</div>`;
+            const msgCls = `<div class="bg-gray-100 p-3 rounded-2xl text-sm ml-auto max-w-[85%] mb-2">${prompt}</div><div id="ai-load-classic" class="bg-indigo-50 p-3 rounded-2xl text-sm w-24 text-center font-bold mb-2 animate-pulse text-indigo-900">${getT('thinking')}</div>`;
             
             if(histMin) { histMin.innerHTML += msgMin; histMin.scrollTop = histMin.scrollHeight; }
             if(histCls) { histCls.innerHTML += msgCls; histCls.scrollTop = histCls.scrollHeight; }
@@ -1403,10 +1514,11 @@
             if(D('btn-send-ai-classic')) D('btn-send-ai-classic').disabled = true; if(D('ai-input-classic')) D('ai-input-classic').disabled = true;
             
             try {
-                const sys = `Du er en ekspert pianolærer. Svar kort, motiverende og på norsk under 100 ord.\nMål:${goalHours}t, Gjort:${(sessions.reduce((a,s)=>a+s.duration,0)/3600).toFixed(1)}t.`;
+                const sysLang = currentLang === 'no' ? 'norsk' : 'engelsk';
+                const sys = `Du er en ekspert pianolærer. Svar kort, motiverende og på ${sysLang} under 100 ord.\nMål:${goalHours}t, Gjort:${(sessions.reduce((a,s)=>a+s.duration,0)/3600).toFixed(1)}t.`;
                 const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`, { method:'POST', body:JSON.stringify({contents:[{parts:[{text:prompt}]}], systemInstruction:{parts:[{text:sys}]}}) });
                 const json = await res.json();
-                const text = json.candidates?.[0]?.content?.parts?.[0]?.text || "Beklager, mistet forbindelsen.";
+                const text = json.candidates?.[0]?.content?.parts?.[0]?.text || getT('connectionLost');
                 
                 if(D('ai-load-minimal')) D('ai-load-minimal').remove();
                 if(D('ai-load-classic')) D('ai-load-classic').remove();
@@ -1432,6 +1544,7 @@
         window.onload = async () => {
             sessions = await loadSessions();
             switchDesign(currentLayout);
+            applyLanguage();
             setTimeSignature(4);
         };
     </script>
